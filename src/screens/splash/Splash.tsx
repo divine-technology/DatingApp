@@ -1,12 +1,14 @@
 import React from 'react';
-import {Text, View} from 'react-native';
+import {Image, Text, View} from 'react-native';
+import {styles} from './Splash.styles';
 
 export type SplashProps = unknown;
 
 export const SplashScreen: React.FC<SplashProps> = () => {
   return (
-    <View>
-      <Text>Splash</Text>
+    <View style={styles.container}>
+      <Image source={require('./dating-icon.jpg')} style={styles.image} />
+      <Text style={styles.text}>Dating App</Text>
     </View>
   );
 };
