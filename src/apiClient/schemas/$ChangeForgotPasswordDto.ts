@@ -2,17 +2,18 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export const $Location = {
+export const $ChangeForgotPasswordDto = {
     properties: {
-        type: {
+        email: {
     type: 'string',
     isRequired: true,
 },
-        coordinates: {
-    type: 'array',
-    contains: {
-    type: 'number',
+        forgotPasswordToken: {
+    type: 'string',
+    isRequired: true,
 },
+        newPassword: {
+    type: 'string',
     isRequired: true,
 },
     },

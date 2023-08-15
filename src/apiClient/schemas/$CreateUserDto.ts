@@ -2,17 +2,18 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export const $Location = {
+export const $CreateUserDto = {
     properties: {
-        type: {
+        name: {
     type: 'string',
     isRequired: true,
 },
-        coordinates: {
-    type: 'array',
-    contains: {
-    type: 'number',
+        email: {
+    type: 'string',
+    isRequired: true,
 },
+        password: {
+    type: 'string',
     isRequired: true,
 },
     },

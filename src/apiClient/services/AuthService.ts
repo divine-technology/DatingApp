@@ -2,6 +2,13 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { ChangeForgotPasswordDto } from '../models/ChangeForgotPasswordDto';
+import type { ChangePasswordDto } from '../models/ChangePasswordDto';
+import type { ForgotPasswordDto } from '../models/ForgotPasswordDto';
+import type { ForgotPasswordResponseDto } from '../models/ForgotPasswordResponseDto';
+import type { LoginResponseDto } from '../models/LoginResponseDto';
+import type { LoginUserDto } from '../models/LoginUserDto';
+
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 
@@ -11,14 +18,14 @@ export class AuthService {
 
     /**
      * Login user
-     * @returns string 
+     * @returns LoginResponseDto 
      * @throws ApiError
      */
     public authControllerLoginUser({
 requestBody,
 }: {
-requestBody: any,
-}): CancelablePromise<string> {
+requestBody: LoginUserDto,
+}): CancelablePromise<LoginResponseDto> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/auth/login',
@@ -29,14 +36,14 @@ requestBody: any,
 
     /**
      * Forgot password
-     * @returns string 
+     * @returns ForgotPasswordResponseDto 
      * @throws ApiError
      */
     public authControllerForgotPassword({
 requestBody,
 }: {
-requestBody: any,
-}): CancelablePromise<string> {
+requestBody: ForgotPasswordDto,
+}): CancelablePromise<ForgotPasswordResponseDto> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/auth/forgot-password',
@@ -53,7 +60,7 @@ requestBody: any,
     public authControllerChangeForgotPassword({
 requestBody,
 }: {
-requestBody: any,
+requestBody: ChangeForgotPasswordDto,
 }): CancelablePromise<string> {
         return this.httpRequest.request({
             method: 'POST',
@@ -71,7 +78,7 @@ requestBody: any,
     public authControllerUpdatePassword({
 requestBody,
 }: {
-requestBody: any,
+requestBody: ChangePasswordDto,
 }): CancelablePromise<string> {
         return this.httpRequest.request({
             method: 'PUT',

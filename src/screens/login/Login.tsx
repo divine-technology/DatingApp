@@ -1,9 +1,10 @@
 import React from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
+import {Text, View} from 'react-native';
 import {AuthStackScreenProps} from '../../Navigation/AuthRoutes';
 import {styles} from './Login.styles';
 import {useForm} from 'react-hook-form';
-import {ControlledInput} from '../../input/Input';
+import {ControlledInput} from '../../components/input/Input';
+import {Button} from '../../components/Button/Button';
 /* import {EndpointEnum} from '../../services/endpoints';
 import {useQuery} from '../../services/useQuery'; */
 
@@ -51,17 +52,9 @@ export const LoginScreen: React.FC<AuthStackScreenProps<'Login'>> = ({
           placeHolderTextColor={'#003f5c'}
         />
       </View>
-      <TouchableOpacity onPress={navigateToForgotPassword}>
-        <Text style={styles.forgot}>Forgot Password?</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.loginBtn}
-        onPress={handleSubmit(onSubmit)}>
-        <Text style={styles.loginText}>Login</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={navigateToSignUp}>
-        <Text style={styles.loginText}>Sign Up</Text>
-      </TouchableOpacity>
+      <Button text={'Forgot Password?'} onPress={navigateToForgotPassword} />
+      <Button text={'Login'} onPress={handleSubmit(onSubmit)} />
+      <Button text={'Sign Up'} onPress={navigateToSignUp} />
     </View>
   );
 };

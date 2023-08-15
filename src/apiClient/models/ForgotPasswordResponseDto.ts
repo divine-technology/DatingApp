@@ -3,7 +3,6 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type Location = {
-    type: string;
-    coordinates: Array<number>;
+export type ForgotPasswordResponseDto = {
+    forgotPasswordToken: string;
 };

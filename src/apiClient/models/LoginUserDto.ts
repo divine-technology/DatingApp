@@ -3,7 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type Location = {
-    type: string;
-    coordinates: Array<number>;
+export type LoginUserDto = {
+    email: string;
+    password: string;
 };

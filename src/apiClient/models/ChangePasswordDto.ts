@@ -3,7 +3,9 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type Location = {
-    type: string;
-    coordinates: Array<number>;
+export type ChangePasswordDto = {
+    email: string;
+    oldPassword: string;
+    newPassword: string;
+    confirmNewPassword: string;
 };

@@ -2,7 +2,12 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { CreateUserDto } from '../models/CreateUserDto';
+import type { LoginResponseDto } from '../models/LoginResponseDto';
+import type { ResponsePaginateDto } from '../models/ResponsePaginateDto';
+import type { UpdateUserDto } from '../models/UpdateUserDto';
 import type { User } from '../models/User';
+import type { UserRadiusDto } from '../models/UserRadiusDto';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -13,7 +18,7 @@ export class UserService {
 
     /**
      * Get all users pagination
-     * @returns User 
+     * @returns ResponsePaginateDto 
      * @throws ApiError
      */
     public usersControllerGetAllUsers({
@@ -38,7 +43,7 @@ role?: string,
 forgotPasswordToken?: string,
 forgotPasswordTimestamp?: string,
 createdAccountTimestamp?: string,
-}): CancelablePromise<User> {
+}): CancelablePromise<ResponsePaginateDto> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/users',
@@ -59,14 +64,14 @@ createdAccountTimestamp?: string,
 
     /**
      * Create user
-     * @returns User 
+     * @returns LoginResponseDto 
      * @throws ApiError
      */
     public usersControllerCreateUser({
 requestBody,
 }: {
-requestBody: any,
-}): CancelablePromise<User> {
+requestBody: CreateUserDto,
+}): CancelablePromise<LoginResponseDto> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/users',
@@ -83,7 +88,7 @@ requestBody: any,
     public usersControllerGetRadius({
 requestBody,
 }: {
-requestBody: any,
+requestBody: UserRadiusDto,
 }): CancelablePromise<User> {
         return this.httpRequest.request({
             method: 'POST',
@@ -122,7 +127,7 @@ id,
 requestBody,
 }: {
 id: string,
-requestBody: any,
+requestBody: UpdateUserDto,
 }): CancelablePromise<User> {
         return this.httpRequest.request({
             method: 'PUT',

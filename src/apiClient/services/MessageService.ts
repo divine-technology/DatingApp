@@ -2,6 +2,10 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { Message } from '../models/Message';
+import type { MessageDto } from '../models/MessageDto';
+import type { ResponsePaginateDto } from '../models/ResponsePaginateDto';
+
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 
@@ -11,7 +15,7 @@ export class MessageService {
 
     /**
      * Send message
-     * @returns any 
+     * @returns Message 
      * @throws ApiError
      */
     public messageControllerSendMessage({
@@ -19,8 +23,8 @@ likeId,
 requestBody,
 }: {
 likeId: string,
-requestBody: any,
-}): CancelablePromise<any> {
+requestBody: MessageDto,
+}): CancelablePromise<Message> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/message/send-message/{likeId}',
@@ -34,7 +38,7 @@ requestBody: any,
 
     /**
      * Get messages between users
-     * @returns any 
+     * @returns ResponsePaginateDto 
      * @throws ApiError
      */
     public messageControllerGetConversation({
@@ -49,7 +53,7 @@ page?: number,
 limit?: number,
 sort?: number,
 sortBy?: string,
-}): CancelablePromise<any> {
+}): CancelablePromise<ResponsePaginateDto> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/message/get-conversation/{likeId}',

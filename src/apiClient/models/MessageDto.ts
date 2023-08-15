@@ -3,7 +3,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type Location = {
-    type: string;
-    coordinates: Array<number>;
+export type MessageDto = {
+    from: string;
+    to: string;
+    message: string;
 };

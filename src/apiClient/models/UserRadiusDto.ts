@@ -3,7 +3,9 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type Location = {
-    type: string;
-    coordinates: Array<number>;
+import type { Location } from './Location';
+
+export type UserRadiusDto = {
+    location: Location;
+    radius: number;
 };

@@ -2,17 +2,18 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export const $Location = {
+export const $MessageDto = {
     properties: {
-        type: {
+        from: {
     type: 'string',
     isRequired: true,
 },
-        coordinates: {
-    type: 'array',
-    contains: {
-    type: 'number',
+        to: {
+    type: 'string',
+    isRequired: true,
 },
+        message: {
+    type: 'string',
     isRequired: true,
 },
     },

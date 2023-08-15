@@ -1,6 +1,6 @@
 import {Controller} from 'react-hook-form';
-import {TextInput} from 'react-native';
-import {styles} from '../screens/login/Login.styles';
+import {TextInput, TextInputProps} from 'react-native';
+import {styles} from '../../screens/login/Login.styles';
 import React from 'react';
 
 interface ControlledInputProps {
@@ -10,6 +10,12 @@ interface ControlledInputProps {
   placeHolder: string;
   placeHolderTextColor: string;
 }
+
+type InputProps = TextInputProps & {};
+
+export const Input: React.FC<InputProps> = props => {
+  return <TextInput style={styles.inputText} {...props} />;
+};
 
 export const ControlledInput: React.FC<ControlledInputProps> = ({
   control,
@@ -23,14 +29,11 @@ export const ControlledInput: React.FC<ControlledInputProps> = ({
       control={control}
       name={name}
       rules={{required: isRequired}}
-      render={({field: {onChange, onBlur, value}}) => (
-        <TextInput
-          style={styles.inputText}
+      render={({field}) => (
+        <Input
           placeholder={placeHolder}
           placeholderTextColor={placeHolderTextColor}
-          onBlur={onBlur}
-          onChangeText={value => onChange(value)}
-          value={value}
+          {...field}
         />
       )}
     />

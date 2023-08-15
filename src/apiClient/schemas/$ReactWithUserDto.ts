@@ -2,17 +2,18 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export const $Location = {
+export const $ReactWithUserDto = {
     properties: {
-        type: {
+        likedUserId: {
     type: 'string',
     isRequired: true,
 },
-        coordinates: {
-    type: 'array',
-    contains: {
-    type: 'number',
+        status: {
+    type: 'string',
+    isRequired: true,
 },
+        likedPhotoUrl: {
+    type: 'string',
     isRequired: true,
 },
     },

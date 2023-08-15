@@ -1,20 +1,34 @@
 import React from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
+import {Text, View} from 'react-native';
 import {AuthStackScreenProps} from '../../Navigation/AuthRoutes';
 import {styles} from './Signup.styles';
-import {ControlledInput} from '../../input/Input';
+import {ControlledInput} from '../../components/input/Input';
 import {useForm} from 'react-hook-form';
+import {Button} from '../../components/Button/Button';
+import {useMutation} from 'react-query';
+import {ApiClient} from '../../apiClient/ApiClient';
+import {CreateUserDto} from '../../apiClient';
 
 export type SignupRouteParams = {};
 
 export const SignupScreen: React.FC<AuthStackScreenProps<'Signup'>> = ({
   navigation,
 }) => {
-  const {control, handleSubmit} = useForm();
+  const {control, handleSubmit} = useForm<CreateUserDto>();
+
+  const api = new ApiClient({BASE: 'http://localhost:3000/'});
+
+  const {data, mutate} = useMutation('signup', user =>
+    api.user.usersControllerCreateUser({
+      requestBody: user as unknown as CreateUserDto,
+    }),
+  );
 
   const onSubmit = (data: any) => {
-    console.log('My data: ', data);
+    mutate(data);
   };
+
+  console.log({data});
 
   const navigateToLogin = () => {
     navigation.navigate('Login', {});
@@ -27,7 +41,7 @@ export const SignupScreen: React.FC<AuthStackScreenProps<'Signup'>> = ({
       <View style={styles.inputView}>
         <ControlledInput
           control={control}
-          name={'username'}
+          name={'name'}
           isRequired={true}
           placeHolder={'Username...'}
           placeHolderTextColor={'#003f5c'}
@@ -51,14 +65,8 @@ export const SignupScreen: React.FC<AuthStackScreenProps<'Signup'>> = ({
           placeHolderTextColor={'#003f5c'}
         />
       </View>
-      <TouchableOpacity
-        style={styles.loginBtn}
-        onPress={handleSubmit(onSubmit)}>
-        <Text style={styles.loginText}>Sign Up</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={navigateToLogin}>
-        <Text style={styles.loginText}>Login</Text>
-      </TouchableOpacity>
+      <Button text="Sign up" onPress={handleSubmit(onSubmit)} />
+      <Button text="Login" onPress={navigateToLogin} />
     </View>
   );
 };

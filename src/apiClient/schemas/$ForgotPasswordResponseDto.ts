@@ -2,17 +2,10 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export const $Location = {
+export const $ForgotPasswordResponseDto = {
     properties: {
-        type: {
+        forgotPasswordToken: {
     type: 'string',
-    isRequired: true,
-},
-        coordinates: {
-    type: 'array',
-    contains: {
-    type: 'number',
-},
     isRequired: true,
 },
     },

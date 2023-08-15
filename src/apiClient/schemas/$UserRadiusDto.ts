@@ -2,17 +2,14 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export const $Location = {
+export const $UserRadiusDto = {
     properties: {
-        type: {
-    type: 'string',
+        location: {
+    type: 'Location',
     isRequired: true,
 },
-        coordinates: {
-    type: 'array',
-    contains: {
+        radius: {
     type: 'number',
-},
     isRequired: true,
 },
     },

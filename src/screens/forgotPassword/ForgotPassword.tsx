@@ -1,9 +1,10 @@
 import React from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
+import {Text, View} from 'react-native';
 import {AuthStackScreenProps} from '../../Navigation/AuthRoutes';
 import {styles} from './ForgotPassword.styles';
-import {ControlledInput} from '../../input/Input';
+import {ControlledInput} from '../../components/input/Input';
 import {useForm} from 'react-hook-form';
+import {Button} from '../../components/Button/Button';
 
 export type ForgotPasswordRouteParams = {};
 
@@ -33,14 +34,8 @@ export const ForgotPasswordScreen: React.FC<
           placeHolderTextColor={'#003f5c'}
         />
       </View>
-      <TouchableOpacity
-        style={styles.loginBtn}
-        onPress={handleSubmit(onSubmit)}>
-        <Text style={styles.loginText}>Send mail</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={navigateToLogin}>
-        <Text style={styles.loginText}>Back to Login</Text>
-      </TouchableOpacity>
+      <Button text={'Send mail'} onPress={handleSubmit(onSubmit)} />
+      <Button text={'Back to Login'} onPress={navigateToLogin} />
     </View>
   );
 };

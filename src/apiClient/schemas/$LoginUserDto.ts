@@ -2,17 +2,14 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export const $Location = {
+export const $LoginUserDto = {
     properties: {
-        type: {
+        email: {
     type: 'string',
     isRequired: true,
 },
-        coordinates: {
-    type: 'array',
-    contains: {
-    type: 'number',
-},
+        password: {
+    type: 'string',
     isRequired: true,
 },
     },

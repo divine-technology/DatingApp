@@ -2,7 +2,8 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { Like } from '../models/Like';
+import type { ReactWithUserDto } from '../models/ReactWithUserDto';
+import type { ResponsePaginateDto } from '../models/ResponsePaginateDto';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -13,7 +14,7 @@ export class LikeService {
 
     /**
      * Get all users that liked the user back
-     * @returns Like 
+     * @returns ResponsePaginateDto 
      * @throws ApiError
      */
     public likeControllerGetBothLikes({
@@ -28,7 +29,7 @@ page?: number,
 limit?: number,
 sort?: number,
 sortBy?: string,
-}): CancelablePromise<Like> {
+}): CancelablePromise<ResponsePaginateDto> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/likes/get-both-likes/{id}',
@@ -46,7 +47,7 @@ sortBy?: string,
 
     /**
      * Get all likes from user
-     * @returns Like 
+     * @returns ResponsePaginateDto 
      * @throws ApiError
      */
     public likeControllerGetLikes({
@@ -61,7 +62,7 @@ page?: number,
 limit?: number,
 sort?: number,
 sortBy?: string,
-}): CancelablePromise<Like> {
+}): CancelablePromise<ResponsePaginateDto> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/likes/get-likes/{id}',
@@ -79,7 +80,7 @@ sortBy?: string,
 
     /**
      * Get all like requests
-     * @returns Like 
+     * @returns ResponsePaginateDto 
      * @throws ApiError
      */
     public likeControllerGetLikeRequests({
@@ -94,7 +95,7 @@ page?: number,
 limit?: number,
 sort?: number,
 sortBy?: string,
-}): CancelablePromise<Like> {
+}): CancelablePromise<ResponsePaginateDto> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/likes/get-like-requests/{id}',
@@ -112,7 +113,7 @@ sortBy?: string,
 
     /**
      * Get all users that are blocked
-     * @returns Like 
+     * @returns ResponsePaginateDto 
      * @throws ApiError
      */
     public likeControllerGetBlocked({
@@ -127,7 +128,7 @@ page?: number,
 limit?: number,
 sort?: number,
 sortBy?: string,
-}): CancelablePromise<Like> {
+}): CancelablePromise<ResponsePaginateDto> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/likes/get-blocked/{id}',
@@ -153,7 +154,7 @@ id,
 requestBody,
 }: {
 id: string,
-requestBody: any,
+requestBody: ReactWithUserDto,
 }): CancelablePromise<string> {
         return this.httpRequest.request({
             method: 'POST',

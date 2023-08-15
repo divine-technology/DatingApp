@@ -2,16 +2,20 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export const $Location = {
+export const $ResponsePaginateDto = {
     properties: {
-        type: {
-    type: 'string',
+        count: {
+    type: 'number',
     isRequired: true,
 },
-        coordinates: {
+        page: {
+    type: 'number',
+    isRequired: true,
+},
+        data: {
     type: 'array',
     contains: {
-    type: 'number',
+    type: 'string',
 },
     isRequired: true,
 },
