@@ -6,7 +6,7 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "lint": "eslint .",
-    "start": "react-native start",
+    "start": "react-native start -- --warning-mode=all",
     "test": "jest",
     "api-client:generate": "node ./src/apiClient/scripts/client/generateClient.ts"
   },

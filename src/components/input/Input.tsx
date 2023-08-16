@@ -1,15 +1,10 @@
-import {Controller} from 'react-hook-form';
+import {Controller, FieldValues, UseControllerProps} from 'react-hook-form';
 import {TextInput, TextInputProps} from 'react-native';
 import {styles} from '../../screens/login/Login.styles';
 import React from 'react';
 
-interface ControlledInputProps {
-  control: any;
-  name: string;
-  isRequired: boolean;
-  placeHolder: string;
-  placeHolderTextColor: string;
-}
+type ControlledInputProps<T extends FieldValues> = UseControllerProps<T> &
+  InputProps;
 
 type InputProps = TextInputProps & {};
 
@@ -17,24 +12,18 @@ export const Input: React.FC<InputProps> = props => {
   return <TextInput style={styles.inputText} {...props} />;
 };
 
-export const ControlledInput: React.FC<ControlledInputProps> = ({
+export const ControlledInput = <T extends FieldValues>({
   control,
   name,
-  isRequired,
-  placeHolder,
-  placeHolderTextColor,
-}) => {
+  ...rest
+}: ControlledInputProps<T>) => {
   return (
     <Controller
       control={control}
       name={name}
-      rules={{required: isRequired}}
-      render={({field}) => (
-        <Input
-          placeholder={placeHolder}
-          placeholderTextColor={placeHolderTextColor}
-          {...field}
-        />
+      rules={{}}
+      render={({field: {ref: _ref, onChange, ...restField}}) => (
+        <Input onChangeText={onChange} {...restField} {...rest} />
       )}
     />
   );

@@ -42,27 +42,24 @@ export const SignupScreen: React.FC<AuthStackScreenProps<'Signup'>> = ({
         <ControlledInput
           control={control}
           name={'name'}
-          isRequired={true}
-          placeHolder={'Username...'}
-          placeHolderTextColor={'#003f5c'}
+          placeholder={'Username...'}
+          placeholderTextColor={'#003f5c'}
         />
       </View>
       <View style={styles.inputView}>
         <ControlledInput
           control={control}
           name={'email'}
-          isRequired={true}
-          placeHolder={'Email...'}
-          placeHolderTextColor={'#003f5c'}
+          placeholder={'Email...'}
+          placeholderTextColor={'#003f5c'}
         />
       </View>
       <View style={styles.inputView}>
         <ControlledInput
           control={control}
           name={'password'}
-          isRequired={true}
-          placeHolder={'Password...'}
-          placeHolderTextColor={'#003f5c'}
+          placeholder={'Password...'}
+          placeholderTextColor={'#003f5c'}
         />
       </View>
       <Button text="Sign up" onPress={handleSubmit(onSubmit)} />
