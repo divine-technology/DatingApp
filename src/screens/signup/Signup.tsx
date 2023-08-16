@@ -1,13 +1,12 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {Text, View} from 'react-native';
 import {AuthStackScreenProps} from '../../Navigation/AuthRoutes';
 import {styles} from './Signup.styles';
 import {ControlledInput} from '../../components/input/Input';
 import {useForm} from 'react-hook-form';
 import {Button} from '../../components/Button/Button';
-import {useMutation} from 'react-query';
 import {CreateUserDto} from '../../apiClient';
-import {openApi} from '../../services/openApi';
+import {AuthContext} from '../../providers/context/Auth';
 
 export type SignupRouteParams = {};
 
@@ -16,19 +15,11 @@ export const SignupScreen: React.FC<AuthStackScreenProps<'Signup'>> = ({
 }) => {
   const {control, handleSubmit} = useForm<CreateUserDto>();
 
-  const {data, mutate} = useMutation<unknown, unknown, CreateUserDto>(
-    ['user'],
-    data =>
-      openApi.instance.user.usersControllerCreateUser({
-        requestBody: data,
-      }),
-  );
+  const {signUp} = useContext(AuthContext);
 
   const onSubmit = (data: CreateUserDto) => {
-    mutate(data);
+    signUp(data);
   };
-
-  console.log({data});
 
   const navigateToLogin = () => {
     navigation.navigate('Login', {});

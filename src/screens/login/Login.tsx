@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import {AuthStackScreenProps} from '../../Navigation/AuthRoutes';
 import {styles} from './Login.styles';
@@ -6,31 +6,20 @@ import {useForm} from 'react-hook-form';
 import {ControlledInput} from '../../components/input/Input';
 import {Button} from '../../components/Button/Button';
 import {LoginUserDto} from '../../apiClient';
-import {useMutation} from 'react-query';
-import {openApi} from '../../services/openApi';
-/* import {EndpointEnum} from '../../services/endpoints';
-import {useQuery} from '../../services/useQuery'; */
+import {AuthContext} from '../../providers/context/Auth';
 
 export type LoginRouteParams = {};
 
 export const LoginScreen: React.FC<AuthStackScreenProps<'Login'>> = ({
   navigation,
 }) => {
-  //const {data, error, status} = useQuery(EndpointEnum.getAllPokemonPaginated);
   const {control, handleSubmit} = useForm<LoginUserDto>();
-  const {data, error, mutate} = useMutation<unknown, unknown, LoginUserDto>(
-    ['user'],
-    data =>
-      openApi.instance.auth.authControllerLoginUser({
-        requestBody: data,
-      }),
-  );
 
-  console.log({data}, {error}, 'Should be token');
+  const {signIn} = useContext(AuthContext);
 
   const onSubmit = (data: LoginUserDto) => {
     console.log('My data: ', data);
-    mutate(data);
+    signIn(data);
   };
 
   const navigateToSignUp = () => {
@@ -40,8 +29,6 @@ export const LoginScreen: React.FC<AuthStackScreenProps<'Login'>> = ({
   const navigateToForgotPassword = () => {
     navigation.navigate('ForgotPassword', {});
   };
-
-  //console.log({data}, {error}, {status});
 
   return (
     <View style={styles.container}>
@@ -53,6 +40,9 @@ export const LoginScreen: React.FC<AuthStackScreenProps<'Login'>> = ({
           name={'email'}
           placeholder={'Email...'}
           placeholderTextColor={'#003f5c'}
+          keyboardType={'email-address'}
+          autoCapitalize={'none'}
+          returnKeyType={'next'}
         />
       </View>
       <View style={styles.inputView}>
@@ -61,13 +51,11 @@ export const LoginScreen: React.FC<AuthStackScreenProps<'Login'>> = ({
           name={'password'}
           placeholder={'Password...'}
           placeholderTextColor={'#003f5c'}
+          returnKeyType={'done'}
+          secureTextEntry
+          onEndEditing={handleSubmit(onSubmit)}
         />
       </View>
-      <TouchableOpacity
-        style={styles.loginBtn}
-        onPress={handleSubmit(onSubmit)}>
-        <Text style={styles.loginText}>Login</Text>
-      </TouchableOpacity>
       <Button text={'Forgot Password?'} onPress={navigateToForgotPassword} />
       <Button
         text={'Login'}

@@ -1,19 +1,18 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {Text, View} from 'react-native';
-import {EndpointEnum} from '../../services/endpoints';
-import {useQuery} from '../../services/useQuery';
 import {AppBottomTabScreenProps} from '../../Navigation/AppRoutes';
+import {AuthContext} from '../../providers/context/Auth';
+import {Button} from '../../components/Button/Button';
 
 export type HomeRouteParams = {};
 
 export const HomeScreen: React.FC<AppBottomTabScreenProps<'Home'>> = () => {
-  const {data, error, status} = useQuery(EndpointEnum.getAllPokemonPaginated);
-
-  console.log({data}, {error}, {status});
+  const {signOut} = useContext(AuthContext);
 
   return (
     <View>
       <Text>Home</Text>
+      <Button text="Sign Out" onPress={signOut} />
     </View>
   );
 };

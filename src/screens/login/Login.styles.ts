@@ -43,7 +43,6 @@ export const styles = StyleSheet.create({
     height: 50,
     alignItems: 'center',
     justifyContent: 'center',
-    //marginTop: 40,
     marginBottom: 10,
   },
   loginText: {
