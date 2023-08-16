@@ -6,8 +6,8 @@ import {ControlledInput} from '../../components/input/Input';
 import {useForm} from 'react-hook-form';
 import {Button} from '../../components/Button/Button';
 import {useMutation} from 'react-query';
-import {ApiClient} from '../../apiClient/ApiClient';
 import {CreateUserDto} from '../../apiClient';
+import {openApi} from '../../services/openApi';
 
 export type SignupRouteParams = {};
 
@@ -16,15 +16,15 @@ export const SignupScreen: React.FC<AuthStackScreenProps<'Signup'>> = ({
 }) => {
   const {control, handleSubmit} = useForm<CreateUserDto>();
 
-  const api = new ApiClient({BASE: 'http://localhost:3000/'});
-
-  const {data, mutate} = useMutation('signup', user =>
-    api.user.usersControllerCreateUser({
-      requestBody: user as unknown as CreateUserDto,
-    }),
+  const {data, mutate} = useMutation<unknown, unknown, CreateUserDto>(
+    ['user'],
+    data =>
+      openApi.instance.user.usersControllerCreateUser({
+        requestBody: data,
+      }),
   );
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: CreateUserDto) => {
     mutate(data);
   };
 

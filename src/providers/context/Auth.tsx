@@ -17,7 +17,7 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({children}) => {
   const {data, isLoading} = useQuery(EndpointEnum.getMe);
 
   return (
-    <AuthContext.Provider value={{loggedIn: !!data, isLoading}}>
+    <AuthContext.Provider value={{loggedIn: false, isLoading}}>
       {children}
     </AuthContext.Provider>
   );

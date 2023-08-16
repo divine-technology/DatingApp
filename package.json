@@ -8,7 +8,8 @@
     "lint": "eslint .",
     "start": "react-native start -- --warning-mode=all",
     "test": "jest",
-    "api-client:generate": "node ./src/apiClient/scripts/client/generateClient.ts"
+    "api-client:generate": "node ./src/apiClient/scripts/client/generateClient.ts",
+    "deleteDerivedData": "rm -rf ${HOME}/Library/Developer/Xcode/DerivedData/*"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.19.1",
