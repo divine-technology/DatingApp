@@ -1,15 +1,33 @@
-import {Controller, FieldValues, UseControllerProps} from 'react-hook-form';
-import {TextInput, TextInputProps} from 'react-native';
-import {styles} from '../../screens/login/Login.styles';
+import {
+  Controller,
+  FieldError,
+  FieldValues,
+  UseControllerProps,
+} from 'react-hook-form';
+import {Text, TextInput, TextInputProps, View} from 'react-native';
 import React from 'react';
+import {styles} from './Input.styles';
+import {themeColors} from '../../themes/colors';
 
 type ControlledInputProps<T extends FieldValues> = UseControllerProps<T> &
   InputProps;
 
-type InputProps = TextInputProps & {};
+type InputProps = TextInputProps & {
+  error?: FieldError;
+};
 
-export const Input: React.FC<InputProps> = props => {
-  return <TextInput style={styles.inputText} {...props} />;
+export const Input: React.FC<InputProps> = ({error, ...rest}) => {
+  const style = styles({error});
+  return (
+    <View>
+      <TextInput
+        style={style.textInput}
+        placeholderTextColor={themeColors.primaryTextColor}
+        {...rest}
+      />
+      <Text style={style.errorText}>{error?.message}</Text>
+    </View>
+  );
 };
 
 export const ControlledInput = <T extends FieldValues>({
@@ -22,8 +40,11 @@ export const ControlledInput = <T extends FieldValues>({
       control={control}
       name={name}
       rules={{}}
-      render={({field: {ref: _ref, onChange, ...restField}}) => (
-        <Input onChangeText={onChange} {...restField} {...rest} />
+      render={({
+        field: {ref: _ref, onChange, ...restField},
+        fieldState: {error},
+      }) => (
+        <Input onChangeText={onChange} {...restField} {...rest} error={error} />
       )}
     />
   );

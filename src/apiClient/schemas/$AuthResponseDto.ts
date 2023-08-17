@@ -2,8 +2,12 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export const $LoginResponseDto = {
+export const $AuthResponseDto = {
     properties: {
+        user: {
+    type: 'AuthUser',
+    isRequired: true,
+},
         token: {
     type: 'string',
     isRequired: true,

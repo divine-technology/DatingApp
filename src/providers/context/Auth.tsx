@@ -6,10 +6,10 @@ import React, {
 } from 'react';
 import {useMutation} from 'react-query';
 import {
+  AuthResponseDto,
+  AuthUser,
   CreateUserDto,
-  LoginResponseDto,
   LoginUserDto,
-  User,
 } from '../../apiClient';
 import {openApi} from '../../services/openApi';
 import {TOKEN} from '../../services/token';
@@ -30,7 +30,7 @@ export const AuthContext = createContext<AuthContextProps>({
 });
 
 export const AuthProvider: React.FC<PropsWithChildren> = ({children}) => {
-  const [user, setUser] = useState<User>();
+  const [user, setUser] = useState<AuthUser>();
   const {
     data: loginData,
     mutate: signIn,
@@ -46,7 +46,7 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({children}) => {
     mutate: signUp,
     reset: resetSignUp,
   } = useMutation<unknown, unknown, CreateUserDto>('signup', data =>
-    openApi.instance.user.usersControllerCreateUser({
+    openApi.instance.auth.authControllerCreateUser({
       requestBody: data,
     }),
   );
@@ -58,34 +58,17 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({children}) => {
 
   useEffect(() => {
     if (loginData) {
-      TOKEN.set((loginData as LoginResponseDto).token);
-      setUser({
-        email: 'tarik@mail.com',
-        password: '',
-        name: 'Tarik',
-        role: 'test',
-        forgotPasswordTimestamp: '',
-        forgotPasswordToken: '',
-        createdAccountTimestamp: '',
-        location: {type: 'test', coordinates: [1, 2]},
-      });
+      TOKEN.set((loginData as AuthResponseDto).token);
+      setUser((loginData as AuthResponseDto).user);
       resetSignIn();
     }
   }, [loginData, resetSignIn]);
 
   useEffect(() => {
     if (signupData) {
-      TOKEN.set((signupData as LoginResponseDto).token);
-      setUser({
-        email: 'tarik@mail.com',
-        password: '',
-        name: 'Tarik',
-        role: 'test',
-        forgotPasswordTimestamp: '',
-        forgotPasswordToken: '',
-        createdAccountTimestamp: '',
-        location: {type: 'test', coordinates: [1, 2]},
-      });
+      TOKEN.set((signupData as AuthResponseDto).token);
+      setUser((signupData as AuthResponseDto).user);
+
       resetSignUp();
     }
   }, [signupData, resetSignUp]);

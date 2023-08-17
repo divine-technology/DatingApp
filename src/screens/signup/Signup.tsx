@@ -7,13 +7,33 @@ import {useForm} from 'react-hook-form';
 import {Button} from '../../components/Button/Button';
 import {CreateUserDto} from '../../apiClient';
 import {AuthContext} from '../../providers/context/Auth';
+import {Variant} from '../../components/Button/Button.styles';
+import {yupResolver} from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 
 export type SignupRouteParams = {};
+
+const validationSchema = yup.object({
+  name: yup
+    .string()
+    .min(3, 'Use at least 3 characters!')
+    .required('This field is required!'),
+  email: yup
+    .string()
+    .email('Use correct email format!')
+    .required('This field is required!'),
+  password: yup
+    .string()
+    .min(6, 'Use at least 6 characters!')
+    .required('This field is required!'),
+});
 
 export const SignupScreen: React.FC<AuthStackScreenProps<'Signup'>> = ({
   navigation,
 }) => {
-  const {control, handleSubmit} = useForm<CreateUserDto>();
+  const {control, handleSubmit} = useForm<CreateUserDto>({
+    resolver: yupResolver(validationSchema),
+  });
 
   const {signUp} = useContext(AuthContext);
 
@@ -29,32 +49,39 @@ export const SignupScreen: React.FC<AuthStackScreenProps<'Signup'>> = ({
     <View style={styles.container}>
       <Text style={styles.logo}>Dating App</Text>
       <Text style={styles.registerHeaderText}>Sign Up</Text>
-      <View style={styles.inputView}>
+      <View style={{width: '100%', gap: 8, marginBottom: 16}}>
         <ControlledInput
           control={control}
           name={'name'}
           placeholder={'Username...'}
-          placeholderTextColor={'#003f5c'}
+          returnKeyType={'next'}
         />
-      </View>
-      <View style={styles.inputView}>
         <ControlledInput
           control={control}
           name={'email'}
           placeholder={'Email...'}
-          placeholderTextColor={'#003f5c'}
+          keyboardType={'email-address'}
+          autoCapitalize={'none'}
+          returnKeyType={'next'}
         />
-      </View>
-      <View style={styles.inputView}>
         <ControlledInput
           control={control}
           name={'password'}
           placeholder={'Password...'}
-          placeholderTextColor={'#003f5c'}
+          secureTextEntry
+          autoCapitalize={'none'}
+          returnKeyType={'next'}
         />
       </View>
-      <Button text="Sign up" onPress={handleSubmit(onSubmit)} />
-      <Button text="Login" onPress={navigateToLogin} />
+      <View style={{width: '100%', gap: 8}}>
+        <Button text="Sign up" onPress={handleSubmit(onSubmit)} />
+        <Button
+          text="Login"
+          onPress={navigateToLogin}
+          variant={Variant.OUTLINED}
+        />
+        <View />
+      </View>
     </View>
   );
 };

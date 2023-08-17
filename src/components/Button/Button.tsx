@@ -1,15 +1,25 @@
 import {Pressable, PressableProps, Text} from 'react-native';
-import {styles} from '../../screens/login/Login.styles';
 import React from 'react';
+import {ButtonStyleProps, Color, Size, Variant, styles} from './Button.styles';
 
 type ButtonProps = PressableProps & {
   text: string;
-};
+  isLoading?: boolean;
+} & Partial<ButtonStyleProps>;
 
-export const Button: React.FC<ButtonProps> = ({text, ...rest}) => {
+export const Button: React.FC<ButtonProps> = ({
+  text,
+  isLoading,
+  variant = Variant.FILLED,
+  color = Color.PRIMARY,
+  size = Size.MEDIUM,
+  ...rest
+}) => {
+  const style = styles({variant, color, size});
   return (
-    <Pressable style={styles.loginBtn} {...rest}>
-      <Text style={styles.loginText}>{text}</Text>
+    <Pressable style={style.loginBtn} disabled={isLoading} {...rest}>
+      <Text style={style.loginText}>{text}</Text>
+      {/* {isLoading && <Loader />} */}
     </Pressable>
   );
 };

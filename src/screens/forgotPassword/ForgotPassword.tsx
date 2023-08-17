@@ -5,37 +5,46 @@ import {styles} from './ForgotPassword.styles';
 import {ControlledInput} from '../../components/input/Input';
 import {useForm} from 'react-hook-form';
 import {Button} from '../../components/Button/Button';
+import {yupResolver} from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 
 export type ForgotPasswordRouteParams = {};
 
+const validationSchema = yup.object({
+  email: yup
+    .string()
+    .email('Use correct email format!')
+    .required('This field is required!'),
+});
+
 export const ForgotPasswordScreen: React.FC<
   AuthStackScreenProps<'ForgotPassword'>
-> = ({navigation}) => {
-  const {control, handleSubmit} = useForm();
+> = () => {
+  const {control, handleSubmit} = useForm({
+    resolver: yupResolver(validationSchema),
+  });
 
   const onSubmit = (data: any) => {
     console.log('My data: ', data);
-  };
-
-  const navigateToLogin = () => {
-    navigation.navigate('Login', {});
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.logo}>Dating App</Text>
       <Text style={styles.forgotHeaderText}>Forgot Password</Text>
-      <View style={styles.inputView}>
+      <View style={{width: '100%', gap: 8, marginBottom: 16}}>
         <ControlledInput
           control={control}
           name={'email'}
-          isRequired={true}
-          placeHolder={'Email...'}
-          placeHolderTextColor={'#003f5c'}
+          placeholder={'Email...'}
+          keyboardType={'email-address'}
+          autoCapitalize={'none'}
+          returnKeyType={'next'}
         />
       </View>
-      <Button text={'Send mail'} onPress={handleSubmit(onSubmit)} />
-      <Button text={'Back to Login'} onPress={navigateToLogin} />
+      <View style={{width: '100%', gap: 8}}>
+        <Button text={'Send mail'} onPress={handleSubmit(onSubmit)} />
+      </View>
     </View>
   );
 };

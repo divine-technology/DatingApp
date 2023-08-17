@@ -298,8 +298,8 @@ const catchErrorCodes = (
 export const request = <T>(
   config: OpenAPIConfig,
   options: ApiRequestOptions,
-): CancelablePromise<T> => {
-  return new CancelablePromise(async (resolve, reject, onCancel) => {
+): Promise<T> => {
+  return new Promise(async (resolve, reject, onCancel) => {
     try {
       const url = getUrl(config, options);
       const formData = getFormData(options);

@@ -3,6 +3,9 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type LoginResponseDto = {
+import type { AuthUser } from './AuthUser';
+
+export type AuthResponseDto = {
+    user: AuthUser;
     token: string;
 };

@@ -2,6 +2,7 @@ import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
+    paddingHorizontal: 24,
     flex: 1,
     backgroundColor: '#003f5c',
     alignItems: 'center',
@@ -20,7 +21,7 @@ export const styles = StyleSheet.create({
     marginBottom: 20,
   },
   inputView: {
-    width: '80%',
+    width: '100%',
     backgroundColor: '#465881',
     borderRadius: 25,
     height: 50,
@@ -30,7 +31,6 @@ export const styles = StyleSheet.create({
   },
   inputText: {
     height: 50,
-    color: 'white',
   },
   forgot: {
     color: 'white',

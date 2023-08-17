@@ -2,8 +2,6 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { CreateUserDto } from '../models/CreateUserDto';
-import type { LoginResponseDto } from '../models/LoginResponseDto';
 import type { ResponsePaginateDto } from '../models/ResponsePaginateDto';
 import type { UpdateUserDto } from '../models/UpdateUserDto';
 import type { User } from '../models/User';
@@ -59,24 +57,6 @@ createdAccountTimestamp?: string,
                 'forgotPasswordTimestamp': forgotPasswordTimestamp,
                 'createdAccountTimestamp': createdAccountTimestamp,
             },
-        });
-    }
-
-    /**
-     * Create user
-     * @returns LoginResponseDto 
-     * @throws ApiError
-     */
-    public usersControllerCreateUser({
-requestBody,
-}: {
-requestBody: CreateUserDto,
-}): CancelablePromise<LoginResponseDto> {
-        return this.httpRequest.request({
-            method: 'POST',
-            url: '/users',
-            body: requestBody,
-            mediaType: 'application/json',
         });
     }
 

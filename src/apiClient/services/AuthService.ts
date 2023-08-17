@@ -2,11 +2,12 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { AuthResponseDto } from '../models/AuthResponseDto';
 import type { ChangeForgotPasswordDto } from '../models/ChangeForgotPasswordDto';
 import type { ChangePasswordDto } from '../models/ChangePasswordDto';
+import type { CreateUserDto } from '../models/CreateUserDto';
 import type { ForgotPasswordDto } from '../models/ForgotPasswordDto';
 import type { ForgotPasswordResponseDto } from '../models/ForgotPasswordResponseDto';
-import type { LoginResponseDto } from '../models/LoginResponseDto';
 import type { LoginUserDto } from '../models/LoginUserDto';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -18,17 +19,35 @@ export class AuthService {
 
     /**
      * Login user
-     * @returns LoginResponseDto 
+     * @returns AuthResponseDto 
      * @throws ApiError
      */
     public authControllerLoginUser({
 requestBody,
 }: {
 requestBody: LoginUserDto,
-}): CancelablePromise<LoginResponseDto> {
+}): CancelablePromise<AuthResponseDto> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/auth/login',
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+
+    /**
+     * Create user
+     * @returns AuthResponseDto 
+     * @throws ApiError
+     */
+    public authControllerCreateUser({
+requestBody,
+}: {
+requestBody: CreateUserDto,
+}): CancelablePromise<AuthResponseDto> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/auth',
             body: requestBody,
             mediaType: 'application/json',
         });
