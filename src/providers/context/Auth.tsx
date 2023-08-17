@@ -1,9 +1,4 @@
-import React, {
-  PropsWithChildren,
-  createContext,
-  useEffect,
-  useState,
-} from 'react';
+import React, {PropsWithChildren, createContext, useState} from 'react';
 import {useMutation} from 'react-query';
 import {
   AuthResponseDto,
@@ -31,47 +26,40 @@ export const AuthContext = createContext<AuthContextProps>({
 
 export const AuthProvider: React.FC<PropsWithChildren> = ({children}) => {
   const [user, setUser] = useState<AuthUser>();
-  const {
-    data: loginData,
-    mutate: signIn,
-    reset: resetSignIn,
-  } = useMutation<unknown, unknown, LoginUserDto>('login', data =>
-    openApi.instance.auth.authControllerLoginUser({
-      requestBody: data,
-    }),
+  const {mutate: signIn} = useMutation<unknown, unknown, LoginUserDto>(
+    'login',
+    data =>
+      openApi.instance.auth.authControllerLoginUser({
+        requestBody: data,
+      }),
+    {
+      onSuccess: data => {
+        TOKEN.set((data as AuthResponseDto).token);
+        setUser((data as AuthResponseDto).user);
+      },
+      onError: () => {},
+    },
   );
 
-  const {
-    data: signupData,
-    mutate: signUp,
-    reset: resetSignUp,
-  } = useMutation<unknown, unknown, CreateUserDto>('signup', data =>
-    openApi.instance.auth.authControllerCreateUser({
-      requestBody: data,
-    }),
+  const {mutate: signUp} = useMutation<unknown, unknown, CreateUserDto>(
+    'signup',
+    data =>
+      openApi.instance.auth.authControllerCreateUser({
+        requestBody: data,
+      }),
+    {
+      onSuccess: data => {
+        TOKEN.set((data as AuthResponseDto).token);
+        setUser((data as AuthResponseDto).user);
+      },
+      onError: () => {},
+    },
   );
 
   const signOut = () => {
     TOKEN.remove();
     setUser(undefined);
   };
-
-  useEffect(() => {
-    if (loginData) {
-      TOKEN.set((loginData as AuthResponseDto).token);
-      setUser((loginData as AuthResponseDto).user);
-      resetSignIn();
-    }
-  }, [loginData, resetSignIn]);
-
-  useEffect(() => {
-    if (signupData) {
-      TOKEN.set((signupData as AuthResponseDto).token);
-      setUser((signupData as AuthResponseDto).user);
-
-      resetSignUp();
-    }
-  }, [signupData, resetSignUp]);
 
   return (
     <AuthContext.Provider value={{loggedIn: !!user, signIn, signUp, signOut}}>
