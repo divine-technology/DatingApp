@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { AuthResponseDto } from '../models/AuthResponseDto';
+import type { AuthUser } from '../models/AuthUser';
 import type { ChangeForgotPasswordDto } from '../models/ChangeForgotPasswordDto';
 import type { ChangePasswordDto } from '../models/ChangePasswordDto';
 import type { CreateUserDto } from '../models/CreateUserDto';
@@ -32,6 +33,18 @@ requestBody: LoginUserDto,
             url: '/auth/login',
             body: requestBody,
             mediaType: 'application/json',
+        });
+    }
+
+    /**
+     * Get me
+     * @returns AuthUser 
+     * @throws ApiError
+     */
+    public authControllerGetMe(): CancelablePromise<AuthUser> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/auth/get-me',
         });
     }
 

@@ -1,5 +1,5 @@
 import React, {PropsWithChildren, createContext, useState} from 'react';
-import {useMutation} from 'react-query';
+import {useMutation, useQuery} from 'react-query';
 import {
   AuthResponseDto,
   AuthUser,
@@ -12,16 +12,18 @@ import {TOKEN} from '../../services/token';
 export type AuthContextProps = {
   loggedIn?: boolean;
   isLoading?: boolean;
-  user?: object;
+  user?: AuthUser;
   signIn: (data: LoginUserDto) => void;
   signOut: () => void;
   signUp: (data: CreateUserDto) => void;
+  getMe: () => void;
 };
 
 export const AuthContext = createContext<AuthContextProps>({
   signIn: () => {},
   signUp: () => {},
   signOut: () => {},
+  getMe: () => {},
 });
 
 export const AuthProvider: React.FC<PropsWithChildren> = ({children}) => {
@@ -56,13 +58,29 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({children}) => {
     },
   );
 
+  const {refetch: getMe} = useQuery<unknown, unknown, AuthUser>(
+    'getMe',
+    async _data => {
+      const token = await TOKEN.get();
+      console.log('FRONT TOKEN: ', token);
+      return openApi.instance.auth.authControllerGetMe({
+        authorization: `${token}`,
+      });
+    },
+    {
+      onSuccess: data => setUser(data),
+      onError: () => {},
+    },
+  );
+
   const signOut = () => {
     TOKEN.remove();
     setUser(undefined);
   };
 
   return (
-    <AuthContext.Provider value={{loggedIn: !!user, signIn, signUp, signOut}}>
+    <AuthContext.Provider
+      value={{loggedIn: !!user, user, signIn, signUp, signOut, getMe}}>
       {children}
     </AuthContext.Provider>
   );
