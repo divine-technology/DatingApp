@@ -14,17 +14,36 @@ type ControlledInputProps<T extends FieldValues> = UseControllerProps<T> &
 
 type InputProps = TextInputProps & {
   error?: FieldError;
+  startAdornment?: React.ReactElement;
 };
 
-export const Input: React.FC<InputProps> = ({error, ...rest}) => {
-  const style = styles({error});
+export const Input: React.FC<InputProps> = ({
+  error,
+  startAdornment,
+  ...rest
+}) => {
+  const style = styles({error, multiline: rest.multiline});
   return (
     <View>
-      <TextInput
-        style={style.textInput}
-        placeholderTextColor={themeColors.primaryTextColor}
-        {...rest}
-      />
+      <View style={style.textInputWrapper}>
+        {startAdornment && (
+          <View
+            style={{
+              height: 28,
+              width: 28,
+              marginVertical: 8,
+              alignSelf: 'flex-start',
+            }}>
+            {startAdornment}
+          </View>
+        )}
+        <TextInput
+          style={style.textInput}
+          placeholderTextColor={themeColors.primaryTextColor}
+          maxLength={rest.multiline ? 150 : undefined}
+          {...rest}
+        />
+      </View>
       <Text style={style.errorText}>{error?.message}</Text>
     </View>
   );

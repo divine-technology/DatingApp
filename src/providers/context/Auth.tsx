@@ -60,12 +60,8 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({children}) => {
 
   const {refetch: getMe} = useQuery<unknown, unknown, AuthUser>(
     'getMe',
-    async _data => {
-      const token = await TOKEN.get();
-      console.log('FRONT TOKEN: ', token);
-      return openApi.instance.auth.authControllerGetMe({
-        authorization: `${token}`,
-      });
+    _data => {
+      return openApi.instance.auth.authControllerGetMe();
     },
     {
       onSuccess: data => setUser(data),

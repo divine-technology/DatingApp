@@ -36,5 +36,28 @@ export const $UpdateUserDto = {
     type: 'Location',
     isRequired: true,
 },
+        gender: {
+    type: 'string',
+    isRequired: true,
+},
+        preference: {
+    type: 'string',
+    isRequired: true,
+},
+        age: {
+    type: 'number',
+    isRequired: true,
+},
+        bio: {
+    type: 'string',
+    isRequired: true,
+},
+        hobbies: {
+    type: 'array',
+    contains: {
+    type: 'string',
+},
+    isRequired: true,
+},
     },
 } as const;

@@ -14,4 +14,9 @@ export type User = {
     forgotPasswordTimestamp: string;
     createdAccountTimestamp: string;
     location: Location;
+    gender: string;
+    preference: string;
+    age: number;
+    bio: string;
+    hobbies: Array<string>;
 };

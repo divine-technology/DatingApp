@@ -2,13 +2,20 @@ import {StyleSheet} from 'react-native';
 import {themeColors} from '../../themes/colors';
 import {FieldError} from 'react-hook-form';
 
-export const styles = ({error}: {error?: FieldError}) =>
+export const styles = ({
+  error,
+  multiline,
+}: {
+  error?: FieldError;
+  multiline?: boolean;
+}) =>
   StyleSheet.create({
-    textInput: {
+    textInputWrapper: {
+      alignItems: 'center',
+      paddingHorizontal: 12,
+      flexDirection: 'row',
       width: '100%',
-      height: 44,
-      padding: 10,
-      paddingHorizontal: 20,
+      height: multiline ? 140 : 44,
       margin: 0,
       borderRadius: 24,
       backgroundColor: themeColors.primaryColor,
@@ -16,6 +23,15 @@ export const styles = ({error}: {error?: FieldError}) =>
       ...(error?.message
         ? {borderWidth: 1, borderColor: themeColors.primaryTextColor}
         : {}),
+    },
+    textInput: {
+      flex: 1,
+      color: themeColors.primaryTextColor,
+      margin: 0,
+      padding: 10,
+      paddingHorizontal: 8,
+      height: 'auto',
+      alignSelf: multiline ? 'flex-start' : undefined,
     },
     errorText: {
       fontSize: 10,

@@ -10,6 +10,7 @@ import {AuthContext} from '../../providers/context/Auth';
 import {Size, Variant} from '../../components/Button/Button.styles';
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import * as Icons from 'react-native-heroicons/solid';
 
 export type LoginRouteParams = {};
 const validationSchema = yup.object({
@@ -55,6 +56,7 @@ export const LoginScreen: React.FC<AuthStackScreenProps<'Login'>> = ({
           name={'email'}
           placeholder={'Email...'}
           keyboardType={'email-address'}
+          startAdornment={<Icons.EnvelopeIcon size={30} color="white" />}
           autoCapitalize={'none'}
           returnKeyType={'next'}
         />
@@ -63,7 +65,9 @@ export const LoginScreen: React.FC<AuthStackScreenProps<'Login'>> = ({
           name={'password'}
           placeholder={'Password...'}
           returnKeyType={'done'}
+          startAdornment={<Icons.LockClosedIcon size={30} color="white" />}
           secureTextEntry
+          autoCapitalize={'none'}
           onEndEditing={handleSubmit(onSubmit)}
         />
       </View>
