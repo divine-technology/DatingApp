@@ -12,17 +12,46 @@ import {themeColors} from '../../themes/colors';
 type ControlledInputProps<T extends FieldValues> = UseControllerProps<T> &
   InputProps;
 
+const InputType = {
+  text: 'text',
+  number: 'number',
+};
+
 type InputProps = TextInputProps & {
   error?: FieldError;
+  type?: keyof typeof InputType;
   startAdornment?: React.ReactElement;
+  onChangeText?: (text: string | number | undefined | null) => void;
 };
 
 export const Input: React.FC<InputProps> = ({
   error,
   startAdornment,
+  type = 'text',
+  value,
+  onChangeText,
   ...rest
 }) => {
   const style = styles({error, multiline: rest.multiline});
+
+  const valueOnChangeMap: {
+    [key in keyof typeof InputType]: {
+      onChangeText?: (text: string) => void;
+      value?: string;
+    };
+  } = {
+    number: {
+      onChangeText: text => {
+        onChangeText && onChangeText(isNaN(Number(text)) ? null : Number(text));
+      },
+      value: value?.toString(),
+    },
+    text: {
+      onChangeText: onChangeText,
+      value: value,
+    },
+  };
+
   return (
     <View>
       <View style={style.textInputWrapper}>
@@ -42,6 +71,7 @@ export const Input: React.FC<InputProps> = ({
           placeholderTextColor={themeColors.primaryTextColor}
           maxLength={rest.multiline ? 150 : undefined}
           {...rest}
+          {...valueOnChangeMap[type]}
         />
       </View>
       <Text style={style.errorText}>{error?.message}</Text>

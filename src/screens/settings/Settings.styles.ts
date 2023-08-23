@@ -54,6 +54,7 @@ export const styles = StyleSheet.create({
     marginBottom: 5,
     textAlign: 'center',
     color: 'black',
+    textTransform: 'capitalize',
   },
   userInfoSubTitle: {
     fontSize: 12,

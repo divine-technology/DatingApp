@@ -3,7 +3,7 @@ import {StyleSheet} from 'react-native';
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    paddingHorizontal: 16,
   },
   userImg: {
     height: 150,
@@ -13,8 +13,7 @@ export const styles = StyleSheet.create({
   userName: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginTop: 10,
-    marginBottom: 10,
+    marginVertical: 8,
     color: 'black',
   },
   aboutUser: {
@@ -59,5 +58,21 @@ export const styles = StyleSheet.create({
     fontSize: 12,
     color: '#666',
     textAlign: 'center',
+  },
+  selectWrapper: {
+    width: '100%',
+    height: 44,
+    backgroundColor: '#fb5b5a',
+    borderRadius: 24,
+    paddingHorizontal: 8,
+    marginBottom: 10,
+    flexDirection: 'row',
+  },
+  iconStyle: {
+    flex: 1,
+    width: 28,
+    height: 28,
+    alignSelf: 'flex-start',
+    marginVertical: 4,
   },
 });

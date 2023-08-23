@@ -6,17 +6,17 @@
 import type { Location } from './Location';
 
 export type UpdateUserDto = {
-    name: string;
-    email: string;
-    password: string;
-    role: string;
-    forgotPasswordToken: string;
-    forgotPasswordTimestamp: string;
-    createdAccountTimestamp: string;
-    location: Location;
-    gender: string;
-    preference: string;
-    age: number;
-    bio: string;
-    hobbies: Array<string>;
+    name?: string;
+    email?: string;
+    password?: string;
+    role?: string;
+    forgotPasswordToken?: string;
+    forgotPasswordTimestamp?: string;
+    createdAccountTimestamp?: string;
+    location?: Location;
+    gender?: string;
+    preference?: string;
+    age?: number;
+    bio?: string;
+    hobbies?: Array<string>;
 };

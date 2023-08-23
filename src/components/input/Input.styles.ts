@@ -28,7 +28,6 @@ export const styles = ({
       flex: 1,
       color: themeColors.primaryTextColor,
       margin: 0,
-      padding: 10,
       paddingHorizontal: 8,
       height: 'auto',
       alignSelf: multiline ? 'flex-start' : undefined,
