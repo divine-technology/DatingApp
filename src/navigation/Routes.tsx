@@ -21,11 +21,11 @@ export const Routes: React.FC = () => {
 
   return (
     <RootStack.Navigator screenOptions={{headerShown: false}}>
-      {loggedIn && !isLoading && (
-        <RootStack.Group>
-          <RootStack.Screen name={'App'} component={AppRoutes} />
-        </RootStack.Group>
-      )}
+      {/* {loggedIn && !isLoading && ( */}
+      <RootStack.Group>
+        <RootStack.Screen name={'App'} component={AppRoutes} />
+      </RootStack.Group>
+      {/* )} */}
       {!loggedIn && !isLoading && (
         <RootStack.Group>
           <RootStack.Screen name={'Auth'} component={AuthRoutes} />
