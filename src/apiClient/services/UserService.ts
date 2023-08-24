@@ -6,6 +6,7 @@ import type { ResponsePaginateDto } from '../models/ResponsePaginateDto';
 import type { UpdateUserDto } from '../models/UpdateUserDto';
 import type { User } from '../models/User';
 import type { UserRadiusDto } from '../models/UserRadiusDto';
+import type { UserWithId } from '../models/UserWithId';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -77,14 +78,14 @@ hobbies?: Array<string>,
 
     /**
      * Get all users in radius
-     * @returns User 
+     * @returns UserWithId 
      * @throws ApiError
      */
     public usersControllerGetRadius({
 requestBody,
 }: {
 requestBody: UserRadiusDto,
-}): CancelablePromise<User> {
+}): CancelablePromise<Array<UserWithId>> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/users/radius',

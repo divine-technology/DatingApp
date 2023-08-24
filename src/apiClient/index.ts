@@ -28,6 +28,7 @@ export type { ResponsePaginateDto } from './models/ResponsePaginateDto';
 export type { UpdateUserDto } from './models/UpdateUserDto';
 export type { User } from './models/User';
 export type { UserRadiusDto } from './models/UserRadiusDto';
+export type { UserWithId } from './models/UserWithId';
 
 export { $AuthResponseDto } from './schemas/$AuthResponseDto';
 export { $AuthUser } from './schemas/$AuthUser';
@@ -47,6 +48,7 @@ export { $ResponsePaginateDto } from './schemas/$ResponsePaginateDto';
 export { $UpdateUserDto } from './schemas/$UpdateUserDto';
 export { $User } from './schemas/$User';
 export { $UserRadiusDto } from './schemas/$UserRadiusDto';
+export { $UserWithId } from './schemas/$UserWithId';
 
 export { AuthService } from './services/AuthService';
 export { DefaultService } from './services/DefaultService';

@@ -3,9 +3,9 @@ import {Image, SafeAreaView, ScrollView, Text, View} from 'react-native';
 import {AuthContext} from '../../providers/context/Auth';
 import {Button} from '../../components/Button/Button';
 import {Variant} from '../../components/Button/Button.styles';
-import {useIsFocused} from '@react-navigation/native';
 import {styles} from './Settings.styles';
 import {SettingsStackScreenProps} from '../../navigation/SettingsRoutes';
+import {useIsFocused} from '@react-navigation/native';
 
 export type SettingsRouteParams = undefined;
 
@@ -18,10 +18,9 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
 
   useEffect(() => {
     if (isFocused) {
-      console.log('HOW OFTEN: ', isFocused);
       getMe();
+      console.log('WHAT GETS FETCHED: ', user);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isFocused]);
 
   return (

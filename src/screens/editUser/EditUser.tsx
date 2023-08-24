@@ -76,7 +76,7 @@ const validationSchema = yup.object<UpdateUserDto>({
 export const EditUserScreen: React.FC<SettingsStackScreenProps<'EditUser'>> = ({
   navigation,
 }) => {
-  const {getMe, user} = useContext(AuthContext);
+  const {user} = useContext(AuthContext);
 
   const {control, handleSubmit, watch} = useForm<
     UpdateUserDto & {preference?: DropdownDefaultDataProps} & {
@@ -104,7 +104,6 @@ export const EditUserScreen: React.FC<SettingsStackScreenProps<'EditUser'>> = ({
     {
       onSuccess: _data => {
         console.log('SOMETHING HAPPENED');
-        getMe();
         navigation.navigate('Settings');
       },
       onError: () => {},

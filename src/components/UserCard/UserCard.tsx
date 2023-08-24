@@ -1,9 +1,9 @@
 import React from 'react';
 import {Image, Pressable, Text, View} from 'react-native';
-import {AuthUser} from '../../apiClient';
+import {UserWithId} from '../../apiClient';
 
 export type UserCardProps = {
-  user: AuthUser;
+  user: UserWithId;
   like: () => void;
   dislike: () => void;
   profile: () => void;
@@ -59,7 +59,9 @@ export const UserCard: React.FC<UserCardProps> = ({
             backgroundColor: '#FFFFFF80',
           }}>
           <Text style={{fontSize: 30, color: 'black'}}>
-            {`${user.firstName} ${user.lastName}, ${user.age}`}
+            {`${user.firstName} ${user.lastName}${user.age ? ',' : ''} ${
+              user.age ? user.age : ''
+            }`}
           </Text>
           <Text
             style={{
