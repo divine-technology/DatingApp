@@ -4,7 +4,10 @@
 /* eslint-disable */
 export const $UpdateUserDto = {
     properties: {
-        name: {
+        firstName: {
+    type: 'string',
+},
+        lastName: {
     type: 'string',
 },
         email: {

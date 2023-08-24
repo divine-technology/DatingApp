@@ -6,7 +6,8 @@
 import type { Location } from './Location';
 
 export type UpdateUserDto = {
-    name?: string;
+    firstName?: string;
+    lastName?: string;
     email?: string;
     password?: string;
     role?: string;

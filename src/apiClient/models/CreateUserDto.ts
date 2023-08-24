@@ -4,7 +4,8 @@
 /* eslint-disable */
 
 export type CreateUserDto = {
-    name: string;
+    firstName: string;
+    lastName: string;
     email: string;
     password: string;
 };

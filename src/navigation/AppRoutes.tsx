@@ -12,13 +12,13 @@ import {
   TabNavigationState,
 } from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack'; // TODO: Tarik ispravi ovo
-import {SettingsRoutes, SettingsStackParamList} from './SettingsRoutes';
+import {SettingsRoutes} from './SettingsRoutes';
 import {SceneRendererProps} from 'react-native-tab-view';
 import {MaterialTopTabDescriptorMap} from '@react-navigation/material-top-tabs/lib/typescript/src/types';
 
 export type AppTopTabParamList = {
   Home: HomeRouteParams;
-  SettingsStack: SettingsStackParamList;
+  SettingsStack: undefined;
 };
 
 type ScreenComponentType<

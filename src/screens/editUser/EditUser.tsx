@@ -39,7 +39,16 @@ export type UpdateProfile = {
 };
 
 const validationSchema = yup.object<UpdateUserDto>({
-  name: yup.string().required('This field is required!'),
+  firstName: yup
+    .string()
+    .min(3, 'Name must be at least 3 characters long!')
+    .max(15, 'Name cannot be longer than 15 characters!')
+    .required('This field is required!'),
+  lastName: yup
+    .string()
+    .min(3, 'Name must be at least 3 characters long!')
+    .max(15, 'Last name cannot be longer than 15 characters!')
+    .required('This field is required!'),
   email: yup
     .string()
     .email('Use correct email format!')
@@ -129,7 +138,15 @@ export const EditUserScreen: React.FC<SettingsStackScreenProps<'EditUser'>> = ({
         <Text style={styles.userName}>Edit Profile</Text>
         <ControlledInput
           control={control}
-          name={'name'}
+          name={'firstName'}
+          placeholder={'Username...'}
+          startAdornment={<Icons.UserIcon size={30} color="white" />}
+          autoCapitalize={'none'}
+          returnKeyType={'next'}
+        />
+        <ControlledInput
+          control={control}
+          name={'lastName'}
           placeholder={'Username...'}
           startAdornment={<Icons.UserIcon size={30} color="white" />}
           autoCapitalize={'none'}

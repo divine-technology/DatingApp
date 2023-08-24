@@ -8,7 +8,11 @@ export const $AuthUser = {
     type: 'ObjectId',
     isRequired: true,
 },
-        name: {
+        firstName: {
+    type: 'string',
+    isRequired: true,
+},
+        lastName: {
     type: 'string',
     isRequired: true,
 },

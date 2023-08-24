@@ -25,10 +25,16 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
   }, [isFocused]);
 
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView
+      style={{
+        flex: 1,
+      }}>
       <ScrollView
         style={styles.container}
-        contentContainerStyle={{justifyContent: 'center', alignItems: 'center'}}
+        contentContainerStyle={{
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
         showsVerticalScrollIndicator={false}>
         <Image
           style={styles.userImg}
@@ -36,7 +42,9 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
             uri: 'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg',
           }}
         />
-        <Text style={styles.userName}>{user ? user.name : 'Test User'}</Text>
+        <Text style={styles.userName}>
+          {user ? `${user.firstName} ${user.lastName}` : 'Test User'}
+        </Text>
         <Text style={styles.aboutUser}>
           {user && user.bio ? user.bio : 'No user bio.'}
         </Text>

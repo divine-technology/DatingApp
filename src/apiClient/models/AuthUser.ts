@@ -8,7 +8,8 @@ import type { ObjectId } from './ObjectId';
 
 export type AuthUser = {
     _id: ObjectId;
-    name: string;
+    firstName: string;
+    lastName: string;
     email: string;
     role: string;
     createdAccountTimeStamp: string;

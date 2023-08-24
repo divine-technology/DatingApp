@@ -4,7 +4,11 @@
 /* eslint-disable */
 export const $CreateUserDto = {
     properties: {
-        name: {
+        firstName: {
+    type: 'string',
+    isRequired: true,
+},
+        lastName: {
     type: 'string',
     isRequired: true,
 },

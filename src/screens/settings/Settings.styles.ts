@@ -41,11 +41,11 @@ export const styles = StyleSheet.create({
   },
   userInfoWrapper: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
     width: '100%',
     marginVertical: 20,
   },
   userInfoItem: {
+    flex: 1,
     justifyContent: 'center',
   },
   userInfoTitle: {

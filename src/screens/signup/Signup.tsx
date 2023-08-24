@@ -14,9 +14,15 @@ import * as yup from 'yup';
 export type SignupRouteParams = {};
 
 const validationSchema = yup.object({
-  name: yup
+  firstName: yup
     .string()
     .min(3, 'Use at least 3 characters!')
+    .max(15, 'Name cannot be longer than 15 characters!')
+    .required('This field is required!'),
+  lastName: yup
+    .string()
+    .min(3, 'Use at least 3 characters!')
+    .max(15, 'Last name cannot be longer than 15 characters!')
     .required('This field is required!'),
   email: yup
     .string()
@@ -52,8 +58,14 @@ export const SignupScreen: React.FC<AuthStackScreenProps<'Signup'>> = ({
       <View style={{width: '100%', gap: 8, marginBottom: 16}}>
         <ControlledInput
           control={control}
-          name={'name'}
-          placeholder={'Username...'}
+          name={'firstName'}
+          placeholder={'First name...'}
+          returnKeyType={'next'}
+        />
+        <ControlledInput
+          control={control}
+          name={'lastName'}
+          placeholder={'Last name...'}
           returnKeyType={'next'}
         />
         <ControlledInput
