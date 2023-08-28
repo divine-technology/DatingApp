@@ -14,22 +14,22 @@ export class LikeService {
 
     /**
      * Get all users that liked the user back
-     * @returns ResponsePaginateDto 
+     * @returns ResponsePaginateDto
      * @throws ApiError
      */
     public likeControllerGetBothLikes({
-id,
-page,
-limit,
-sort,
-sortBy,
-}: {
-id: string,
-page?: number,
-limit?: number,
-sort?: number,
-sortBy?: string,
-}): CancelablePromise<ResponsePaginateDto> {
+        id,
+        page,
+        limit,
+        sort,
+        sortBy,
+    }: {
+        id: string,
+        page?: number,
+        limit?: number,
+        sort?: number,
+        sortBy?: string,
+    }): CancelablePromise<ResponsePaginateDto> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/likes/get-both-likes/{id}',
@@ -47,22 +47,22 @@ sortBy?: string,
 
     /**
      * Get all likes from user
-     * @returns ResponsePaginateDto 
+     * @returns ResponsePaginateDto
      * @throws ApiError
      */
     public likeControllerGetLikes({
-id,
-page,
-limit,
-sort,
-sortBy,
-}: {
-id: string,
-page?: number,
-limit?: number,
-sort?: number,
-sortBy?: string,
-}): CancelablePromise<ResponsePaginateDto> {
+        id,
+        page,
+        limit,
+        sort,
+        sortBy,
+    }: {
+        id: string,
+        page?: number,
+        limit?: number,
+        sort?: number,
+        sortBy?: string,
+    }): CancelablePromise<ResponsePaginateDto> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/likes/get-likes/{id}',
@@ -79,23 +79,56 @@ sortBy?: string,
     }
 
     /**
+     * Get all dislikes from user
+     * @returns ResponsePaginateDto
+     * @throws ApiError
+     */
+    public likeControllerGetDislikes({
+        id,
+        page,
+        limit,
+        sort,
+        sortBy,
+    }: {
+        id: string,
+        page?: number,
+        limit?: number,
+        sort?: number,
+        sortBy?: string,
+    }): CancelablePromise<ResponsePaginateDto> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/likes/get-dislikes/{id}',
+            path: {
+                'id': id,
+            },
+            query: {
+                'page': page,
+                'limit': limit,
+                'sort': sort,
+                'sortBy': sortBy,
+            },
+        });
+    }
+
+    /**
      * Get all like requests
-     * @returns ResponsePaginateDto 
+     * @returns ResponsePaginateDto
      * @throws ApiError
      */
     public likeControllerGetLikeRequests({
-id,
-page,
-limit,
-sort,
-sortBy,
-}: {
-id: string,
-page?: number,
-limit?: number,
-sort?: number,
-sortBy?: string,
-}): CancelablePromise<ResponsePaginateDto> {
+        id,
+        page,
+        limit,
+        sort,
+        sortBy,
+    }: {
+        id: string,
+        page?: number,
+        limit?: number,
+        sort?: number,
+        sortBy?: string,
+    }): CancelablePromise<ResponsePaginateDto> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/likes/get-like-requests/{id}',
@@ -113,22 +146,22 @@ sortBy?: string,
 
     /**
      * Get all users that are blocked
-     * @returns ResponsePaginateDto 
+     * @returns ResponsePaginateDto
      * @throws ApiError
      */
     public likeControllerGetBlocked({
-id,
-page,
-limit,
-sort,
-sortBy,
-}: {
-id: string,
-page?: number,
-limit?: number,
-sort?: number,
-sortBy?: string,
-}): CancelablePromise<ResponsePaginateDto> {
+        id,
+        page,
+        limit,
+        sort,
+        sortBy,
+    }: {
+        id: string,
+        page?: number,
+        limit?: number,
+        sort?: number,
+        sortBy?: string,
+    }): CancelablePromise<ResponsePaginateDto> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/likes/get-blocked/{id}',
@@ -146,16 +179,16 @@ sortBy?: string,
 
     /**
      * React with a user
-     * @returns string 
+     * @returns string
      * @throws ApiError
      */
     public likeControllerReactWithUser({
-id,
-requestBody,
-}: {
-id: string,
-requestBody: ReactWithUserDto,
-}): CancelablePromise<string> {
+        id,
+        requestBody,
+    }: {
+        id: string,
+        requestBody: ReactWithUserDto,
+    }): CancelablePromise<string> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/likes/react/{id}',

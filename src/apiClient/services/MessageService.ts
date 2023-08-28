@@ -15,16 +15,16 @@ export class MessageService {
 
     /**
      * Send message
-     * @returns Message 
+     * @returns Message
      * @throws ApiError
      */
     public messageControllerSendMessage({
-likeId,
-requestBody,
-}: {
-likeId: string,
-requestBody: MessageDto,
-}): CancelablePromise<Message> {
+        likeId,
+        requestBody,
+    }: {
+        likeId: string,
+        requestBody: MessageDto,
+    }): CancelablePromise<Message> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/message/send-message/{likeId}',
@@ -38,22 +38,22 @@ requestBody: MessageDto,
 
     /**
      * Get messages between users
-     * @returns ResponsePaginateDto 
+     * @returns ResponsePaginateDto
      * @throws ApiError
      */
     public messageControllerGetConversation({
-likeId,
-page,
-limit,
-sort,
-sortBy,
-}: {
-likeId: string,
-page?: number,
-limit?: number,
-sort?: number,
-sortBy?: string,
-}): CancelablePromise<ResponsePaginateDto> {
+        likeId,
+        page,
+        limit,
+        sort,
+        sortBy,
+    }: {
+        likeId: string,
+        page?: number,
+        limit?: number,
+        sort?: number,
+        sortBy?: string,
+    }): CancelablePromise<ResponsePaginateDto> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/message/get-conversation/{likeId}',

@@ -11,7 +11,7 @@ export type RootStackParamList = {
   Splash: undefined;
 };
 
-export type AuthStackScreenProps<T extends keyof RootStackParamList> =
+export type RootStackScreenProps<T extends keyof RootStackParamList> =
   StackScreenProps<RootStackParamList, T>;
 
 const RootStack = createStackNavigator<RootStackParamList>();

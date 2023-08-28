@@ -4,26 +4,32 @@ import {
   PressableStateCallbackType,
   StyleSheet,
   TextStyle,
-  ViewStyle,
+  ViewStyle
 } from 'react-native';
 import {themeColors} from '../../themes/colors';
 
-export enum Variant {
-  OUTLINED = 'outlined',
-  FILLED = 'filled',
-  TEXT = 'text',
-}
+const VariantOptions = {
+  outlined: 'outlined',
+  filled: 'filled',
+  text: 'text'
+};
 
-export enum Color {
-  PRIMARY = 'primary',
-  SECONDARY = 'secondary',
-  WARNING = 'warning',
-}
+export type Variant = keyof typeof VariantOptions;
 
-export enum Size {
-  SMALL = 'small',
-  MEDIUM = 'medium',
-}
+const ColorOptions = {
+  primary: 'primary',
+  secondary: 'secondary',
+  warning: 'warning'
+};
+
+export type Color = keyof typeof ColorOptions;
+
+const SizeOptions = {
+  small: 'small',
+  medium: 'medium'
+};
+
+export type Size = keyof typeof SizeOptions;
 
 const variants = (color: Color): {[key in Variant]: ComponentStyles} => {
   return {
@@ -31,28 +37,28 @@ const variants = (color: Color): {[key in Variant]: ComponentStyles} => {
       pressableStyle: {
         borderWidth: 1,
         backgroundColor: undefined,
-        borderColor: colors[color].backgroundColor,
+        borderColor: colors[color].backgroundColor
       },
       textStyle: {
-        color: colors[color].backgroundColor,
-      },
+        color: colors[color].backgroundColor
+      }
     },
     filled: {
       pressableStyle: {
-        backgroundColor: colors[color].backgroundColor,
+        backgroundColor: colors[color].backgroundColor
       },
       textStyle: {
-        color: colors[color].textColor,
-      },
+        color: colors[color].textColor
+      }
     },
     text: {
       pressableStyle: {
-        backgroundColor: undefined,
+        backgroundColor: undefined
       },
       textStyle: {
-        color: colors[color].backgroundColor,
-      },
-    },
+        color: colors[color].backgroundColor
+      }
+    }
   };
 };
 
@@ -64,26 +70,26 @@ type ComponentStyles = {
 const colors: {[key in Color]: {textColor: string; backgroundColor: string}} = {
   primary: {
     backgroundColor: themeColors.primaryColor,
-    textColor: themeColors.primaryTextColor,
+    textColor: themeColors.primaryTextColor
   },
   secondary: {
     backgroundColor: themeColors.secondaryColor,
-    textColor: themeColors.primaryTextColor,
+    textColor: themeColors.primaryTextColor
   },
   warning: {
     backgroundColor: themeColors.warningColor,
-    textColor: themeColors.primaryTextColor,
-  },
+    textColor: themeColors.primaryTextColor
+  }
 };
 
 const sizes: {[key in Size]: ViewStyle | TextStyle | ImageStyle} = {
   small: {padding: 4},
-  medium: {padding: 8},
+  medium: {padding: 8}
 };
 
 export type ButtonStyleProps = {
   variant: Variant;
-  color?: Color;
+  color: Color;
   size: Size;
   width: DimensionValue;
 };
@@ -98,10 +104,10 @@ export const styles =
         alignItems: 'center',
         justifyContent: 'center',
         opacity: state?.pressed ? 0.7 : 1,
-        ...variants(color ?? Color.PRIMARY)[variant].pressableStyle,
-        ...sizes[size],
+        ...variants(color)[variant].pressableStyle,
+        ...sizes[size]
       },
       loginText: {
-        ...variants(color ?? Color.PRIMARY)[variant].textStyle,
-      },
+        ...variants(color)[variant].textStyle
+      }
     });

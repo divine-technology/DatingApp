@@ -20,14 +20,14 @@ export class AuthService {
 
     /**
      * Login user
-     * @returns AuthResponseDto 
+     * @returns AuthResponseDto
      * @throws ApiError
      */
     public authControllerLoginUser({
-requestBody,
-}: {
-requestBody: LoginUserDto,
-}): CancelablePromise<AuthResponseDto> {
+        requestBody,
+    }: {
+        requestBody: LoginUserDto,
+    }): CancelablePromise<AuthResponseDto> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/auth/login',
@@ -38,7 +38,7 @@ requestBody: LoginUserDto,
 
     /**
      * Get me
-     * @returns AuthUser 
+     * @returns AuthUser
      * @throws ApiError
      */
     public authControllerGetMe(): CancelablePromise<AuthUser> {
@@ -50,14 +50,14 @@ requestBody: LoginUserDto,
 
     /**
      * Create user
-     * @returns AuthResponseDto 
+     * @returns AuthResponseDto
      * @throws ApiError
      */
     public authControllerCreateUser({
-requestBody,
-}: {
-requestBody: CreateUserDto,
-}): CancelablePromise<AuthResponseDto> {
+        requestBody,
+    }: {
+        requestBody: CreateUserDto,
+    }): CancelablePromise<AuthResponseDto> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/auth',
@@ -68,14 +68,14 @@ requestBody: CreateUserDto,
 
     /**
      * Forgot password
-     * @returns ForgotPasswordResponseDto 
+     * @returns ForgotPasswordResponseDto
      * @throws ApiError
      */
     public authControllerForgotPassword({
-requestBody,
-}: {
-requestBody: ForgotPasswordDto,
-}): CancelablePromise<ForgotPasswordResponseDto> {
+        requestBody,
+    }: {
+        requestBody: ForgotPasswordDto,
+    }): CancelablePromise<ForgotPasswordResponseDto> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/auth/forgot-password',
@@ -86,14 +86,14 @@ requestBody: ForgotPasswordDto,
 
     /**
      * Change forgot password
-     * @returns string 
+     * @returns string
      * @throws ApiError
      */
     public authControllerChangeForgotPassword({
-requestBody,
-}: {
-requestBody: ChangeForgotPasswordDto,
-}): CancelablePromise<string> {
+        requestBody,
+    }: {
+        requestBody: ChangeForgotPasswordDto,
+    }): CancelablePromise<string> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/auth/change-forgot-password',
@@ -104,14 +104,14 @@ requestBody: ChangeForgotPasswordDto,
 
     /**
      * Change password
-     * @returns string 
+     * @returns string
      * @throws ApiError
      */
     public authControllerUpdatePassword({
-requestBody,
-}: {
-requestBody: ChangePasswordDto,
-}): CancelablePromise<string> {
+        requestBody,
+    }: {
+        requestBody: ChangePasswordDto,
+    }): CancelablePromise<string> {
         return this.httpRequest.request({
             method: 'PUT',
             url: '/auth/change-password',

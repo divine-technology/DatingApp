@@ -5,12 +5,12 @@
 export const $LoginUserDto = {
     properties: {
         email: {
-    type: 'string',
-    isRequired: true,
-},
+            type: 'string',
+            isRequired: true,
+        },
         password: {
-    type: 'string',
-    isRequired: true,
-},
+            type: 'string',
+            isRequired: true,
+        },
     },
 } as const;

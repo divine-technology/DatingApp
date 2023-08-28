@@ -1,75 +1,64 @@
 import React from 'react';
 import {Image, Pressable, Text, View} from 'react-native';
 import {AuthUser} from '../../apiClient';
+import {styles} from './UserCard.styles';
+import {ClickableSwipeCard} from '../CardSwiper/CardSwiper';
 
 export type UserCardProps = {
   user: AuthUser;
-  like: () => void;
-  dislike: () => void;
-  profile: () => void;
+  like?: () => void;
+  dislike?: () => void;
+  profile?: () => void;
 };
 
 export const UserCard: React.FC<UserCardProps> = ({
   user,
   like,
   dislike,
-  profile,
+  profile
 }) => {
   return (
-    <View
-      style={{
-        width: '100%',
-        height: '100%',
-        borderRadius: 24,
-        overflow: 'hidden',
-      }}>
+    <View style={styles.wrapper}>
       <Image
-        style={{width: '100%', height: '100%'}}
+        style={styles.image}
         source={{
-          uri: 'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg',
+          uri: 'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg'
         }}
       />
-      <View
-        style={{
-          position: 'absolute',
-          bottom: 0,
-          left: 0,
-          right: 0,
-          top: 0,
-        }}>
-        <View
-          style={{
-            flex: 1,
-            flexDirection: 'row',
-            gap: 64,
-          }}>
-          <Pressable
-            onPress={dislike}
-            style={{flex: 1, backgroundColor: 'red'}}
-          />
-          <Pressable
-            onPress={like}
-            style={{flex: 1, backgroundColor: 'blue'}}
-          />
+      <View style={styles.absWrapper}>
+        <View style={styles.likeDislikeWrapper}>
+          <Pressable onPress={dislike} style={styles.likeDislike} />
+          <Pressable onPress={like} style={styles.likeDislike} />
         </View>
-        <Pressable
-          onPress={profile}
-          style={{
-            padding: 8,
-            backgroundColor: '#FFFFFF80',
-          }}>
-          <Text style={{fontSize: 30, color: 'black'}}>
+        <Pressable onPress={profile} style={styles.infoWrapper}>
+          <Text style={styles.info}>
             {`${user.firstName} ${user.lastName}, ${user.age}`}
           </Text>
-          <Text
-            style={{
-              fontSize: 30,
-              color: 'black',
-            }}>
-            {user.bio}
-          </Text>
+          <Text style={styles.bio}>{user.bio}</Text>
         </Pressable>
       </View>
     </View>
+  );
+};
+
+export type ClickableSwipableUserCardProps = UserCardProps & ClickableSwipeCard;
+
+export const ClickableSwipableUserCard: React.FC<
+  ClickableSwipableUserCardProps
+> = ({like, dislike, handleSwipeClick, ...rest}) => {
+  const handleManualLike = like
+    ? () => {
+        handleSwipeClick ? handleSwipeClick('right') : like();
+      }
+    : undefined;
+
+  const handleManualDislike = dislike
+    ? () => {
+        handleSwipeClick ? handleSwipeClick('left') : dislike();
+      }
+    : undefined;
+
+  return (
+    <UserCard {...rest} like={handleManualLike} dislike={handleManualDislike} />
   );
 };

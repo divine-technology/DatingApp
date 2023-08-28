@@ -60,7 +60,7 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({children}) => {
 
   const {refetch: getMe} = useQuery<unknown, unknown, AuthUser>(
     'getMe',
-    _data => {
+    () => {
       return openApi.instance.auth.authControllerGetMe();
     },
     {

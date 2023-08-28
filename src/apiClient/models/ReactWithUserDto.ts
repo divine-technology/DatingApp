@@ -8,3 +8,4 @@ export type ReactWithUserDto = {
     status: string;
     likedPhotoUrl: string;
 };
+

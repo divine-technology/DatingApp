@@ -12,9 +12,9 @@ export const Button: React.FC<ButtonProps> = ({
   text,
   isLoading,
   width = '100%',
-  variant = Variant.FILLED,
-  color = Color.PRIMARY,
-  size = Size.MEDIUM,
+  variant = 'filled',
+  color = 'primary',
+  size = 'medium',
   ...rest
 }) => {
   const style = styles({variant, color, size, width});

@@ -7,3 +7,4 @@ export type Location = {
     type: string;
     coordinates: Array<number>;
 };
+

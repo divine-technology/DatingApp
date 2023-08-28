@@ -19,7 +19,6 @@ export type DropdownProps<T = DropdownDefaultDataProps> =
   };
 
 export const Dropdown: React.FC<DropdownProps> = ({error, ...rest}) => {
-  console.log('STA DODJE OVDJE: ', {error});
   return (
     <View style={{width: '100%'}}>
       <LibDropdown

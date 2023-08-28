@@ -9,7 +9,6 @@ import {ControlledInput} from '../../components/input/Input';
 import {useForm} from 'react-hook-form';
 import {UpdateUserDto} from '../../apiClient';
 import {Button} from '../../components/Button/Button';
-import {Variant} from '../../components/Button/Button.styles';
 import {useMutation} from 'react-query';
 import {openApi} from '../../services/openApi';
 import {SettingsStackScreenProps} from '../../navigation/SettingsRoutes';
@@ -17,19 +16,19 @@ import * as yup from 'yup';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {
   ControlledDropdown,
-  DropdownDefaultDataProps,
+  DropdownDefaultDataProps
 } from '../../components/Dropdown/Dropdown';
 
 const preferenceData = [
   {label: 'Male', value: 'male'},
   {label: 'Female', value: 'female'},
-  {label: 'Both', value: 'both'},
+  {label: 'Both', value: 'both'}
 ];
 
 const genderData = [
   {label: 'Male', value: 'male'},
   {label: 'Female', value: 'female'},
-  {label: 'Other', value: 'other'},
+  {label: 'Other', value: 'other'}
 ];
 
 export type EditUserParams = undefined;
@@ -70,15 +69,15 @@ const validationSchema = yup.object<UpdateUserDto>({
         return true;
       }
       return false;
-    }),
+    })
 });
 
 export const EditUserScreen: React.FC<SettingsStackScreenProps<'EditUser'>> = ({
-  navigation,
+  navigation
 }) => {
   const {getMe, user} = useContext(AuthContext);
 
-  const {control, handleSubmit, watch} = useForm<
+  const {control, handleSubmit} = useForm<
     UpdateUserDto & {preference?: DropdownDefaultDataProps} & {
       gender?: DropdownDefaultDataProps;
     }
@@ -86,42 +85,37 @@ export const EditUserScreen: React.FC<SettingsStackScreenProps<'EditUser'>> = ({
     defaultValues: {
       ...user,
       preference: {value: user?.preference, label: user?.preference},
-      gender: {value: user?.gender, label: user?.gender},
+      gender: {value: user?.gender, label: user?.gender}
     },
-    resolver: yupResolver(validationSchema),
+    resolver: yupResolver(validationSchema)
   });
-
-  const age = watch('age');
-  console.log({user, age});
 
   const {mutate: updateProfile} = useMutation<unknown, unknown, UpdateUserDto>(
     'updateProfile',
     data =>
       openApi.instance.user.usersControllerUpdateUser({
         id: `${user?._id}`,
-        requestBody: data,
+        requestBody: data
       }),
     {
       onSuccess: _data => {
-        console.log('SOMETHING HAPPENED');
         getMe();
         navigation.navigate('Settings');
       },
-      onError: () => {},
-    },
+      onError: () => {}
+    }
   );
 
   const onSubmit = (
     data: UpdateUserDto & {preference?: DropdownDefaultDataProps} & {
       gender?: DropdownDefaultDataProps;
-    },
+    }
   ) => {
     const updateUserData = {
       ...data,
       preference: data.preference?.value ?? data.preference,
-      gender: data.gender?.value ?? data.gender,
+      gender: data.gender?.value ?? data.gender
     };
-    console.log('My data: ', {data});
     updateProfile(updateUserData);
   };
 
@@ -132,7 +126,7 @@ export const EditUserScreen: React.FC<SettingsStackScreenProps<'EditUser'>> = ({
         contentContainerStyle={{
           justifyContent: 'center',
           alignItems: 'center',
-          gap: 4,
+          gap: 4
         }}
         showsVerticalScrollIndicator={false}>
         <Text style={styles.userName}>Edit Profile</Text>
@@ -205,7 +199,7 @@ export const EditUserScreen: React.FC<SettingsStackScreenProps<'EditUser'>> = ({
       <View style={{paddingHorizontal: 16}}>
         <Button
           text={'Update profile'}
-          variant={Variant.OUTLINED}
+          variant={'outlined'}
           onPress={handleSubmit(onSubmit, error => console.log({error}))}
         />
       </View>

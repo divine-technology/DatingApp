@@ -1,12 +1,12 @@
 import React from 'react';
 import {Text, View} from 'react-native';
-import {AuthStackScreenProps} from '../../Navigation/AuthRoutes';
 import {styles} from './ForgotPassword.styles';
 import {ControlledInput} from '../../components/input/Input';
 import {useForm} from 'react-hook-form';
 import {Button} from '../../components/Button/Button';
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import {AuthStackScreenProps} from '../../navigation/AuthRoutes';
 
 export type ForgotPasswordRouteParams = {};
 
@@ -14,14 +14,14 @@ const validationSchema = yup.object({
   email: yup
     .string()
     .email('Use correct email format!')
-    .required('This field is required!'),
+    .required('This field is required!')
 });
 
 export const ForgotPasswordScreen: React.FC<
   AuthStackScreenProps<'ForgotPassword'>
 > = () => {
   const {control, handleSubmit} = useForm({
-    resolver: yupResolver(validationSchema),
+    resolver: yupResolver(validationSchema)
   });
 
   const onSubmit = (data: any) => {

@@ -5,16 +5,16 @@
 export const $ReactWithUserDto = {
     properties: {
         likedUserId: {
-    type: 'string',
-    isRequired: true,
-},
+            type: 'string',
+            isRequired: true,
+        },
         status: {
-    type: 'string',
-    isRequired: true,
-},
+            type: 'string',
+            isRequired: true,
+        },
         likedPhotoUrl: {
-    type: 'string',
-    isRequired: true,
-},
+            type: 'string',
+            isRequired: true,
+        },
     },
 } as const;

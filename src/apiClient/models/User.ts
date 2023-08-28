@@ -21,3 +21,4 @@ export type User = {
     bio: string;
     hobbies: Array<string>;
 };
+

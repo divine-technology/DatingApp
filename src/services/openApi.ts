@@ -12,7 +12,6 @@ class OpenApiClient {
 
   private setToken() {
     TOKEN.get((error, result) => {
-      console.log({APIURL: Config.API_URL});
       this.instance = new ApiClient({
         BASE: Config.API_URL ?? 'http://localhost:3000',
         TOKEN: result === null ? undefined : result,
