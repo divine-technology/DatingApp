@@ -315,6 +315,12 @@ const CardSwiperCore = <T extends ObjectWithId>({
     lastSwipedDirections: []
   });
 
+  useEffect(() => {
+    setCards(oldVal => {
+      return {...oldVal, cardsToShow: data};
+    });
+  }, [data]);
+
   useImperativeHandle(forwardedRef, () => ({
     onBack: () => {
       setCards(oldVal => {
