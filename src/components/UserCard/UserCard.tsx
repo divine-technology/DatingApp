@@ -3,6 +3,7 @@ import {Image, Pressable, Text, View} from 'react-native';
 import {AuthUser} from '../../apiClient';
 import {styles} from './UserCard.styles';
 import {ClickableSwipeCard} from '../CardSwiper/CardSwiper';
+import LinearGradient from 'react-native-linear-gradient';
 
 export type UserCardProps = {
   user: AuthUser;
@@ -17,6 +18,7 @@ export const UserCard: React.FC<UserCardProps> = ({
   dislike,
   profile
 }) => {
+  console.log('USER BIO: ', user.bio);
   return (
     <View style={styles.wrapper}>
       <Image
@@ -30,12 +32,20 @@ export const UserCard: React.FC<UserCardProps> = ({
           <Pressable onPress={dislike} style={styles.likeDislike} />
           <Pressable onPress={like} style={styles.likeDislike} />
         </View>
-        <Pressable onPress={profile} style={styles.infoWrapper}>
-          <Text style={styles.info}>
-            {`${user.firstName} ${user.lastName}, ${user.age}`}
-          </Text>
-          <Text style={styles.bio}>{user.bio}</Text>
-        </Pressable>
+        <LinearGradient
+          colors={['transparent', '#ffffff90']}
+          locations={[0, 1]}
+          style={{height: 150}}>
+          <Pressable onPress={profile} style={styles.infoWrapper}>
+            <Text style={styles.info}>
+              {`${user.firstName} ${user.lastName}, ${user.age}`}
+            </Text>
+            <Text style={styles.bio}>
+              {user.bio}
+              aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+            </Text>
+          </Pressable>
+        </LinearGradient>
       </View>
     </View>
   );

@@ -2,7 +2,7 @@ import {
   Controller,
   FieldError,
   FieldValues,
-  UseControllerProps,
+  UseControllerProps
 } from 'react-hook-form';
 import {Text, TextInput, TextInputProps, View} from 'react-native';
 import React from 'react';
@@ -14,7 +14,7 @@ type ControlledInputProps<T extends FieldValues> = UseControllerProps<T> &
 
 const InputType = {
   text: 'text',
-  number: 'number',
+  number: 'number'
 };
 
 type InputProps = TextInputProps & {
@@ -44,12 +44,12 @@ export const Input: React.FC<InputProps> = ({
       onChangeText: text => {
         onChangeText && onChangeText(isNaN(Number(text)) ? null : Number(text));
       },
-      value: value?.toString(),
+      value: value?.toString()
     },
     text: {
       onChangeText: onChangeText,
-      value: value,
-    },
+      value: value
+    }
   };
 
   return (
@@ -61,7 +61,7 @@ export const Input: React.FC<InputProps> = ({
               height: 28,
               width: 28,
               marginVertical: 8,
-              alignSelf: 'flex-start',
+              alignSelf: 'flex-start'
             }}>
             {startAdornment}
           </View>
@@ -91,7 +91,7 @@ export const ControlledInput = <T extends FieldValues>({
       rules={{}}
       render={({
         field: {ref: _ref, onChange, ...restField},
-        fieldState: {error},
+        fieldState: {error}
       }) => (
         <Input onChangeText={onChange} {...restField} {...rest} error={error} />
       )}

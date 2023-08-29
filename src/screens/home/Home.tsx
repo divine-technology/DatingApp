@@ -13,6 +13,7 @@ import {
   SwipeDirection
 } from '../../components/CardSwiper/CardSwiper';
 import {mockData} from './mockData';
+import LinearGradient from 'react-native-linear-gradient';
 
 export type HomeRouteParams = undefined;
 
@@ -90,33 +91,38 @@ export const HomeScreen: React.FC<TopTabScreenProps<'Home'>> = ({
   const cardSwiperRef = useRef<CardSwiperRef>(null);
 
   return (
-    <View style={{flexDirection: 'column', flex: 1, padding: 24, gap: 12}}>
-      {test() ? (
-        <View style={{flex: 1}}>
-          {user && (
-            <CardSwiper
-              ref={cardSwiperRef}
-              data={cardsData}
-              card={card}
-              onSwipe={onSwipe}
-              swipeableDirection={'horizontal'}
-              infinite
+    <LinearGradient
+      colors={['white', '#b13ef760']}
+      locations={[0.1, 1]}
+      style={{flex: 1}}>
+      <View style={{flexDirection: 'column', flex: 1, padding: 24, gap: 12}}>
+        {test() ? (
+          <View style={{flex: 1}}>
+            {user && (
+              <CardSwiper
+                ref={cardSwiperRef}
+                data={cardsData}
+                card={card}
+                onSwipe={onSwipe}
+                swipeableDirection={'horizontal'}
+                infinite
+              />
+            )}
+          </View>
+        ) : (
+          <>
+            <Text style={{color: 'black', fontSize: 30}}>
+              Profile not set up. You have to go to settings!
+            </Text>
+            <Button
+              text="Finish profile"
+              variant={'text'}
+              onPress={() => navigation.navigate('SettingsStack')}
             />
-          )}
-        </View>
-      ) : (
-        <>
-          <Text style={{color: 'black', fontSize: 30}}>
-            Profile not set up. You have to go to settings!
-          </Text>
-          <Button
-            text="Finish profile"
-            variant={'text'}
-            onPress={() => navigation.navigate('SettingsStack')}
-          />
-        </>
-      )}
-      <Button text="Back" onPress={cardSwiperRef.current?.onBack} />
-    </View>
+          </>
+        )}
+        <Button text="Back" onPress={cardSwiperRef.current?.onBack} />
+      </View>
+    </LinearGradient>
   );
 };

@@ -4,7 +4,7 @@ import {
   AuthResponseDto,
   AuthUser,
   CreateUserDto,
-  LoginUserDto,
+  LoginUserDto
 } from '../../apiClient';
 import {openApi} from '../../services/openApi';
 import {TOKEN} from '../../services/token';
@@ -23,7 +23,7 @@ export const AuthContext = createContext<AuthContextProps>({
   signIn: () => {},
   signUp: () => {},
   signOut: () => {},
-  getMe: () => {},
+  getMe: () => {}
 });
 
 export const AuthProvider: React.FC<PropsWithChildren> = ({children}) => {
@@ -32,30 +32,32 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({children}) => {
     'login',
     data =>
       openApi.instance.auth.authControllerLoginUser({
-        requestBody: data,
+        requestBody: data
       }),
     {
       onSuccess: data => {
-        TOKEN.set((data as AuthResponseDto).token);
-        setUser((data as AuthResponseDto).user);
+        TOKEN.set((data as AuthResponseDto).token, () =>
+          openApi.init(() => setUser((data as AuthResponseDto).user))
+        );
       },
-      onError: () => {},
-    },
+      onError: () => {}
+    }
   );
 
   const {mutate: signUp} = useMutation<unknown, unknown, CreateUserDto>(
     'signup',
     data =>
       openApi.instance.auth.authControllerCreateUser({
-        requestBody: data,
+        requestBody: data
       }),
     {
       onSuccess: data => {
-        TOKEN.set((data as AuthResponseDto).token);
-        setUser((data as AuthResponseDto).user);
+        TOKEN.set((data as AuthResponseDto).token, () =>
+          openApi.init(() => setUser((data as AuthResponseDto).user))
+        );
       },
-      onError: () => {},
-    },
+      onError: () => {}
+    }
   );
 
   const {refetch: getMe} = useQuery<unknown, unknown, AuthUser>(
@@ -65,8 +67,8 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({children}) => {
     },
     {
       onSuccess: data => setUser(data),
-      onError: () => {},
-    },
+      onError: () => {}
+    }
   );
 
   const signOut = () => {

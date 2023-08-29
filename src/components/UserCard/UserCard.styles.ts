@@ -18,6 +18,14 @@ export const styles = StyleSheet.create({
     right: 0,
     top: 0
   },
+  absWrapper2: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    top: 0,
+    height: 200
+  },
   likeDislikeWrapper: {
     flex: 1,
     flexDirection: 'row',
@@ -27,9 +35,9 @@ export const styles = StyleSheet.create({
     flex: 1
   },
   infoWrapper: {
-    padding: 8,
-    backgroundColor: '#FFFFFF80',
-    minHeight: 120
+    padding: 12,
+    height: '100%'
+    // backgroundColor: '#FFFFFF80',
   },
   info: {
     fontSize: 24,

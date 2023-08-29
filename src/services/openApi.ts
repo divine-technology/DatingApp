@@ -6,21 +6,22 @@ class OpenApiClient {
   instance: ApiClient;
   constructor() {
     this.instance = new ApiClient({
-      BASE: Config.API_URL ?? 'http://localhost:3000',
+      BASE: Config.API_URL ?? 'http://localhost:3000'
     });
   }
 
-  private setToken() {
+  private setToken(callback?: () => void) {
     TOKEN.get((error, result) => {
       this.instance = new ApiClient({
         BASE: Config.API_URL ?? 'http://localhost:3000',
-        TOKEN: result === null ? undefined : result,
+        TOKEN: result === null ? undefined : result
       });
+      callback && callback();
     });
   }
 
-  public init() {
-    this.setToken();
+  public init(callback?: () => void) {
+    this.setToken(callback);
   }
 }
 
