@@ -4,8 +4,9 @@
 /* eslint-disable */
 
 import type { Location } from './Location';
+import type { ObjectId } from './ObjectId';
 
-export type User = {
+export type UserWithId = {
     firstName: string;
     lastName: string;
     email: string;
@@ -20,4 +21,5 @@ export type User = {
     age: number;
     bio: string;
     hobbies: Array<string>;
+    _id: ObjectId;
 };

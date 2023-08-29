@@ -6,4 +6,3 @@
 export type ForgotPasswordResponseDto = {
     forgotPasswordToken: string;
 };
-

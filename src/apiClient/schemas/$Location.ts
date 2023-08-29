@@ -5,15 +5,15 @@
 export const $Location = {
     properties: {
         type: {
-            type: 'string',
-            isRequired: true,
-        },
+    type: 'string',
+    isRequired: true,
+},
         coordinates: {
-            type: 'array',
-            contains: {
-                type: 'number',
-            },
-            isRequired: true,
-        },
+    type: 'array',
+    contains: {
+    type: 'number',
+},
+    isRequired: true,
+},
     },
 } as const;

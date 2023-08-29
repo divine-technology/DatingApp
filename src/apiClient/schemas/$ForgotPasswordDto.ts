@@ -5,8 +5,8 @@
 export const $ForgotPasswordDto = {
     properties: {
         email: {
-            type: 'string',
-            isRequired: true,
-        },
+    type: 'string',
+    isRequired: true,
+},
     },
 } as const;

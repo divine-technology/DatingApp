@@ -25,6 +25,8 @@ const ColorOptions = {
 export type Color = keyof typeof ColorOptions;
 
 const SizeOptions = {
+  xxs: 'xxs',
+  xs: 'xs',
   small: 'small',
   medium: 'medium'
 };
@@ -83,6 +85,8 @@ const colors: {[key in Color]: {textColor: string; backgroundColor: string}} = {
 };
 
 const sizes: {[key in Size]: ViewStyle | TextStyle | ImageStyle} = {
+  xxs: {padding: 0},
+  xs: {padding: 2},
   small: {padding: 4},
   medium: {padding: 8}
 };

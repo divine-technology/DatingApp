@@ -9,4 +9,3 @@ export type AuthResponseDto = {
     user: AuthUser;
     token: string;
 };
-

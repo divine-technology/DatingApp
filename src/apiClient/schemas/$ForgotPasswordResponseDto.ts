@@ -5,8 +5,8 @@
 export const $ForgotPasswordResponseDto = {
     properties: {
         forgotPasswordToken: {
-            type: 'string',
-            isRequired: true,
-        },
+    type: 'string',
+    isRequired: true,
+},
     },
 } as const;

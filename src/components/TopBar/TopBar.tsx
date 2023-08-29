@@ -8,7 +8,11 @@ export const TopBar: React.FC<TopTabProps> = ({navigation}) => {
   const style = styles();
   return (
     <SafeAreaView style={style.headerContainer}>
-      <Icons.ChatBubbleOvalLeftEllipsisIcon size={50} color="orange" />
+      <Icons.ChatBubbleOvalLeftEllipsisIcon
+        size={50}
+        color="orange"
+        onPress={() => navigation.navigate('Messages')}
+      />
       <Icons.HomeIcon
         size={50}
         color="orange"

@@ -9,4 +9,3 @@ export type UserRadiusDto = {
     location: Location;
     radius: number;
 };
-

@@ -10,7 +10,7 @@ export class DefaultService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
 
     /**
-     * @returns any
+     * @returns any 
      * @throws ApiError
      */
     public appControllerGetHello(): CancelablePromise<any> {
@@ -21,7 +21,7 @@ export class DefaultService {
     }
 
     /**
-     * @returns any
+     * @returns any 
      * @throws ApiError
      */
     public appControllerPostHello(): CancelablePromise<any> {

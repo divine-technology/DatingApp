@@ -5,16 +5,16 @@
 export const $ChangeForgotPasswordDto = {
     properties: {
         email: {
-            type: 'string',
-            isRequired: true,
-        },
+    type: 'string',
+    isRequired: true,
+},
         forgotPasswordToken: {
-            type: 'string',
-            isRequired: true,
-        },
+    type: 'string',
+    isRequired: true,
+},
         newPassword: {
-            type: 'string',
-            isRequired: true,
-        },
+    type: 'string',
+    isRequired: true,
+},
     },
 } as const;

@@ -8,4 +8,3 @@ export type MessageDto = {
     to: string;
     message: string;
 };
-

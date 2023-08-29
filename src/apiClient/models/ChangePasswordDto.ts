@@ -9,4 +9,3 @@ export type ChangePasswordDto = {
     newPassword: string;
     confirmNewPassword: string;
 };
-

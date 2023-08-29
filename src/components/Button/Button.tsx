@@ -1,4 +1,10 @@
-import {DimensionValue, Pressable, PressableProps, Text} from 'react-native';
+import {
+  DimensionValue,
+  Pressable,
+  PressableProps,
+  Text,
+  TextStyle
+} from 'react-native';
 import React from 'react';
 import {ButtonStyleProps, Color, Size, Variant, styles} from './Button.styles';
 
@@ -6,11 +12,13 @@ type ButtonProps = PressableProps & {
   text: string;
   isLoading?: boolean;
   width?: DimensionValue;
+  textStyle?: TextStyle;
 } & Partial<ButtonStyleProps>;
 
 export const Button: React.FC<ButtonProps> = ({
   text,
   isLoading,
+  textStyle,
   width = '100%',
   variant = 'filled',
   color = 'primary',
@@ -23,7 +31,7 @@ export const Button: React.FC<ButtonProps> = ({
       style={state => style(state).loginBtn}
       disabled={isLoading}
       {...rest}>
-      <Text style={style().loginText}>{text}</Text>
+      <Text style={[style().loginText, textStyle]}>{text}</Text>
       {/* {isLoading && <Loader />} */}
     </Pressable>
   );

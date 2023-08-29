@@ -5,12 +5,12 @@
 export const $AuthResponseDto = {
     properties: {
         user: {
-            type: 'AuthUser',
-            isRequired: true,
-        },
+    type: 'AuthUser',
+    isRequired: true,
+},
         token: {
-            type: 'string',
-            isRequired: true,
-        },
+    type: 'string',
+    isRequired: true,
+},
     },
 } as const;

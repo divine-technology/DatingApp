@@ -44,4 +44,3 @@ export class ApiClient {
         this.user = new UserService(this.request);
     }
 }
-

@@ -8,4 +8,3 @@ export type ResponsePaginateDto = {
     page: number;
     data: Array<string>;
 };
-

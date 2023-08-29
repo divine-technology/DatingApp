@@ -7,4 +7,3 @@ export type Like = {
     users: Array<string>;
     status: string;
 };
-
