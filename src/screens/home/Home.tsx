@@ -14,6 +14,7 @@ import {
 } from '../../components/CardSwiper/CardSwiper';
 import {mockData} from './mockData';
 import LinearGradient from 'react-native-linear-gradient';
+import {ScreenView} from '../../components/ScreenWrapper/ScreenView';
 
 export type HomeRouteParams = undefined;
 
@@ -37,7 +38,6 @@ export const HomeScreen: React.FC<TopTabScreenProps<'Home'>> = ({
     },
     {
       onSuccess: data => {
-        console.log('FETCHED USERS DATA: ', data);
         setCardsData(
           (data as unknown as ResponsePaginateDto).data as unknown as AuthUser[]
         );
@@ -91,10 +91,7 @@ export const HomeScreen: React.FC<TopTabScreenProps<'Home'>> = ({
   const cardSwiperRef = useRef<CardSwiperRef>(null);
 
   return (
-    <LinearGradient
-      colors={['white', '#b13ef760']}
-      locations={[0.1, 1]}
-      style={{flex: 1}}>
+    <ScreenView>
       <View style={{flexDirection: 'column', flex: 1, padding: 24, gap: 12}}>
         {test() ? (
           <View style={{flex: 1}}>
@@ -123,6 +120,6 @@ export const HomeScreen: React.FC<TopTabScreenProps<'Home'>> = ({
         )}
         <Button text="Back" onPress={cardSwiperRef.current?.onBack} />
       </View>
-    </LinearGradient>
+    </ScreenView>
   );
 };

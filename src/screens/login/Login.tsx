@@ -10,6 +10,7 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import * as Icons from 'react-native-heroicons/solid';
 import {AuthStackScreenProps} from '../../navigation/AuthRoutes';
+import {ScreenView} from '../../components/ScreenWrapper/ScreenView';
 
 export type LoginRouteParams = {};
 const validationSchema = yup.object({
@@ -45,48 +46,50 @@ export const LoginScreen: React.FC<AuthStackScreenProps<'Login'>> = ({
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.logo}>Dating App</Text>
-      <Text style={styles.loginHeaderText}>Login</Text>
-      <View style={{width: '100%', gap: 8, marginBottom: 16}}>
-        <ControlledInput
-          control={control}
-          name={'email'}
-          placeholder={'Email...'}
-          keyboardType={'email-address'}
-          startAdornment={<Icons.EnvelopeIcon size={30} color="white" />}
-          autoCapitalize={'none'}
-          returnKeyType={'next'}
-        />
-        <ControlledInput
-          control={control}
-          name={'password'}
-          placeholder={'Password...'}
-          returnKeyType={'done'}
-          startAdornment={<Icons.LockClosedIcon size={30} color="white" />}
-          secureTextEntry
-          autoCapitalize={'none'}
-          onEndEditing={handleSubmit(onSubmit)}
-        />
+    <ScreenView>
+      <View style={styles.container}>
+        <Text style={styles.logo}>Dating App</Text>
+        <Text style={styles.loginHeaderText}>Login</Text>
+        <View style={{width: '100%', gap: 8, marginBottom: 16}}>
+          <ControlledInput
+            control={control}
+            name={'email'}
+            placeholder={'Email...'}
+            keyboardType={'email-address'}
+            startAdornment={<Icons.EnvelopeIcon size={30} color="white" />}
+            autoCapitalize={'none'}
+            returnKeyType={'next'}
+          />
+          <ControlledInput
+            control={control}
+            name={'password'}
+            placeholder={'Password...'}
+            returnKeyType={'done'}
+            startAdornment={<Icons.LockClosedIcon size={30} color="white" />}
+            secureTextEntry
+            autoCapitalize={'none'}
+            onEndEditing={handleSubmit(onSubmit)}
+          />
+        </View>
+        <View style={{width: '100%', gap: 8}}>
+          <Button
+            text={'Login'}
+            onPress={handleSubmit(onSubmit, error => console.log({error}))}
+          />
+          <Button
+            text={'Forgot Password?'}
+            variant={'outlined'}
+            size={'small'}
+            onPress={navigateToForgotPassword}
+          />
+          <Button
+            text={'Sign Up'}
+            size={'small'}
+            variant={'outlined'}
+            onPress={navigateToSignUp}
+          />
+        </View>
       </View>
-      <View style={{width: '100%', gap: 8}}>
-        <Button
-          text={'Login'}
-          onPress={handleSubmit(onSubmit, error => console.log({error}))}
-        />
-        <Button
-          text={'Forgot Password?'}
-          variant={'outlined'}
-          size={'small'}
-          onPress={navigateToForgotPassword}
-        />
-        <Button
-          text={'Sign Up'}
-          size={'small'}
-          variant={'outlined'}
-          onPress={navigateToSignUp}
-        />
-      </View>
-    </View>
+    </ScreenView>
   );
 };

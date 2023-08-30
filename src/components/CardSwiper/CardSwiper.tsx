@@ -131,7 +131,7 @@ const SwipableView: React.FC<
 
   let lastOffset: {x: number; y: number} = {x: 0, y: 0};
 
-  index === 0 && console.log('offset', {lastOffset, startOffset});
+  // index === 0 && console.log('offset', {lastOffset, startOffset});
 
   useEffect(() => {
     // lastOffset = startOffset;

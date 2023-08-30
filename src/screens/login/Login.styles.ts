@@ -4,21 +4,20 @@ export const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 24,
     flex: 1,
-    backgroundColor: '#003f5c',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   logo: {
     fontWeight: 'bold',
     fontSize: 50,
     color: '#fb5b5a',
-    marginBottom: 20,
+    marginBottom: 20
   },
   loginHeaderText: {
     fontWeight: 'bold',
     fontSize: 20,
     color: 'white',
-    marginBottom: 20,
+    marginBottom: 20
   },
   inputView: {
     width: '100%',
@@ -27,14 +26,14 @@ export const styles = StyleSheet.create({
     height: 50,
     marginBottom: 20,
     justifyContent: 'center',
-    padding: 20,
+    padding: 20
   },
   inputText: {
-    height: 50,
+    height: 50
   },
   forgot: {
     color: 'white',
-    fontSize: 11,
+    fontSize: 11
   },
   loginBtn: {
     width: '80%',
@@ -43,9 +42,9 @@ export const styles = StyleSheet.create({
     height: 50,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 10,
+    marginBottom: 10
   },
   loginText: {
-    color: 'white',
-  },
+    color: 'white'
+  }
 });

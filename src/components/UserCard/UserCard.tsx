@@ -18,7 +18,7 @@ export const UserCard: React.FC<UserCardProps> = ({
   dislike,
   profile
 }) => {
-  console.log('USER BIO: ', user.bio);
+  // console.log('USER BIO: ', user.bio);
   return (
     <View style={styles.wrapper}>
       <Image

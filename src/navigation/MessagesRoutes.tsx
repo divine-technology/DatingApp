@@ -2,10 +2,12 @@ import React from 'react';
 import {StackScreenProps, createStackNavigator} from '@react-navigation/stack';
 import {MessagesScreen} from '../screens/messages/Messages';
 import {LikeRequestsScreen} from '../screens/likeRequests/LikeRequests';
+import {ChatScreen, ChatScreenProps} from '../screens/chat/Chat';
 
 export type MessagesStackParamList = {
   LikeRequests: undefined;
   Messages: undefined;
+  Chat: ChatScreenProps;
 };
 
 export type MessagesStackNavigatorProps =
@@ -24,6 +26,7 @@ export const MessagesRoutes: React.FC = () => {
         name="LikeRequests"
         component={LikeRequestsScreen}
       />
+      <MessagesStack.Screen name="Chat" component={ChatScreen} />
     </MessagesStack.Navigator>
   );
 };

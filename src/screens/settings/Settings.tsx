@@ -7,6 +7,7 @@ import {styles} from './Settings.styles';
 import {SettingsStackScreenProps} from '../../navigation/SettingsRoutes';
 import LinearGradient from 'react-native-linear-gradient';
 import * as Icons from 'react-native-heroicons/outline';
+import {ScreenView} from '../../components/ScreenWrapper/ScreenView';
 
 export type SettingsRouteParams = undefined;
 
@@ -25,10 +26,7 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
   // }, [isFocused]);
 
   return (
-    <LinearGradient
-      colors={['white', '#b13ef760']}
-      locations={[0.1, 1]}
-      style={{flex: 1}}>
+    <ScreenView>
       <ScrollView
         style={styles.container}
         contentContainerStyle={{
@@ -102,6 +100,6 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
         </View>
         <Text style={styles.userName}>Images (to be added...)</Text>
       </ScrollView>
-    </LinearGradient>
+    </ScreenView>
   );
 };

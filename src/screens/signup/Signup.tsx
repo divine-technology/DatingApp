@@ -11,6 +11,7 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import {AuthStackScreenProps} from '../../navigation/AuthRoutes';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {ScreenView} from '../../components/ScreenWrapper/ScreenView';
 
 export type SignupRouteParams = {};
 
@@ -53,10 +54,8 @@ export const SignupScreen: React.FC<AuthStackScreenProps<'Signup'>> = ({
   };
 
   return (
-    <View style={{flex: 1}}>
-      <KeyboardAwareScrollView
-        style={{flex: 1, height: '100%'}}
-        contentContainerStyle={styles.container}>
+    <ScreenView>
+      <View style={styles.container}>
         <Text style={styles.logo}>Dating App</Text>
         <Text style={styles.registerHeaderText}>Sign Up</Text>
         <View style={{width: '100%', gap: 8, marginBottom: 16}}>
@@ -94,7 +93,7 @@ export const SignupScreen: React.FC<AuthStackScreenProps<'Signup'>> = ({
           <Button text="Login" onPress={navigateToLogin} variant={'outlined'} />
           <View />
         </View>
-      </KeyboardAwareScrollView>
-    </View>
+      </View>
+    </ScreenView>
   );
 };

@@ -1,25 +1,54 @@
-import React from 'react';
-import {View, Text, Image} from 'react-native';
+import React, {useContext, useEffect, useState} from 'react';
+import {View, Text, Image, FlatList, ScrollView} from 'react-native';
 import {Button} from '../../components/Button/Button';
 import {MessagesStackScreenProps} from '../../navigation/MessagesRoutes';
 import {ScreenView} from '../../components/ScreenWrapper/ScreenView';
+import {useMutation} from 'react-query';
+import {openApi} from '../../services/openApi';
+import {MessageResponseDto, ResponsePaginateDto} from '../../apiClient';
+import {styles} from './Message.styles';
+import {AuthContext} from '../../providers/context/Auth';
+import dayjs from '../../dayjs/dayjs-extended';
+import {MessagesListItem} from '../../components/MessagesListItem/MessagesListItem';
 
 export const MessagesScreen: React.FC<MessagesStackScreenProps<'Messages'>> = ({
   navigation
 }) => {
+  const {user} = useContext(AuthContext);
+
+  const [fetchedMessages, setfetchedMessages] = useState<MessageResponseDto[]>(
+    []
+  );
+
+  const {data, mutate: getChats} = useMutation<unknown, unknown, unknown>(
+    'getChats',
+    _data => {
+      return openApi.instance.message.messageControllerGetChat({});
+    },
+    {
+      onSuccess: data => {
+        setfetchedMessages(
+          (data as unknown as ResponsePaginateDto)
+            .data as unknown as MessageResponseDto[]
+        );
+      },
+      onError: () => {}
+    }
+  );
+
+  useEffect(() => {
+    getChats(undefined);
+  }, []);
+
+  const openChat = (likeId: string) => {
+    navigation.navigate('Chat', {likeId});
+  };
+
   return (
     <ScreenView>
-      <View style={{padding: 24}}>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginBottom: 18
-          }}>
-          <Text
-            style={{fontSize: 20, color: 'black', flex: 1, fontWeight: '700'}}>
-            Messages
-          </Text>
+      <View style={styles.container}>
+        <View style={styles.upperContainer}>
+          <Text style={styles.h2TextStyle}>Messages</Text>
           <View style={{}}>
             <Button
               text="Like Requests"
@@ -33,92 +62,17 @@ export const MessagesScreen: React.FC<MessagesStackScreenProps<'Messages'>> = ({
             />
           </View>
         </View>
-        <View style={{gap: 8}}>
-          <View style={{flexDirection: 'row'}}>
-            <Image
-              style={{height: 70, width: 70, borderRadius: 75}}
-              source={{
-                uri: 'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg'
-              }}
+        <FlatList
+          data={fetchedMessages}
+          contentContainerStyle={{gap: 8}}
+          renderItem={({item}) => (
+            <MessagesListItem
+              {...item}
+              authUserId={user?._id ?? ''}
+              onPress={likeId => openChat(likeId)}
             />
-            <View
-              style={{
-                flexDirection: 'column',
-                padding: 12,
-                justifyContent: 'center',
-                flex: 1
-              }}>
-              <Text style={{fontSize: 18, color: 'black', fontWeight: '500'}}>
-                Joe Biden
-              </Text>
-              <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <Text
-                  style={{
-                    fontSize: 14,
-                    color: 'black',
-                    fontWeight: '400',
-                    flex: 1
-                  }}
-                  numberOfLines={1}
-                  ellipsizeMode={'tail'}>
-                  Hello I am the president of the US Hello I am the president of
-                  the Hello I am the president of the US US
-                </Text>
-                <Text
-                  style={{
-                    fontSize: 15,
-                    color: 'black',
-                    fontWeight: '400',
-                    marginLeft: 6
-                  }}>
-                  18:00
-                </Text>
-              </View>
-            </View>
-          </View>
-          <View style={{flexDirection: 'row'}}>
-            <Image
-              style={{height: 70, width: 70, borderRadius: 75}}
-              source={{
-                uri: 'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg'
-              }}
-            />
-            <View
-              style={{
-                flexDirection: 'column',
-                padding: 12,
-                justifyContent: 'center',
-                flex: 1
-              }}>
-              <Text style={{fontSize: 18, color: 'black', fontWeight: '500'}}>
-                Joe Biden
-              </Text>
-              <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <Text
-                  style={{
-                    fontSize: 14,
-                    color: 'black',
-                    fontWeight: '400',
-                    flex: 1
-                  }}
-                  numberOfLines={1}
-                  ellipsizeMode={'tail'}>
-                  Hello I am the president of the US Hello I am the president of
-                  the Hello I am the president of the US US
-                </Text>
-                <Text
-                  style={{
-                    fontSize: 15,
-                    color: 'black',
-                    fontWeight: '400',
-                    marginLeft: 6
-                  }}>
-                  18:00
-                </Text>
-              </View>
-            </View>
-          </View>
-        </View>
+          )}
+        />
       </View>
     </ScreenView>
   );

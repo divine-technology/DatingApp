@@ -4,6 +4,7 @@
 /* eslint-disable */
 import type { Message } from '../models/Message';
 import type { MessageDto } from '../models/MessageDto';
+import type { MessageResponseDto } from '../models/MessageResponseDto';
 import type { ResponsePaginateDto } from '../models/ResponsePaginateDto';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -94,6 +95,18 @@ sortBy?: string,
                 'sort': sort,
                 'sortBy': sortBy,
             },
+        });
+    }
+
+    /**
+     * Do not delete or use this! It was made just for getting the DTO for api client!
+     * @returns MessageResponseDto 
+     * @throws ApiError
+     */
+    public messageControllerTestDontUse(): CancelablePromise<MessageResponseDto> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/message/test-dont-use',
         });
     }
 
