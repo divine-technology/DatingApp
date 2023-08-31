@@ -23,9 +23,10 @@ export const Button: React.FC<ButtonProps> = ({
   variant = 'filled',
   color = 'primary',
   size = 'medium',
+  shape = 'round',
   ...rest
 }) => {
-  const style = styles({variant, color, size, width});
+  const style = styles({variant, color, size, width, shape});
   return (
     <Pressable
       style={state => style(state).loginBtn}

@@ -33,6 +33,19 @@ const SizeOptions = {
 
 export type Size = keyof typeof SizeOptions;
 
+const ShapeOptions = {
+  round: 'round',
+  rectangle: 'rectangle'
+}
+
+export type Shape = keyof typeof ShapeOptions;
+
+const shapes : {[key in Shape]: ViewStyle} = {
+  round: {borderRadius: 24},
+  rectangle: {borderRadius: 8},
+}
+
+
 const variants = (color: Color): {[key in Variant]: ComponentStyles} => {
   return {
     outlined: {
@@ -95,21 +108,22 @@ export type ButtonStyleProps = {
   variant: Variant;
   color: Color;
   size: Size;
+  shape: Shape;
   width: DimensionValue;
 };
 
 export const styles =
-  ({variant, size, color, width}: ButtonStyleProps) =>
+  ({variant, size, color, width, shape}: ButtonStyleProps) =>
   (state?: PressableStateCallbackType) =>
     StyleSheet.create({
       loginBtn: {
         width: width,
-        borderRadius: 24,
         alignItems: 'center',
         justifyContent: 'center',
         opacity: state?.pressed ? 0.7 : 1,
         ...variants(color)[variant].pressableStyle,
-        ...sizes[size]
+        ...sizes[size],
+        ...shapes[shape]
       },
       loginText: {
         ...variants(color)[variant].textStyle
