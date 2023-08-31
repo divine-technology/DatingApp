@@ -1,24 +1,18 @@
-import React, {useCallback, useMemo, useRef, useState} from 'react';
+import React, {useState} from 'react';
 import {
-  Button,
-  Dimensions,
   PermissionsAndroid,
-  Platform,
-  StyleSheet,
   Text,
-  TouchableHighlight,
   View,
-  Modal,
+  StyleSheet,
+  Alert,
+  TouchableHighlight,
+  Platform,
 } from 'react-native';
 import {EndpointEnum} from '../../services/endpoints';
 import {useQuery} from '../../services/useQuery';
 import {AppBottomTabScreenProps} from '../../Navigation/AppRoutes';
-import {
-  Camera,
-  CameraDeviceFormat,
-  PhotoFile,
-  useCameraDevices,
-} from 'react-native-vision-camera';
+import Modal from 'react-native-modal';
+
 import ImagePicker from 'react-native-image-crop-picker';
 
 export type HomeRouteParams = {};
@@ -28,14 +22,6 @@ export const HomeScreen: React.FC<AppBottomTabScreenProps<'Home'>> = () => {
 
   console.log({data}, {error}, {status});
   const [isModalVisible, setModalVisible] = useState(false);
-
-  const toggleModal = () => {
-    setModalVisible(!isModalVisible);
-  };
-
-  const devices = useCameraDevices('wide-angle-camera');
-  const device = devices.front;
-  const camera = useRef<any>(null);
 
   const requestCameraPermission = async () => {
     try {
@@ -68,71 +54,96 @@ export const HomeScreen: React.FC<AppBottomTabScreenProps<'Home'>> = () => {
     });
   };
 
-  const onMediaCaptured = useCallback((media: PhotoFile) => {
-    console.log(`Media captured! ${JSON.stringify(media)}`);
-  }, []);
-
   return (
-    <View style={{flex: 1}}>
-      <Text>Home</Text>
-      <Button
-        title="Show modal"
-        onPress={() => {
-          if (Platform.OS === 'android') {
-            requestCameraPermission();
-          }
-          open();
-        }}
-      />
-
+    <View style={styles.centeredView}>
       <Modal
-        transparent
-        style={{
-          backgroundColor: 'white',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-        animationType="slide"
-        visible={isModalVisible}>
-        <View
-          style={{
-            flex: 0.4,
-            backgroundColor: 'white',
-            borderRadius: 20,
-            justifyContent: 'center',
-            margin: 20,
-            overflow: 'hidden',
-            position: 'relative',
-          }}>
-          {device && (
-            <Camera
-              style={StyleSheet.absoluteFillObject}
-              device={device}
-              photo={true}
-              isActive={true}
-              frameProcessorFps={5}
-            />
-          )}
-          <View
-            style={{
-              flexDirection: 'row',
-              padding: 2,
-              alignItems: 'flex-end',
-              justifyContent: 'space-around',
-            }}>
-            <TouchableHighlight
-              style={{padding: 10, borderRadius: 30, backgroundColor: 'white'}}
-              onPress={() => onMediaCaptured}>
-              <Text style={{color: 'black'}}>Capture</Text>
-            </TouchableHighlight>
-            <TouchableHighlight
-              style={{padding: 10, borderRadius: 30, backgroundColor: 'white'}}
-              onPress={toggleModal}>
-              <Text style={{color: 'black'}}>Exit</Text>
-            </TouchableHighlight>
+        isVisible={isModalVisible}
+        backdropColor="transparent"
+        onSwipeComplete={() => setModalVisible(false)}
+        swipeDirection="left"
+        onBackdropPress={() => setModalVisible(!isModalVisible)}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalTitle}>Take a selfie?</Text>
+            <Text style={styles.modalText}>
+              Selfie required in order to start a conversation.
+            </Text>
+            <View style={styles.buttonsWrapper}>
+              <TouchableHighlight
+                style={styles.button}
+                onPress={() => {
+                  if (Platform.OS === 'android') {
+                    requestCameraPermission();
+                  }
+                  open();
+                }}>
+                <Text style={styles.textStyle}>Selfie</Text>
+              </TouchableHighlight>
+              <TouchableHighlight
+                style={styles.button}
+                onPress={() => setModalVisible(!isModalVisible)}>
+                <Text style={styles.textStyle}>Exit</Text>
+              </TouchableHighlight>
+            </View>
           </View>
         </View>
       </Modal>
+      <TouchableHighlight
+        style={styles.button}
+        onPress={() => setModalVisible(true)}>
+        <Text style={styles.textStyle}>Show Modal</Text>
+      </TouchableHighlight>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  centeredView: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  button: {
+    borderRadius: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    elevation: 2,
+    backgroundColor: '#2196F3',
+  },
+  textStyle: {
+    fontSize: 16,
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
+  },
+  modalTitle: {
+    fontSize: 24,
+    marginBottom: 15,
+    textAlign: 'center',
+  },
+  buttonsWrapper: {
+    width: '100%',
+    marginTop: 12,
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+  },
+});
