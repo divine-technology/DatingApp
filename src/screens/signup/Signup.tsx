@@ -1,7 +1,6 @@
 import React, {useContext} from 'react';
-import {KeyboardAvoidingView, Platform, Text, View} from 'react-native';
+import {Text, View} from 'react-native';
 import {styles} from './Signup.styles';
-import {ControlledInput} from '../../components/input/Input';
 import {useForm} from 'react-hook-form';
 import {Button} from '../../components/Button/Button';
 import {CreateUserDto} from '../../apiClient';
@@ -12,6 +11,7 @@ import * as yup from 'yup';
 import {AuthStackScreenProps} from '../../navigation/AuthRoutes';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {ScreenView} from '../../components/ScreenWrapper/ScreenView';
+import {ControlledInput} from '../../components/Input/Input';
 
 export type SignupRouteParams = {};
 

@@ -2,12 +2,14 @@ import React from 'react';
 import * as Icons from 'react-native-heroicons/solid';
 import {styles} from './TopBar.styles';
 import {TopTabProps} from '../../navigation/AppRoutes';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import {View} from 'react-native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 export const TopBar: React.FC<TopTabProps> = ({navigation}) => {
-  const style = styles();
+  const insets = useSafeAreaInsets();
+  const style = styles(insets.top);
   return (
-    <SafeAreaView style={style.headerContainer}>
+    <View style={style.headerContainer}>
       <Icons.ChatBubbleOvalLeftEllipsisIcon
         size={50}
         color="orange"
@@ -25,6 +27,6 @@ export const TopBar: React.FC<TopTabProps> = ({navigation}) => {
           navigation.navigate('SettingsStack', {screen: 'Settings'})
         }
       />
-    </SafeAreaView>
+    </View>
   );
 };

@@ -2,7 +2,6 @@ import React, {useContext} from 'react';
 import {Text, View} from 'react-native';
 import {styles} from './Login.styles';
 import {useForm} from 'react-hook-form';
-import {ControlledInput} from '../../components/input/Input';
 import {Button} from '../../components/Button/Button';
 import {LoginUserDto} from '../../apiClient';
 import {AuthContext} from '../../providers/context/Auth';
@@ -11,6 +10,7 @@ import * as yup from 'yup';
 import * as Icons from 'react-native-heroicons/solid';
 import {AuthStackScreenProps} from '../../navigation/AuthRoutes';
 import {ScreenView} from '../../components/ScreenWrapper/ScreenView';
+import {ControlledInput} from '../../components/Input/Input';
 
 export type LoginRouteParams = {};
 const validationSchema = yup.object({

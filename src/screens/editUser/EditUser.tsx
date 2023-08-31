@@ -5,7 +5,6 @@ import {styles} from './EditUser.styles';
 import {ScrollView} from 'react-native-gesture-handler';
 import {Text, View} from 'react-native';
 import * as Icons from 'react-native-heroicons/solid';
-import {ControlledInput} from '../../components/input/Input';
 import {useForm} from 'react-hook-form';
 import {UpdateUserDto} from '../../apiClient';
 import {Button} from '../../components/Button/Button';
@@ -18,6 +17,7 @@ import {
   ControlledDropdown,
   DropdownDefaultDataProps
 } from '../../components/Dropdown/Dropdown';
+import {ControlledInput} from '../../components/Input/Input';
 
 const preferenceData = [
   {label: 'Male', value: 'male'},

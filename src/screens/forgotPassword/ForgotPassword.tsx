@@ -1,12 +1,12 @@
 import React from 'react';
 import {Text, View} from 'react-native';
 import {styles} from './ForgotPassword.styles';
-import {ControlledInput} from '../../components/input/Input';
 import {useForm} from 'react-hook-form';
 import {Button} from '../../components/Button/Button';
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import {AuthStackScreenProps} from '../../navigation/AuthRoutes';
+import {ControlledInput} from '../../components/Input/Input';
 
 export type ForgotPasswordRouteParams = {};
 
