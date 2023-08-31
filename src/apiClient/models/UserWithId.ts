@@ -23,3 +23,4 @@ export type UserWithId = {
     hobbies: Array<string>;
     _id: ObjectId;
 };
+

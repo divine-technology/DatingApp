@@ -5,49 +5,49 @@
 export const $UpdateUserDto = {
     properties: {
         firstName: {
-    type: 'string',
-},
+            type: 'string',
+        },
         lastName: {
-    type: 'string',
-},
+            type: 'string',
+        },
         email: {
-    type: 'string',
-},
+            type: 'string',
+        },
         password: {
-    type: 'string',
-},
+            type: 'string',
+        },
         role: {
-    type: 'string',
-},
+            type: 'string',
+        },
         forgotPasswordToken: {
-    type: 'string',
-},
+            type: 'string',
+        },
         forgotPasswordTimestamp: {
-    type: 'string',
-},
+            type: 'string',
+        },
         createdAccountTimestamp: {
-    type: 'string',
-},
+            type: 'string',
+        },
         location: {
-    type: 'Location',
-},
+            type: 'Location',
+        },
         gender: {
-    type: 'string',
-},
+            type: 'string',
+        },
         preference: {
-    type: 'string',
-},
+            type: 'string',
+        },
         age: {
-    type: 'number',
-},
+            type: 'number',
+        },
         bio: {
-    type: 'string',
-},
+            type: 'string',
+        },
         hobbies: {
-    type: 'array',
-    contains: {
-    type: 'string',
-},
-},
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+        },
     },
 } as const;

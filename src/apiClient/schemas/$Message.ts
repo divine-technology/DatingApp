@@ -5,20 +5,20 @@
 export const $Message = {
     properties: {
         likeId: {
-    type: 'ObjectId',
-    isRequired: true,
-},
+            type: 'ObjectId',
+            isRequired: true,
+        },
         from: {
-    type: 'ObjectId',
-    isRequired: true,
-},
+            type: 'ObjectId',
+            isRequired: true,
+        },
         to: {
-    type: 'ObjectId',
-    isRequired: true,
-},
+            type: 'ObjectId',
+            isRequired: true,
+        },
         message: {
-    type: 'string',
-    isRequired: true,
-},
+            type: 'string',
+            isRequired: true,
+        },
     },
 } as const;

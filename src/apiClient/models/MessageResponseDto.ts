@@ -12,3 +12,4 @@ export type MessageResponseDto = {
     fromUser: Record<string, any>;
     toUser: Record<string, any>;
 };
+

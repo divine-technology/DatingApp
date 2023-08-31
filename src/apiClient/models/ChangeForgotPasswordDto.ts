@@ -8,3 +8,4 @@ export type ChangeForgotPasswordDto = {
     forgotPasswordToken: string;
     newPassword: string;
 };
+

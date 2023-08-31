@@ -21,3 +21,4 @@ export type UpdateUserDto = {
     bio?: string;
     hobbies?: Array<string>;
 };
+

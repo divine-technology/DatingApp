@@ -5,19 +5,19 @@
 export const $ResponsePaginateDto = {
     properties: {
         count: {
-    type: 'number',
-    isRequired: true,
-},
+            type: 'number',
+            isRequired: true,
+        },
         page: {
-    type: 'number',
-    isRequired: true,
-},
+            type: 'number',
+            isRequired: true,
+        },
         data: {
-    type: 'array',
-    contains: {
-    type: 'string',
-},
-    isRequired: true,
-},
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+            isRequired: true,
+        },
     },
 } as const;

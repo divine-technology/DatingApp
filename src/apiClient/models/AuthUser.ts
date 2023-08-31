@@ -19,3 +19,4 @@ export type AuthUser = {
     bio: string;
     hobbies: Array<string>;
 };
+

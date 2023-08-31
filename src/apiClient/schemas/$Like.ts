@@ -5,15 +5,15 @@
 export const $Like = {
     properties: {
         users: {
-    type: 'array',
-    contains: {
-    type: 'string',
-},
-    isRequired: true,
-},
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+            isRequired: true,
+        },
         status: {
-    type: 'string',
-    isRequired: true,
-},
+            type: 'string',
+            isRequired: true,
+        },
     },
 } as const;
