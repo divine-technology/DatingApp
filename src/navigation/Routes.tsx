@@ -11,7 +11,7 @@ export type RootStackParamList = {
   Splash: undefined;
 };
 
-export type AuthStackScreenProps<T extends keyof RootStackParamList> =
+export type RootStackScreenProps<T extends keyof RootStackParamList> =
   StackScreenProps<RootStackParamList, T>;
 
 const RootStack = createStackNavigator<RootStackParamList>();
@@ -21,11 +21,11 @@ export const Routes: React.FC = () => {
 
   return (
     <RootStack.Navigator screenOptions={{headerShown: false}}>
-      {/* {loggedIn && !isLoading && ( */}
-      <RootStack.Group>
-        <RootStack.Screen name={'App'} component={AppRoutes} />
-      </RootStack.Group>
-      {/* )} */}
+      {loggedIn && !isLoading && (
+        <RootStack.Group>
+          <RootStack.Screen name={'App'} component={AppRoutes} />
+        </RootStack.Group>
+      )}
       {!loggedIn && !isLoading && (
         <RootStack.Group>
           <RootStack.Screen name={'Auth'} component={AuthRoutes} />

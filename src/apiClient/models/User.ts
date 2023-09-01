@@ -6,7 +6,8 @@
 import type { Location } from './Location';
 
 export type User = {
-    name: string;
+    firstName: string;
+    lastName: string;
     email: string;
     password: string;
     role: string;
@@ -14,4 +15,10 @@ export type User = {
     forgotPasswordTimestamp: string;
     createdAccountTimestamp: string;
     location: Location;
+    gender: string;
+    preference: string;
+    age: number;
+    bio: string;
+    hobbies: Array<string>;
 };
+

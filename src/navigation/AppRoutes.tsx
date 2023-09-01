@@ -1,35 +1,58 @@
 import React from 'react';
-import {
-  createBottomTabNavigator,
-  BottomTabScreenProps,
-} from '@react-navigation/bottom-tabs';
 import {HomeRouteParams, HomeScreen} from '../screens/home/Home';
 import {
-  SettingsRouteParams,
-  SettingsScreen,
-} from '../screens/settings/Settings';
+  MaterialTopTabNavigationEventMap,
+  createMaterialTopTabNavigator
+} from '@react-navigation/material-top-tabs';
+import {TopBar} from '../components/TopBar/TopBar';
 import {
-  MessagesRouteParams,
-  MessagesScreen,
-} from '../screens/messages/Messages';
+  NavigationHelpers,
+  ParamListBase,
+  RouteProp,
+  TabNavigationState
+} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack'; // TODO: Tarik ispravi ovo
+import {SettingsRoutes} from './SettingsRoutes';
+import {SceneRendererProps} from 'react-native-tab-view';
+import {MaterialTopTabDescriptorMap} from '@react-navigation/material-top-tabs/lib/typescript/src/types';
+import {MessagesScreen} from '../screens/messages/Messages';
+import {MessagesRoutes} from './MessagesRoutes';
 
-export type AppBottomTabParamList = {
+export type AppTopTabParamList = {
   Home: HomeRouteParams;
-  Settings: SettingsRouteParams;
-  Messages: MessagesRouteParams;
+  SettingsStack: undefined;
+  MessagesStack: undefined;
 };
 
-export type AppBottomTabScreenProps<T extends keyof AppBottomTabParamList> =
-  BottomTabScreenProps<AppBottomTabParamList, T>;
+type ScreenComponentType<
+  ParamList extends ParamListBase,
+  RouteName extends keyof ParamList
+> = {
+  route: RouteProp<ParamList, RouteName>;
+  navigation: StackNavigationProp<ParamList, RouteName>;
+};
 
-const BottomTab = createBottomTabNavigator<AppBottomTabParamList>();
+export type TopTabScreenProps<T extends keyof AppTopTabParamList> =
+  ScreenComponentType<AppTopTabParamList, T>;
+
+export type TopTabProps<T extends ParamListBase = ParamListBase> =
+  SceneRendererProps & {
+    state: TabNavigationState<T>;
+    navigation: NavigationHelpers<T, MaterialTopTabNavigationEventMap>;
+    descriptors: MaterialTopTabDescriptorMap;
+  };
+
+const TopTab = createMaterialTopTabNavigator<AppTopTabParamList>();
 
 export const AppRoutes: React.FC = () => {
   return (
-    <BottomTab.Navigator initialRouteName={'Home'}>
-      <BottomTab.Screen name={'Messages'} component={MessagesScreen} />
-      <BottomTab.Screen name={'Home'} component={HomeScreen} />
-      <BottomTab.Screen name={'Settings'} component={SettingsScreen} />
-    </BottomTab.Navigator>
+    <TopTab.Navigator
+      initialRouteName={'Home'}
+      tabBar={TopBar}
+      screenOptions={{swipeEnabled: false}}>
+      <TopTab.Screen name={'MessagesStack'} component={MessagesRoutes} />
+      <TopTab.Screen name={'Home'} component={HomeScreen} />
+      <TopTab.Screen name={'SettingsStack'} component={SettingsRoutes} />
+    </TopTab.Navigator>
   );
 };

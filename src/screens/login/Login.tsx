@@ -1,22 +1,40 @@
-import React from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
-import {AuthStackScreenProps} from '../../Navigation/AuthRoutes';
+import React, {useContext} from 'react';
+import {Text, View} from 'react-native';
 import {styles} from './Login.styles';
 import {useForm} from 'react-hook-form';
-import {ControlledInput} from '../../input/Input';
-/* import {EndpointEnum} from '../../services/endpoints';
-import {useQuery} from '../../services/useQuery'; */
+import {Button} from '../../components/Button/Button';
+import {LoginUserDto} from '../../apiClient';
+import {AuthContext} from '../../providers/context/Auth';
+import {yupResolver} from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import * as Icons from 'react-native-heroicons/solid';
+import {AuthStackScreenProps} from '../../navigation/AuthRoutes';
+import {ScreenView} from '../../components/ScreenWrapper/ScreenView';
+import {ControlledInput} from '../../components/Input/Input';
 
 export type LoginRouteParams = {};
+const validationSchema = yup.object({
+  email: yup
+    .string()
+    .email('Use correct email format!')
+    .required('This field is required!'),
+  password: yup
+    .string()
+    .min(6, 'Use at least 6 characters!')
+    .required('This field is required!')
+});
 
 export const LoginScreen: React.FC<AuthStackScreenProps<'Login'>> = ({
-  navigation,
+  navigation
 }) => {
-  //const {data, error, status} = useQuery(EndpointEnum.getAllPokemonPaginated);
-  const {control, handleSubmit} = useForm();
+  const {control, handleSubmit} = useForm<LoginUserDto>({
+    resolver: yupResolver(validationSchema)
+  });
 
-  const onSubmit = (data: any) => {
-    console.log('My data: ', data);
+  const {signIn} = useContext(AuthContext);
+
+  const onSubmit = (data: LoginUserDto) => {
+    signIn(data);
   };
 
   const navigateToSignUp = () => {
@@ -27,41 +45,51 @@ export const LoginScreen: React.FC<AuthStackScreenProps<'Login'>> = ({
     navigation.navigate('ForgotPassword', {});
   };
 
-  //console.log({data}, {error}, {status});
-
   return (
-    <View style={styles.container}>
-      <Text style={styles.logo}>Dating App</Text>
-      <Text style={styles.loginHeaderText}>Login</Text>
-      <View style={styles.inputView}>
-        <ControlledInput
-          control={control}
-          name={'email'}
-          isRequired={true}
-          placeHolder={'Email...'}
-          placeHolderTextColor={'#003f5c'}
-        />
+    <ScreenView>
+      <View style={styles.container}>
+        <Text style={styles.logo}>Dating App</Text>
+        <Text style={styles.loginHeaderText}>Login</Text>
+        <View style={{width: '100%', gap: 8, marginBottom: 16}}>
+          <ControlledInput
+            control={control}
+            name={'email'}
+            placeholder={'Email...'}
+            keyboardType={'email-address'}
+            startAdornment={<Icons.EnvelopeIcon size={30} color="white" />}
+            autoCapitalize={'none'}
+            returnKeyType={'next'}
+          />
+          <ControlledInput
+            control={control}
+            name={'password'}
+            placeholder={'Password...'}
+            returnKeyType={'done'}
+            startAdornment={<Icons.LockClosedIcon size={30} color="white" />}
+            secureTextEntry
+            autoCapitalize={'none'}
+            onEndEditing={handleSubmit(onSubmit)}
+          />
+        </View>
+        <View style={{width: '100%', gap: 8}}>
+          <Button
+            text={'Login'}
+            onPress={handleSubmit(onSubmit, error => console.log({error}))}
+          />
+          <Button
+            text={'Forgot Password?'}
+            variant={'outlined'}
+            size={'small'}
+            onPress={navigateToForgotPassword}
+          />
+          <Button
+            text={'Sign Up'}
+            size={'small'}
+            variant={'outlined'}
+            onPress={navigateToSignUp}
+          />
+        </View>
       </View>
-      <View style={styles.inputView}>
-        <ControlledInput
-          control={control}
-          name={'password'}
-          isRequired={true}
-          placeHolder={'Password...'}
-          placeHolderTextColor={'#003f5c'}
-        />
-      </View>
-      <TouchableOpacity onPress={navigateToForgotPassword}>
-        <Text style={styles.forgot}>Forgot Password?</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.loginBtn}
-        onPress={handleSubmit(onSubmit)}>
-        <Text style={styles.loginText}>Login</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={navigateToSignUp}>
-        <Text style={styles.loginText}>Sign Up</Text>
-      </TouchableOpacity>
-    </View>
+    </ScreenView>
   );
 };
