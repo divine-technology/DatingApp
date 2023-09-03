@@ -5,13 +5,11 @@ import {useForm} from 'react-hook-form';
 import {Button} from '../../components/Button/Button';
 import {CreateUserDto} from '../../apiClient';
 import {AuthContext} from '../../providers/context/Auth';
-import {Variant} from '../../components/Button/Button.styles';
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import {AuthStackScreenProps} from '../../navigation/AuthRoutes';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {ScreenView} from '../../components/ScreenWrapper/ScreenView';
-import {ControlledInput} from '../../components/Input/Input';
+import {ControlledInput} from '../../components/RenameLater/Input';
 
 export type SignupRouteParams = {};
 

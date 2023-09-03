@@ -1,29 +1,100 @@
-import React, {useContext, useEffect} from 'react';
-import {Image, SafeAreaView, ScrollView, Text, View} from 'react-native';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState
+} from 'react';
+import {
+  Image,
+  ScrollView,
+  Text,
+  View,
+  StyleSheet,
+  StatusBar,
+  ImageSourcePropType,
+  TouchableWithoutFeedback,
+  Dimensions,
+  TouchableOpacity
+} from 'react-native';
 import {AuthContext} from '../../providers/context/Auth';
 import {Button} from '../../components/Button/Button';
 import {useIsFocused} from '@react-navigation/native';
 import {styles} from './Settings.styles';
 import {SettingsStackScreenProps} from '../../navigation/SettingsRoutes';
-import LinearGradient from 'react-native-linear-gradient';
 import * as Icons from 'react-native-heroicons/outline';
 import {ScreenView} from '../../components/ScreenWrapper/ScreenView';
+import Gallery from 'react-native-awesome-gallery';
+import AwesomeGallery, {
+  GalleryRef,
+  RenderItemInfo
+} from 'react-native-awesome-gallery';
+import ImageView from 'react-native-image-viewing';
 
 export type SettingsRouteParams = undefined;
+
+const renderItem = ({item}: RenderItemInfo<{uri: string}>) => {
+  return (
+    <Image
+      source={item as ImageSourcePropType}
+      style={{
+        width: '100%',
+        height: '100%'
+        // justifyContent: 'center'
+        // alignItems: 'center'
+      }}
+      resizeMode="contain"
+    />
+  );
+};
+
+const images = [
+  require('../../images/chat.png'),
+  require('../../images/Button.png'),
+  require('../../images/Button.png')
+];
+
+const {height} = Dimensions.get('window');
 
 export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
   navigation
 }) => {
   const {getMe, signOut, user} = useContext(AuthContext);
-
   const isFocused = useIsFocused();
+  const gallery = useRef<GalleryRef>(null);
+  const [mounted, setMounted] = useState(false);
 
-  // useEffect(() => {
-  //   if (isFocused) {
-  //     getMe();
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [isFocused]);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const [infoVisible, setInfoVisible] = useState(true);
+
+  useEffect(() => {
+    StatusBar.setBarStyle(isFocused ? 'light-content' : 'dark-content', true);
+    if (!isFocused) {
+      StatusBar.setHidden(false, 'fade');
+    }
+  }, [isFocused]);
+
+  const onTap = () => {
+    StatusBar.setHidden(infoVisible, 'slide');
+    setInfoVisible(!infoVisible);
+  };
+
+  const images = [
+    {
+      uri: 'https://images.unsplash.com/photo-1571501679680-de32f1e7aad4'
+    },
+    {
+      uri: 'https://images.unsplash.com/photo-1573273787173-0eb81a833b34'
+    },
+    {
+      uri: 'https://images.unsplash.com/photo-1569569970363-df7b6160d111'
+    }
+  ];
+
+  const [visible, setIsVisible] = useState(true);
 
   return (
     <ScreenView>
@@ -98,6 +169,77 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
             {user && user.bio ? user.bio : 'No user bio.'}
           </Text>
         </View>
+        {/* <AwesomeGallery
+          ref={gallery}
+          data={images}
+          style={{
+            backgroundColor: 'orange',
+            width: '100%',
+            height: 500
+          }}
+          keyExtractor={item => item.uri}
+          renderItem={renderItem}
+          initialIndex={0}
+          disableVerticalSwipe
+          emptySpaceWidth={1}
+          doubleTapInterval={150}
+          onIndexChange={newIndex => {
+            console.log(newIndex);
+          }}
+        /> */}
+        {/* <Gallery
+          data={images}
+          style={{
+            backgroundColor: 'orange',
+            flex: 1,
+            flexDirection: 'row',
+            width: '100%'
+          }}
+          // renderItem={renderItem}
+          onIndexChange={newIndex => {
+            console.log(newIndex);
+          }}
+        /> */}
+        <View style={styles.container}>
+          {images.map((uri, index) => (
+            <TouchableWithoutFeedback
+              key={index}
+              onPress={() => setIsVisible(!visible)}>
+              <Image
+                source={require('../../images/chat.png')}
+                resizeMode="contain"
+                style={{
+                  width: 30,
+                  height: 30
+                }}
+              />
+            </TouchableWithoutFeedback>
+          ))}
+        </View>
+        <ImageView
+          images={images}
+          FooterComponent={() => (
+            <View
+              style={{
+                width: '100%',
+                height: 100,
+                flexDirection: 'row',
+                justifyContent: 'space-around',
+                backgroundColor: 'rgba(0, 0, 0, 0.7)'
+              }}>
+              <TouchableOpacity>
+                <Text style={{color: 'white', fontSize: 18}}>Previous</Text>
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <Text style={{color: 'white', fontSize: 18}}>Next</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+          presentationStyle="fullScreen"
+          imageIndex={0}
+          visible={visible}
+          onRequestClose={() => setIsVisible(false)}
+        />
         <Text style={styles.userName}>Images (to be added...)</Text>
       </ScrollView>
     </ScreenView>

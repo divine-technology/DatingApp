@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useRef, useState} from 'react';
-import {Text, View} from 'react-native';
+import {PermissionsAndroid, Platform, Text, View} from 'react-native';
 import {AuthContext} from '../../providers/context/Auth';
 import {Button} from '../../components/Button/Button';
 import {TopTabScreenProps} from '../../navigation/AppRoutes';
@@ -14,6 +14,7 @@ import {
 } from '../../components/CardSwiper/CardSwiper';
 import {mockData} from './mockData';
 import {ScreenView} from '../../components/ScreenWrapper/ScreenView';
+import ImagePicker, {openCamera} from 'react-native-image-crop-picker';
 
 export type HomeRouteParams = undefined;
 
@@ -89,9 +90,52 @@ export const HomeScreen: React.FC<TopTabScreenProps<'Home'>> = ({
 
   const cardSwiperRef = useRef<CardSwiperRef>(null);
 
+  const requestCameraPermission = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.CAMERA,
+        {
+          title: 'Change Profile Picture',
+          message:
+            'The app needs permission to access your camera or photo gallery ' +
+            'to change your profile picture. Would you like to grant permission?',
+          buttonNeutral: 'Ask Me Later',
+          buttonNegative: 'Cancel',
+          buttonPositive: 'OK'
+        }
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log('Permission granted');
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  };
+
+  const openCamera = () => {
+    if (Platform.OS === 'android') {
+      requestCameraPermission();
+    }
+    ImagePicker.openCamera({
+      width: 300,
+      height: 400,
+      useFrontCamera: true
+    }).then(image => {
+      if (image) {
+        console.log('Swipe right', image);
+      }
+    });
+  };
+
   return (
     <ScreenView>
-      <View style={{flexDirection: 'column', flex: 1, padding: 24, gap: 12}}>
+      <View
+        style={{
+          flexDirection: 'column',
+          flex: 1,
+          padding: 24,
+          gap: 12
+        }}>
         {test() ? (
           <View style={{flex: 1}}>
             {user && (
@@ -99,8 +143,9 @@ export const HomeScreen: React.FC<TopTabScreenProps<'Home'>> = ({
                 ref={cardSwiperRef}
                 data={cardsData}
                 card={card}
+                removedCardsLimit={0}
                 onSwipe={onSwipe}
-                swipeableDirection={'horizontal'}
+                swipeableDirection={'vertical'}
                 infinite
               />
             )}
@@ -117,7 +162,24 @@ export const HomeScreen: React.FC<TopTabScreenProps<'Home'>> = ({
             />
           </>
         )}
-        <Button text="Back" onPress={cardSwiperRef.current?.onBack} />
+        <View style={{flexDirection: 'row'}}>
+          <Button
+            text="Dislike"
+            width={'25%'}
+            onPress={cardSwiperRef.current?.onBack}
+          />
+          <Button text="Like" width={'25%'} onPress={openCamera} />
+          <Button
+            text="Nesto"
+            width={'25%'}
+            onPress={cardSwiperRef.current?.onBack}
+          />
+          <Button
+            text="Nesto"
+            width={'25%'}
+            onPress={cardSwiperRef.current?.onBack}
+          />
+        </View>
       </View>
     </ScreenView>
   );

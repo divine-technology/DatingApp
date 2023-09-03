@@ -17,7 +17,7 @@ import {
   ControlledDropdown,
   DropdownDefaultDataProps
 } from '../../components/Dropdown/Dropdown';
-import {ControlledInput} from '../../components/Input/Input';
+import {ControlledInput} from '../../components/RenameLater/Input';
 
 const preferenceData = [
   {label: 'Male', value: 'male'},

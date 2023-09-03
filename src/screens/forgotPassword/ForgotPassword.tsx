@@ -6,7 +6,7 @@ import {Button} from '../../components/Button/Button';
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import {AuthStackScreenProps} from '../../navigation/AuthRoutes';
-import {ControlledInput} from '../../components/Input/Input';
+import {ControlledInput} from '../../components/RenameLater/Input';
 
 export type ForgotPasswordRouteParams = {};
 

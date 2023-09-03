@@ -4,7 +4,7 @@ import {SignupRouteParams, SignupScreen} from '../screens/signup/Signup';
 import {StackScreenProps, createStackNavigator} from '@react-navigation/stack';
 import {
   ForgotPasswordRouteParams,
-  ForgotPasswordScreen,
+  ForgotPasswordScreen
 } from '../screens/forgotPassword/ForgotPassword';
 
 export type AuthStackParamList = {
@@ -20,7 +20,9 @@ const AuthStack = createStackNavigator<AuthStackParamList>();
 
 export const AuthRoutes: React.FC = () => {
   return (
-    <AuthStack.Navigator initialRouteName={'Login'}>
+    <AuthStack.Navigator
+      screenOptions={{headerShown: false}}
+      initialRouteName={'Login'}>
       <AuthStack.Screen name={'Login'} component={LoginScreen} />
       <AuthStack.Screen name={'Signup'} component={SignupScreen} />
       <AuthStack.Screen

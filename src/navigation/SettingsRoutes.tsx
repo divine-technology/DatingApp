@@ -2,12 +2,14 @@ import React from 'react';
 import {EditUserParams, EditUserScreen} from '../screens/editUser/EditUser';
 import {
   SettingsRouteParams,
-  SettingsScreen,
+  SettingsScreen
 } from '../screens/settings/Settings';
 import {StackScreenProps, createStackNavigator} from '@react-navigation/stack';
+import {Photos} from '../screens/Photos';
 
 export type SettingsStackParamList = {
   EditUser: EditUserParams;
+  Photos: {images: string[]; index: number};
   Settings: SettingsRouteParams;
 };
 
@@ -24,6 +26,7 @@ export const SettingsRoutes: React.FC = () => {
     <SettingsStack.Navigator screenOptions={{headerShown: false}}>
       <SettingsStack.Screen name="Settings" component={SettingsScreen} />
       <SettingsStack.Screen name="EditUser" component={EditUserScreen} />
+      <SettingsStack.Screen name="Photos" component={Photos} />
     </SettingsStack.Navigator>
   );
 };

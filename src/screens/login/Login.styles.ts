@@ -5,11 +5,13 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 24,
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'space-around'
   },
   logo: {
     fontWeight: 'bold',
     fontSize: 50,
+    textShadowColor: 'black',
+    textShadowRadius: 1,
     color: '#fb5b5a',
     marginBottom: 20
   },
@@ -17,6 +19,8 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 20,
     color: 'white',
+    textShadowColor: 'black',
+    textShadowRadius: 1,
     marginBottom: 20
   },
   inputView: {

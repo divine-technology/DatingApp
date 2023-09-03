@@ -36,15 +36,14 @@ export type Size = keyof typeof SizeOptions;
 const ShapeOptions = {
   round: 'round',
   rectangle: 'rectangle'
-}
+};
 
 export type Shape = keyof typeof ShapeOptions;
 
-const shapes : {[key in Shape]: ViewStyle} = {
+const shapes: {[key in Shape]: ViewStyle} = {
   round: {borderRadius: 24},
-  rectangle: {borderRadius: 8},
-}
-
+  rectangle: {borderRadius: 8}
+};
 
 const variants = (color: Color): {[key in Variant]: ComponentStyles} => {
   return {
@@ -118,6 +117,8 @@ export const styles =
     StyleSheet.create({
       loginBtn: {
         width: width,
+        borderWidth: 1,
+        borderColor: 'white',
         alignItems: 'center',
         justifyContent: 'center',
         opacity: state?.pressed ? 0.7 : 1,
