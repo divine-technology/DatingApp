@@ -3,9 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type MessageDto = {
-    from: string;
-    to: string;
+export type MessageBodyDto = {
     message: string;
 };
 

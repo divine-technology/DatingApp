@@ -3,7 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { Message } from '../models/Message';
-import type { MessageDto } from '../models/MessageDto';
+import type { MessageBodyDto } from '../models/MessageBodyDto';
 import type { MessageResponseDto } from '../models/MessageResponseDto';
 import type { ResponsePaginateDto } from '../models/ResponsePaginateDto';
 
@@ -24,7 +24,7 @@ export class MessageService {
         requestBody,
     }: {
         likeId: string,
-        requestBody: MessageDto,
+        requestBody: MessageBodyDto,
     }): CancelablePromise<Message> {
         return this.httpRequest.request({
             method: 'POST',

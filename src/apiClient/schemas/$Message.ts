@@ -12,10 +12,6 @@ export const $Message = {
             type: 'ObjectId',
             isRequired: true,
         },
-        to: {
-            type: 'ObjectId',
-            isRequired: true,
-        },
         message: {
             type: 'string',
             isRequired: true,

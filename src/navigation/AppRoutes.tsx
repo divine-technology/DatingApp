@@ -17,9 +17,10 @@ import {SceneRendererProps} from 'react-native-tab-view';
 import {MaterialTopTabDescriptorMap} from '@react-navigation/material-top-tabs/lib/typescript/src/types';
 import {MessagesScreen} from '../screens/messages/Messages';
 import {MessagesRoutes} from './MessagesRoutes';
+import { HomeRoutes } from './HomeRoutes';
 
 export type AppTopTabParamList = {
-  Home: HomeRouteParams;
+  HomeStack: undefined;
   SettingsStack: undefined;
   MessagesStack: undefined;
 };
@@ -47,11 +48,11 @@ const TopTab = createMaterialTopTabNavigator<AppTopTabParamList>();
 export const AppRoutes: React.FC = () => {
   return (
     <TopTab.Navigator
-      initialRouteName={'Home'}
+      initialRouteName={'HomeStack'}
       tabBar={TopBar}
       screenOptions={{swipeEnabled: false}}>
       <TopTab.Screen name={'MessagesStack'} component={MessagesRoutes} />
-      <TopTab.Screen name={'Home'} component={HomeScreen} />
+      <TopTab.Screen name={'HomeStack'} component={HomeRoutes} />
       <TopTab.Screen name={'SettingsStack'} component={SettingsRoutes} />
     </TopTab.Navigator>
   );

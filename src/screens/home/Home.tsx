@@ -13,12 +13,14 @@ import {
   SwipeDirection
 } from '../../components/CardSwiper/CardSwiper';
 import {mockData} from './mockData';
-import LinearGradient from 'react-native-linear-gradient';
 import {ScreenView} from '../../components/ScreenWrapper/ScreenView';
+import { HomeStackScreenProps } from '../../navigation/HomeRoutes';
+import * as Icons from 'react-native-heroicons/solid';
+import { styles } from './Home.styles';
 
 export type HomeRouteParams = undefined;
 
-export const HomeScreen: React.FC<TopTabScreenProps<'Home'>> = ({
+export const HomeScreen: React.FC<HomeStackScreenProps<'Home'>> = ({
   navigation
 }) => {
   const {user} = useContext(AuthContext);
@@ -61,7 +63,9 @@ export const HomeScreen: React.FC<TopTabScreenProps<'Home'>> = ({
   };
 
   const viewProfile = (id: string | number) => {
+    if(id === 'NoId') return;
     console.log('VIEW PROFILE', {id});
+    navigation.navigate('UserProfile', {userId: id.toString()})
   };
 
   const like = (id: string | number) => {
@@ -94,18 +98,25 @@ export const HomeScreen: React.FC<TopTabScreenProps<'Home'>> = ({
     <ScreenView>
       <View style={{flexDirection: 'column', flex: 1, padding: 24, gap: 12}}>
         {test() ? (
-          <View style={{flex: 1}}>
-            {user && (
-              <CardSwiper
-                ref={cardSwiperRef}
-                data={cardsData}
-                card={card}
-                onSwipe={onSwipe}
-                swipeableDirection={'horizontal'}
-                infinite
-              />
-            )}
-          </View>
+          <>
+            <View style={{flex: 1}}>
+              {user && (
+                <CardSwiper
+                  ref={cardSwiperRef}
+                  data={cardsData}
+                  card={card}
+                  onSwipe={onSwipe}
+                  swipeableDirection={'horizontal'}
+                  infinite
+                />
+              )}
+            </View>
+            <View style={styles.reactButtonWrapper}>
+                <Icons.XCircleIcon size={70} color={'red'} onPress={() => cardSwiperRef.current?.manualSwipe('left')}/>
+                <Icons.UserCircleIcon size={70} color={'#800080'} onPress={() => viewProfile(cardSwiperRef.current?.getCurrentCardId() ?? 'NoId')}/>
+                <Icons.CheckCircleIcon size={70} color={'#20B2AA'} onPress={() => cardSwiperRef.current?.manualSwipe('right')}/>
+            </View>
+          </>
         ) : (
           <>
             <Text style={{color: 'black', fontSize: 30}}>
@@ -114,7 +125,7 @@ export const HomeScreen: React.FC<TopTabScreenProps<'Home'>> = ({
             <Button
               text="Finish profile"
               variant={'text'}
-              onPress={() => navigation.navigate('SettingsStack')}
+              onPress={() => navigation.navigate('Settings')}
             />
           </>
         )}

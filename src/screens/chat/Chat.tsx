@@ -60,7 +60,7 @@ const Accessories: React.FC<AccessoriesProps> = ({onCameraPress}) => {
 };
 
 export const ChatScreen: React.FC<MessagesStackScreenProps<'Chat'>> = ({
-  route
+  route, navigation
 }) => {
   const {likeId} = route.params;
 
@@ -77,14 +77,16 @@ export const ChatScreen: React.FC<MessagesStackScreenProps<'Chat'>> = ({
     }
   );
 
+  const navigateToProfile = (id: string | number) => {
+    navigation.navigate('UserProfile', {userId: id.toString()})
+  }
+
   const {data: newMessage, mutate} = useMutation(
     ['last-message'],
     (message: string, image?: string) =>
       openApi.instance.message.messageControllerSendMessage({
         likeId,
         requestBody: {
-          from: user?._id ?? '',
-          to: '64e736f305620d762b65a2f5',
           message
         }
       }),
@@ -118,6 +120,7 @@ export const ChatScreen: React.FC<MessagesStackScreenProps<'Chat'>> = ({
         listViewProps={{
           showsVerticalScrollIndicator: false
         }}
+        onPressAvatar={(messageUser) => navigateToProfile(messageUser._id)}
         onSend={messages => mutate(messages[0].text)}
         renderAccessory={Accessories}
         renderSend={SendButton}
