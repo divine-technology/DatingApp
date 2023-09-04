@@ -97,8 +97,8 @@ export const HomeScreen: React.FC<TopTabScreenProps<'Home'>> = ({
         {
           title: 'Change Profile Picture',
           message:
-            'The app needs permission to access your camera or photo gallery ' +
-            'to change your profile picture. Would you like to grant permission?',
+            'The app needs permission to access your camera ' +
+            'Would you like to grant permission?',
           buttonNeutral: 'Ask Me Later',
           buttonNegative: 'Cancel',
           buttonPositive: 'OK'

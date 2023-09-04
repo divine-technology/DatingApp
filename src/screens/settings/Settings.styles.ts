@@ -4,6 +4,18 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1
   },
+  galleryContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    backgroundColor: 'white',
+    borderWidth: 1,
+    borderColor: 'white'
+  },
+  text: {
+    fontSize: 18,
+    color: '#FFF'
+  },
   userImg: {
     height: 150,
     width: 150,
