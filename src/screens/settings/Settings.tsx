@@ -17,6 +17,7 @@ import * as Icons from 'react-native-heroicons/outline';
 import {ScreenView} from '../../components/ScreenWrapper/ScreenView';
 import ImageView from 'react-native-image-viewing';
 import {TouchableHighlight} from 'react-native-gesture-handler';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 export type SettingsRouteParams = undefined;
 
@@ -27,6 +28,8 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
   const isFocused = useIsFocused();
   const [visible, setIsVisible] = useState<boolean>(false);
   const [imageIndex, setImageIndex] = useState<number>(0);
+
+  const insets = useSafeAreaInsets();
 
   useEffect(() => {
     StatusBar.setBarStyle(isFocused ? 'light-content' : 'dark-content', true);
@@ -56,12 +59,21 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
           alignItems: 'center'
         }}
         showsVerticalScrollIndicator={false}>
-        <Image
-          style={styles.userImg}
-          source={{
-            uri: 'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg'
-          }}
-        />
+        <View
+          style={{
+            shadowColor: '#000',
+            shadowOffset: {width: 0, height: 2},
+            shadowOpacity: 0.5,
+            shadowRadius: 2,
+            elevation: 2
+          }}>
+          <Image
+            style={styles.userImg}
+            source={{
+              uri: 'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg'
+            }}
+          />
+        </View>
         <Text style={styles.userName}>
           {user ? `${user.firstName} ${user.lastName}` : 'Test User'}
         </Text>
@@ -146,38 +158,24 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
         </View>
         <ImageView
           images={images}
-          FooterComponent={() => (
-            <View
-              style={{
-                width: '100%',
-                height: 150,
-                alignItems: 'center',
-                justifyContent: 'space-around',
-                backgroundColor: 'rgba(0, 0, 0, 0.7)',
-                paddingBottom: 40
-              }}>
-              <Text style={styles.text}>{`${imageIndex + 1} / ${
-                images.length
-              }`}</Text>
-              <View
-                style={{
-                  width: '100%',
-                  flexDirection: 'row',
-                  justifyContent: 'space-around'
-                }}>
-                <TouchableOpacity onPress={() => setImageIndex(imageIndex - 1)}>
-                  <Text style={{color: 'white', fontSize: 18}}>Previous</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => setImageIndex(imageIndex + 1)}>
-                  <Text style={{color: 'white', fontSize: 18}}>Next</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          )}
           presentationStyle="fullScreen"
           imageIndex={imageIndex}
           visible={visible}
           onRequestClose={() => setIsVisible(false)}
+          FooterComponent={({imageIndex}) => (
+            <View
+              style={{
+                width: '100%',
+                alignItems: 'center',
+                justifyContent: 'space-around',
+                backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                paddingBottom: insets.bottom + 4
+              }}>
+              <Text style={styles.text}>{`${imageIndex + 1} / ${
+                images.length
+              }`}</Text>
+            </View>
+          )}
         />
         <View
           style={{

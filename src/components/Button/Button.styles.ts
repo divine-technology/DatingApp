@@ -59,7 +59,12 @@ const variants = (color: Color): {[key in Variant]: ComponentStyles} => {
     },
     filled: {
       pressableStyle: {
-        backgroundColor: colors[color].backgroundColor
+        backgroundColor: colors[color].backgroundColor,
+        shadowColor: '#000',
+        shadowOffset: {width: 0, height: 2},
+        shadowOpacity: 0.5,
+        shadowRadius: 2,
+        elevation: 2
       },
       textStyle: {
         color: colors[color].textColor

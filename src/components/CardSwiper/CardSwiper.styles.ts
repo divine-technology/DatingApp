@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {Platform, StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
   animatedView: {
@@ -10,6 +10,15 @@ export const styles = StyleSheet.create({
   },
   wrapper: {
     width: '100%',
-    height: '100%'
+    height: '100%',
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: {width: 0, height: 2},
+        shadowOpacity: 0.5,
+        shadowRadius: 2,
+        elevation: 2
+      }
+    })
   }
 });

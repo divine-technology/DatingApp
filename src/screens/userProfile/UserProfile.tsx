@@ -1,35 +1,33 @@
-import React, { useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Image, ScrollView, Text, View} from 'react-native';
 import * as Icons from 'react-native-heroicons/outline';
 import {ScreenView} from '../../components/ScreenWrapper/ScreenView';
-import { styles } from './UserProfile.styles';
-import { HomeStackScreenProps } from '../../navigation/HomeRoutes';
-import { useQuery } from 'react-query';
-import { openApi } from '../../services/openApi';
-import { UserWithId } from '../../apiClient';
+import {styles} from './UserProfile.styles';
+import {HomeStackScreenProps} from '../../navigation/HomeRoutes';
+import {useQuery} from 'react-query';
+import {openApi} from '../../services/openApi';
+import {AuthUser} from '../../apiClient';
 
 export type UserProfileScreenProps = {
   userId: string;
-}
+};
 
-export const UserProfileScreen: React.FC<HomeStackScreenProps<'UserProfile'>>= ({
-  route
-}) => {
+export const UserProfileScreen: React.FC<
+  HomeStackScreenProps<'UserProfile'>
+> = ({route}) => {
   const {userId} = route.params;
 
-  const {data} = useQuery(
-    ['chat', userId],
-    () =>
-      openApi.instance.user.usersControllerGetOneUser({
-        id: userId
-      })
+  const {data} = useQuery(['chat', userId], () =>
+    openApi.instance.user.usersControllerGetOneUser({
+      id: userId
+    })
   );
 
-  const [user, setUser] = useState<UserWithId>()
+  const [user, setUser] = useState<AuthUser>();
 
   useEffect(() => {
     if (data) {
-      setUser(data as unknown as UserWithId);
+      setUser(data as unknown as AuthUser);
     }
   }, [data]);
 

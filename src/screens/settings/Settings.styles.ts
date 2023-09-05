@@ -5,7 +5,7 @@ export const styles = StyleSheet.create({
     flex: 1
   },
   text: {
-    fontSize: 18,
+    fontSize: 16,
     color: '#FFF'
   },
   userImg: {
