@@ -52,7 +52,7 @@ export const SignupScreen: React.FC<AuthStackScreenProps<'Signup'>> = ({
   };
 
   return (
-    <ScreenView>
+    <ScreenView safeAreaTop>
       <Text style={styles.logo}>Dating App</Text>
       <Text style={styles.registerHeaderText}>Sign Up</Text>
       <View style={{width: '100%', gap: 8, marginBottom: 16}}>

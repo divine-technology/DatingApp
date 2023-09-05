@@ -2,7 +2,6 @@ import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 24,
     flex: 1,
     alignItems: 'center',
     justifyContent: 'space-around'
@@ -19,8 +18,8 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 20,
     color: 'white',
-    textShadowColor: 'black',
-    textShadowRadius: 1,
+    // textShadowColor: 'black',
+    // textShadowRadius: 1,
     marginBottom: 20
   },
   inputView: {

@@ -120,89 +120,76 @@ export const EditUserScreen: React.FC<SettingsStackScreenProps<'EditUser'>> = ({
   };
 
   return (
-    <ScreenView>
-      <ScrollView
-        style={styles.container}
-        contentContainerStyle={{
-          justifyContent: 'center',
-          alignItems: 'center',
-          gap: 4
-        }}
-        showsVerticalScrollIndicator={false}>
-        <Text style={styles.userName}>Edit Profile</Text>
-        <ControlledInput
-          control={control}
-          name={'firstName'}
-          placeholder={'Username...'}
-          startAdornment={<Icons.UserIcon size={30} color="white" />}
-          autoCapitalize={'none'}
-          returnKeyType={'next'}
-        />
-        <ControlledInput
-          control={control}
-          name={'lastName'}
-          placeholder={'Username...'}
-          startAdornment={<Icons.UserIcon size={30} color="white" />}
-          autoCapitalize={'none'}
-          returnKeyType={'next'}
-        />
-        <ControlledInput
-          control={control}
-          name={'email'}
-          placeholder={'Email...'}
-          keyboardType={'email-address'}
-          startAdornment={
-            <Icons.EnvelopeIcon width={'100%'} height={'100%'} color="white" />
-          }
-          autoCapitalize={'none'}
-          returnKeyType={'next'}
-        />
-        <ControlledInput
-          control={control}
-          name={'bio'}
-          placeholder={'Bio...'}
-          startAdornment={<Icons.SparklesIcon size={30} color="white" />}
-          autoCapitalize={'none'}
-          returnKeyType={'next'}
-          multiline
-        />
-        <ControlledInput
-          control={control}
-          name={'age'}
-          placeholder={'Age...'}
-          startAdornment={<Icons.CalendarDaysIcon size={30} color="white" />}
-          keyboardType={'number-pad'}
-          returnKeyType={'next'}
-          type={'number'}
-        />
-        <ControlledDropdown
-          control={control}
-          name={'gender'}
-          data={genderData}
-          placeholder="Select your gender"
-          labelField="label"
-          valueField="value"
-          renderLeftIcon={() => (
-            <Icons.FaceSmileIcon size={30} color={'white'} />
-          )}
-        />
-        <ControlledDropdown
-          control={control}
-          name={'preference'}
-          data={preferenceData}
-          placeholder="Select your preference"
-          labelField="label"
-          valueField="value"
-          renderLeftIcon={() => <Icons.HeartIcon size={30} color={'white'} />}
-        />
-      </ScrollView>
-      <View style={{paddingHorizontal: 16}}>
-        <Button
-          text={'Update profile'}
-          variant={'outlined'}
-          onPress={handleSubmit(onSubmit, error => console.log({error}))}
-        />
-      </View>
+    <ScreenView scrollEnabled>
+      <Text style={styles.userName}>Edit Profile</Text>
+      <ControlledInput
+        control={control}
+        name={'firstName'}
+        placeholder={'Username...'}
+        startAdornment={<Icons.UserIcon size={30} color="white" />}
+        autoCapitalize={'none'}
+        returnKeyType={'next'}
+      />
+      <ControlledInput
+        control={control}
+        name={'lastName'}
+        placeholder={'Username...'}
+        startAdornment={<Icons.UserIcon size={30} color="white" />}
+        autoCapitalize={'none'}
+        returnKeyType={'next'}
+      />
+      <ControlledInput
+        control={control}
+        name={'email'}
+        placeholder={'Email...'}
+        keyboardType={'email-address'}
+        startAdornment={
+          <Icons.EnvelopeIcon width={'100%'} height={'100%'} color="white" />
+        }
+        autoCapitalize={'none'}
+        returnKeyType={'next'}
+      />
+      <ControlledInput
+        control={control}
+        name={'bio'}
+        placeholder={'Bio...'}
+        startAdornment={<Icons.SparklesIcon size={30} color="white" />}
+        autoCapitalize={'none'}
+        returnKeyType={'next'}
+        multiline
+      />
+      <ControlledInput
+        control={control}
+        name={'age'}
+        placeholder={'Age...'}
+        startAdornment={<Icons.CalendarDaysIcon size={30} color="white" />}
+        keyboardType={'number-pad'}
+        returnKeyType={'next'}
+        type={'number'}
+      />
+      <ControlledDropdown
+        control={control}
+        name={'gender'}
+        data={genderData}
+        placeholder="Select your gender"
+        labelField="label"
+        valueField="value"
+        renderLeftIcon={() => <Icons.FaceSmileIcon size={30} color={'white'} />}
+      />
+      <ControlledDropdown
+        control={control}
+        name={'preference'}
+        data={preferenceData}
+        placeholder="Select your preference"
+        labelField="label"
+        valueField="value"
+        renderLeftIcon={() => <Icons.HeartIcon size={30} color={'white'} />}
+      />
+      <Button
+        text={'Update profile'}
+        variant={'outlined'}
+        onPress={handleSubmit(onSubmit, error => console.log({error}))}
+      />
     </ScreenView>
   );
 };

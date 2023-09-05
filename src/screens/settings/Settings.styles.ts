@@ -18,7 +18,8 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginTop: 10,
     marginBottom: 10,
-    color: 'black'
+    color: 'black',
+    textAlign: 'center'
   },
   aboutUser: {
     fontSize: 12,
@@ -74,12 +75,15 @@ export const styles = StyleSheet.create({
   },
   galleryContainer: {
     flex: 1,
-    margin: 12,
-    flexDirection: 'column',
+    width: '100%',
+    padding: 8,
+    marginVertical: 12,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    flexDirection: 'row',
     flexWrap: 'wrap',
     backgroundColor: '#ffffff90',
     borderRadius: 12,
-    overflow: 'hidden',
     borderWidth: 1,
     borderColor: '#63636330'
   },
@@ -92,6 +96,7 @@ export const styles = StyleSheet.create({
   },
   bioTitle: {
     fontSize: 20,
+    marginBottom: 8,
     fontWeight: 'bold',
     textAlign: 'center',
     color: 'black',

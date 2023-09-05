@@ -47,185 +47,190 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
     },
     {
       uri: 'https://images.unsplash.com/photo-1569569970363-df7b6160d111'
+    },
+    {
+      uri: 'https://images.unsplash.com/photo-1571501679680-de32f1e7aad4'
+    },
+    {
+      uri: 'https://images.unsplash.com/photo-1573273787173-0eb81a833b34'
     }
   ];
 
   return (
-    <ScreenView>
-      <ScrollView
-        style={styles.container}
-        contentContainerStyle={{
+    <ScreenView scrollEnabled>
+      <View
+        style={{
           justifyContent: 'center',
-          alignItems: 'center'
-        }}
-        showsVerticalScrollIndicator={false}>
-        <View
-          style={{
-            shadowColor: '#000',
-            shadowOffset: {width: 0, height: 2},
-            shadowOpacity: 0.5,
-            shadowRadius: 2,
-            elevation: 2
-          }}>
-          <Image
-            style={styles.userImg}
-            source={{
-              uri: 'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg'
-            }}
-          />
-        </View>
-        <Text style={styles.userName}>
-          {user ? `${user.firstName} ${user.lastName}` : 'Test User'}
-        </Text>
-        <Text style={styles.aboutUser}>Location incoming.</Text>
-        <View style={styles.userBtnWrapper}>
-          <View style={{flex: 1}}>
-            <Button
-              text="Edit"
-              variant={'outlined'}
-              onPress={() => {
-                navigation.navigate('EditUser');
-              }}
-            />
-          </View>
-          <View style={{flex: 1}}>
-            <Button
-              text="Logout"
-              variant={'outlined'}
-              onPress={() => signOut()}
-            />
-          </View>
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            gap: 10
-          }}>
-          <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
-          <Icons.UserCircleIcon size={25} color={'#00000095'} />
-          <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
-        </View>
-        <View style={styles.userInfoWrapper}>
-          <View style={styles.userInfoItem}>
-            <Text style={styles.userInfoTitle}>
-              {user && user?.gender ? user.gender : 'Not set'}
-            </Text>
-            <Text style={styles.userInfoSubTitle}>Gender</Text>
-          </View>
-          <View style={styles.userInfoItem}>
-            <Text style={styles.userInfoTitle}>
-              {user && user?.age ? user.age : 'Not set'}
-            </Text>
-            <Text style={styles.userInfoSubTitle}>Age</Text>
-          </View>
-          <View style={styles.userInfoItem}>
-            <Text style={styles.userInfoTitle}>
-              {user && user?.preference ? user.preference : 'Not set'}
-            </Text>
-            <Text style={styles.userInfoSubTitle}>Preference</Text>
-          </View>
-        </View>
-        <View style={styles.biocontainer}>
-          <Text style={styles.bioTitle}>Bio</Text>
-          <Text style={styles.bioSubTitle}>
-            {user && user.bio ? user.bio : 'No user bio.'}
-          </Text>
-        </View>
-        <View style={styles.galleryContainer}>
-          <Text style={styles.bioTitle}>Images</Text>
-          <View style={{flexDirection: 'row', padding: 8}}>
-            {images.map((uri, index) => (
-              <TouchableHighlight
-                key={index}
-                onPress={() => {
-                  setImageIndex(index);
-                  setIsVisible(!visible);
-                }}>
-                <Image
-                  source={uri}
-                  resizeMode="stretch"
-                  style={{
-                    borderColor: '#b13ef770',
-                    borderWidth: 1,
-                    width: (Dimensions.get('screen').width - 52) / 3,
-                    height: (Dimensions.get('screen').width - 52) / 3
-                  }}
-                />
-              </TouchableHighlight>
-            ))}
-          </View>
-        </View>
-        <ImageView
-          images={images}
-          presentationStyle="fullScreen"
-          imageIndex={imageIndex}
-          visible={visible}
-          onRequestClose={() => setIsVisible(false)}
-          FooterComponent={({imageIndex}) => (
-            <View
-              style={{
-                width: '100%',
-                alignItems: 'center',
-                justifyContent: 'space-around',
-                backgroundColor: 'rgba(0, 0, 0, 0.7)',
-                paddingBottom: insets.bottom + 4
-              }}>
-              <Text style={styles.text}>{`${imageIndex + 1} / ${
-                images.length
-              }`}</Text>
-            </View>
-          )}
+          alignItems: 'center',
+          shadowColor: '#000',
+          shadowOffset: {width: 0, height: 2},
+          shadowOpacity: 0.5,
+          shadowRadius: 2,
+          elevation: 2
+        }}>
+        <Image
+          style={styles.userImg}
+          source={{
+            uri: 'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg'
+          }}
         />
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            gap: 10
-          }}>
-          <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
-          <Icons.ShieldExclamationIcon size={25} color={'#00000095'} />
-          <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
-        </View>
-        <View style={styles.authBtnWrapper}>
-          <View style={{flex: 1}}>
-            <Button
-              text="Update password"
-              variant={'outlined'}
-              onPress={() => {
-                navigation.navigate('EditUser');
-              }}
-            />
-          </View>
-          <View style={{flex: 1}}>
-            <Button
-              text="Deactivate account"
-              variant={'outlined'}
-              onPress={() => signOut()}
-            />
-          </View>
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            gap: 10
-          }}>
-          <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
-          <Icons.NoSymbolIcon size={25} color={'#00000095'} />
-          <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
-        </View>
-        <View style={styles.authBtnWrapper}>
+      </View>
+      <Text style={styles.userName}>
+        {user ? `${user.firstName} ${user.lastName}` : 'Test User'}
+      </Text>
+      <Text style={styles.aboutUser}>Location incoming.</Text>
+      <View style={styles.userBtnWrapper}>
+        <View style={{flex: 1}}>
           <Button
-            text="Blocked users"
-            variant={'filled'}
-            width={'50%'}
+            text="Edit"
+            variant={'outlined'}
             onPress={() => {
-              navigation.navigate('BlockedUsers');
+              navigation.navigate('EditUser');
             }}
           />
         </View>
-      </ScrollView>
+        <View style={{flex: 1}}>
+          <Button
+            text="Logout"
+            variant={'outlined'}
+            onPress={() => signOut()}
+          />
+        </View>
+      </View>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: 10
+        }}>
+        <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
+        <Icons.UserCircleIcon size={25} color={'#00000095'} />
+        <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
+      </View>
+      <View style={styles.userInfoWrapper}>
+        <View style={styles.userInfoItem}>
+          <Text style={styles.userInfoTitle}>
+            {user && user?.gender ? user.gender : 'Not set'}
+          </Text>
+          <Text style={styles.userInfoSubTitle}>Gender</Text>
+        </View>
+        <View style={styles.userInfoItem}>
+          <Text style={styles.userInfoTitle}>
+            {user && user?.age ? user.age : 'Not set'}
+          </Text>
+          <Text style={styles.userInfoSubTitle}>Age</Text>
+        </View>
+        <View style={styles.userInfoItem}>
+          <Text style={styles.userInfoTitle}>
+            {user && user?.preference ? user.preference : 'Not set'}
+          </Text>
+          <Text style={styles.userInfoSubTitle}>Preference</Text>
+        </View>
+      </View>
+      <View style={styles.biocontainer}>
+        <Text style={styles.bioTitle}>Bio</Text>
+        <Text style={styles.bioSubTitle}>
+          {user && user.bio ? user.bio : 'No user bio.'}
+        </Text>
+      </View>
+      <View style={styles.galleryContainer}>
+        <View
+          style={{
+            width: '100%'
+          }}>
+          <Text style={styles.bioTitle}>Images</Text>
+        </View>
+        {images.map((uri, index) => (
+          <TouchableHighlight
+            key={index}
+            style={{
+              borderColor: '#b13ef770',
+              borderWidth: 1
+            }}
+            onPress={() => {
+              setImageIndex(index);
+              setIsVisible(!visible);
+            }}>
+            <Image
+              source={uri}
+              resizeMode="stretch"
+              style={{
+                width: (Dimensions.get('screen').width - 56) / 3,
+                height: (Dimensions.get('screen').width - 56) / 3
+              }}
+            />
+          </TouchableHighlight>
+        ))}
+      </View>
+      <ImageView
+        images={images}
+        presentationStyle="fullScreen"
+        imageIndex={imageIndex}
+        visible={visible}
+        onRequestClose={() => setIsVisible(false)}
+        FooterComponent={({imageIndex}) => (
+          <View
+            style={{
+              width: '100%',
+              alignItems: 'center',
+              justifyContent: 'space-around',
+              backgroundColor: 'rgba(0, 0, 0, 0.7)',
+              paddingBottom: insets.bottom + 4
+            }}>
+            <Text style={styles.text}>{`${imageIndex + 1} / ${
+              images.length
+            }`}</Text>
+          </View>
+        )}
+      />
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: 10
+        }}>
+        <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
+        <Icons.ShieldExclamationIcon size={25} color={'#00000095'} />
+        <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
+      </View>
+      <View style={styles.authBtnWrapper}>
+        <View style={{flex: 1}}>
+          <Button
+            text="Update password"
+            variant={'outlined'}
+            onPress={() => {
+              navigation.navigate('EditUser');
+            }}
+          />
+        </View>
+        <View style={{flex: 1}}>
+          <Button
+            text="Deactivate account"
+            variant={'outlined'}
+            onPress={() => signOut()}
+          />
+        </View>
+      </View>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: 10
+        }}>
+        <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
+        <Icons.NoSymbolIcon size={25} color={'#00000095'} />
+        <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
+      </View>
+      <View style={styles.authBtnWrapper}>
+        <Button
+          text="Blocked users"
+          variant={'filled'}
+          width={'50%'}
+          onPress={() => {
+            navigation.navigate('BlockedUsers');
+          }}
+        />
+      </View>
     </ScreenView>
   );
 };

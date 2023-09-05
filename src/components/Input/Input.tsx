@@ -54,14 +54,15 @@ export const Input: React.FC<InputProps> = forwardRef(
       <View>
         <View style={style.textInputWrapper}>
           {startAdornment && (
-            <View
-              style={{
-                height: 28,
-                width: 28,
-                marginVertical: 8,
-                alignSelf: 'flex-start'
-              }}>
-              {startAdornment}
+            <View>
+              <View
+                style={{
+                  height: 28,
+                  width: 28,
+                  alignSelf: 'flex-start'
+                }}>
+                {startAdornment}
+              </View>
             </View>
           )}
           <TextInput

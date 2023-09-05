@@ -122,8 +122,6 @@ export const styles =
     StyleSheet.create({
       loginBtn: {
         width: width,
-        borderWidth: 1,
-        borderColor: 'white',
         alignItems: 'center',
         justifyContent: 'center',
         opacity: state?.pressed ? 0.7 : 1,

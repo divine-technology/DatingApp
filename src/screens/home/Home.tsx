@@ -142,7 +142,6 @@ export const HomeScreen: React.FC<HomeStackCompositeScreenProps<'Home'>> = ({
         style={{
           flexDirection: 'column',
           flex: 1,
-          padding: 24,
           gap: 12
         }}>
         {test() ? (

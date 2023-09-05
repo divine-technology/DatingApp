@@ -49,25 +49,27 @@ export const MessagesScreen: React.FC<MessagesStackScreenProps<'Messages'>> = ({
   return (
     <ScreenView>
       <View style={styles.container}>
-        <View style={styles.upperContainer}>
-          <Text style={styles.h2TextStyle}>Messsages</Text>
-          <View>
-            <Button
-              text="Like Requests"
-              variant={'text'}
-              size={'xxs'}
-              textStyle={{
-                fontWeight: '500',
-                fontSize: 18
-              }}
-              onPress={() => navigation.navigate('LikeRequests')}
-            />
-          </View>
-        </View>
         <FlatList
           data={fetchedMessages}
           contentContainerStyle={{gap: 8}}
           keyExtractor={message => message._id}
+          ListHeaderComponent={() => (
+            <View style={styles.upperContainer}>
+              <Text style={styles.h2TextStyle}>Messsages</Text>
+              <View>
+                <Button
+                  text="Like Requests"
+                  variant={'text'}
+                  size={'xxs'}
+                  textStyle={{
+                    fontWeight: '500',
+                    fontSize: 18
+                  }}
+                  onPress={() => navigation.navigate('LikeRequests')}
+                />
+              </View>
+            </View>
+          )}
           renderItem={({item}) => (
             <MessagesListItem
               {...item}

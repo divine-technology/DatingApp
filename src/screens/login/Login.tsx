@@ -46,7 +46,7 @@ export const LoginScreen: React.FC<AuthStackScreenProps<'Login'>> = ({
   };
 
   return (
-    <ScreenView>
+    <ScreenView safeAreaTop>
       <View style={styles.container}>
         <View style={{alignItems: 'center'}}>
           <Image

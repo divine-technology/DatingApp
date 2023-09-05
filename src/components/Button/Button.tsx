@@ -6,7 +6,7 @@ import {
   TextStyle
 } from 'react-native';
 import React from 'react';
-import {ButtonStyleProps, Color, Size, Variant, styles} from './Button.styles';
+import {ButtonStyleProps, styles} from './Button.styles';
 
 type ButtonProps = PressableProps & {
   text: string;
