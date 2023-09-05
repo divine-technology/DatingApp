@@ -27,6 +27,7 @@ export const LikeRequestsScreen: React.FC<MessagesStackScreenProps<'LikeRequests
     },
     {
       onSuccess: data => {
+        console.log('IS THERE ANY DATA HERE: ', data);
         setfetchedMessages(
           (data as unknown as ResponsePaginateDto)
             .data as unknown as MessageResponseDto[]

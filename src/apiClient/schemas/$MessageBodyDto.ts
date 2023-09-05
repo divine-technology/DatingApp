@@ -2,16 +2,8 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export const $MessageDto = {
+export const $MessageBodyDto = {
     properties: {
-        from: {
-            type: 'string',
-            isRequired: true,
-        },
-        to: {
-            type: 'string',
-            isRequired: true,
-        },
         message: {
             type: 'string',
             isRequired: true,

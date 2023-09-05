@@ -65,7 +65,7 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
         <Text style={styles.userName}>
           {user ? `${user.firstName} ${user.lastName}` : 'Test User'}
         </Text>
-        <Text style={styles.aboutUser}>Short bio incoming.</Text>
+        <Text style={styles.aboutUser}>Location incoming.</Text>
         <View style={styles.userBtnWrapper}>
           <View style={{flex: 1}}>
             <Button
@@ -176,7 +176,54 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
           visible={visible}
           onRequestClose={() => setIsVisible(false)}
         />
-        <Text style={styles.userName}>Images (to be added...)</Text>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: 10
+          }}>
+          <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
+          <Icons.ShieldExclamationIcon size={25} color={'#00000095'} />
+          <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
+        </View>
+        <View style={styles.authBtnWrapper}>
+          <View style={{flex: 1}}>
+            <Button
+              text="Update password"
+              variant={'outlined'}
+              onPress={() => {
+                navigation.navigate('EditUser');
+              }}
+            />
+          </View>
+          <View style={{flex: 1}}>
+            <Button
+              text="Deactivate account"
+              variant={'outlined'}
+              onPress={() => signOut()}
+            />
+          </View>
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: 10
+          }}>
+          <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
+          <Icons.NoSymbolIcon size={25} color={'#00000095'} />
+          <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
+        </View>
+        <View style={styles.authBtnWrapper}>
+          <Button
+            text="Blocked users"
+            variant={'filled'}
+            width={'50%'}
+            onPress={() => {
+              navigation.navigate('BlockedUsers');
+            }}
+          />
+        </View>
       </ScrollView>
     </ScreenView>
   );

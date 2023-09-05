@@ -4,18 +4,6 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1
   },
-  galleryContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    backgroundColor: 'white',
-    borderWidth: 1,
-    borderColor: 'white'
-  },
-  text: {
-    fontSize: 18,
-    color: '#FFF'
-  },
   userImg: {
     height: 150,
     width: 150,
@@ -40,13 +28,6 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     width: '100%',
     marginBottom: 10,
-    gap: 8
-  },
-  authBtnWrapper: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    width: '100%',
-    marginVertical: 10,
     gap: 8
   },
   userBtn: {

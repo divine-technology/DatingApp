@@ -2,7 +2,6 @@ import React, {useContext, useEffect, useRef, useState} from 'react';
 import {PermissionsAndroid, Platform, Text, View} from 'react-native';
 import {AuthContext} from '../../providers/context/Auth';
 import {Button} from '../../components/Button/Button';
-import {TopTabScreenProps} from '../../navigation/AppRoutes';
 import {AuthUser, ResponsePaginateDto, UserRadiusDto} from '../../apiClient';
 import {useMutation} from 'react-query';
 import {openApi} from '../../services/openApi';
@@ -14,11 +13,14 @@ import {
 } from '../../components/CardSwiper/CardSwiper';
 import {mockData} from './mockData';
 import {ScreenView} from '../../components/ScreenWrapper/ScreenView';
+import {HomeStackCompositeScreenProps} from '../../navigation/HomeRoutes';
+import * as Icons from 'react-native-heroicons/solid';
+import {styles} from './Home.styles';
 import ImagePicker, {openCamera} from 'react-native-image-crop-picker';
 
 export type HomeRouteParams = undefined;
 
-export const HomeScreen: React.FC<TopTabScreenProps<'Home'>> = ({
+export const HomeScreen: React.FC<HomeStackCompositeScreenProps<'Home'>> = ({
   navigation
 }) => {
   const {user} = useContext(AuthContext);
@@ -61,7 +63,9 @@ export const HomeScreen: React.FC<TopTabScreenProps<'Home'>> = ({
   };
 
   const viewProfile = (id: string | number) => {
+    if (id === 'NoId') return;
     console.log('VIEW PROFILE', {id});
+    navigation.navigate('UserProfile', {userId: id.toString()});
   };
 
   const like = (id: string | number) => {
@@ -137,19 +141,92 @@ export const HomeScreen: React.FC<TopTabScreenProps<'Home'>> = ({
           gap: 12
         }}>
         {test() ? (
-          <View style={{flex: 1}}>
-            {user && (
-              <CardSwiper
-                ref={cardSwiperRef}
-                data={cardsData}
-                card={card}
-                removedCardsLimit={0}
-                onSwipe={onSwipe}
-                swipeableDirection={'vertical'}
-                infinite
-              />
-            )}
-          </View>
+          <>
+            <View style={{flex: 1}}>
+              {user && (
+                <CardSwiper
+                  ref={cardSwiperRef}
+                  data={cardsData}
+                  card={card}
+                  onSwipe={onSwipe}
+                  swipeableDirection={'horizontal'}
+                  infinite
+                />
+              )}
+            </View>
+            <View style={styles.reactButtonWrapper}>
+              <View
+                style={{
+                  shadowColor: '#000',
+                  shadowOffset: {width: 0, height: 2},
+                  shadowOpacity: 0.5,
+                  shadowRadius: 2,
+                  elevation: 2
+                }}>
+                <Icons.ArrowLeftCircleIcon
+                  size={55}
+                  color={'gray'}
+                  onPress={cardSwiperRef.current?.onBack}
+                />
+              </View>
+              <View
+                style={{
+                  shadowColor: '#000',
+                  shadowOffset: {width: 0, height: 2},
+                  shadowOpacity: 0.5,
+                  shadowRadius: 2,
+                  elevation: 2
+                }}>
+                <Icons.XCircleIcon
+                  size={55}
+                  color={'red'}
+                  onPress={() => cardSwiperRef.current?.manualSwipe('left')}
+                />
+              </View>
+              <View
+                style={{
+                  shadowColor: '#000',
+                  shadowOffset: {width: 0, height: 2},
+                  shadowOpacity: 0.5,
+                  shadowRadius: 2,
+                  elevation: 2
+                }}>
+                <Icons.UserCircleIcon
+                  size={55}
+                  color={'#800080'}
+                  onPress={() =>
+                    viewProfile(
+                      cardSwiperRef.current?.getCurrentCardId() ?? 'NoId'
+                    )
+                  }
+                />
+              </View>
+              <View
+                style={{
+                  shadowColor: '#000',
+                  shadowOffset: {width: 0, height: 2},
+                  shadowOpacity: 0.5,
+                  shadowRadius: 2,
+                  elevation: 2
+                }}>
+                <Icons.CheckCircleIcon
+                  size={55}
+                  color={'#20B2AA'}
+                  onPress={() => cardSwiperRef.current?.manualSwipe('right')}
+                />
+              </View>
+              <View
+                style={{
+                  shadowColor: '#000',
+                  shadowOffset: {width: 0, height: 2},
+                  shadowOpacity: 0.5,
+                  shadowRadius: 2,
+                  elevation: 2
+                }}>
+                <Icons.CheckBadgeIcon size={55} color={'yellow'} />
+              </View>
+            </View>
+          </>
         ) : (
           <>
             <Text style={{color: 'black', fontSize: 30}}>
@@ -158,28 +235,17 @@ export const HomeScreen: React.FC<TopTabScreenProps<'Home'>> = ({
             <Button
               text="Finish profile"
               variant={'text'}
-              onPress={() => navigation.navigate('SettingsStack')}
+              onPress={() =>
+                navigation.navigate('App', {
+                  screen: 'SettingsStack',
+                  params: {
+                    screen: 'Settings'
+                  }
+                })
+              }
             />
           </>
         )}
-        <View style={{flexDirection: 'row'}}>
-          <Button
-            text="Dislike"
-            width={'25%'}
-            onPress={cardSwiperRef.current?.onBack}
-          />
-          <Button text="Like" width={'25%'} onPress={openCamera} />
-          <Button
-            text="Nesto"
-            width={'25%'}
-            onPress={cardSwiperRef.current?.onBack}
-          />
-          <Button
-            text="Nesto"
-            width={'25%'}
-            onPress={cardSwiperRef.current?.onBack}
-          />
-        </View>
       </View>
     </ScreenView>
   );

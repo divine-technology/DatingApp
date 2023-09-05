@@ -6,7 +6,7 @@ import type { ResponsePaginateDto } from '../models/ResponsePaginateDto';
 import type { UpdateUserDto } from '../models/UpdateUserDto';
 import type { User } from '../models/User';
 import type { UserRadiusDto } from '../models/UserRadiusDto';
-import type { UserWithId } from '../models/UserWithId';
+import type { UserResponse } from '../models/UserResponse';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -113,14 +113,14 @@ export class UserService {
 
     /**
      * Get user by id
-     * @returns UserWithId
+     * @returns UserResponse
      * @throws ApiError
      */
     public usersControllerGetOneUser({
         id,
     }: {
         id: string,
-    }): CancelablePromise<UserWithId> {
+    }): CancelablePromise<UserResponse> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/users/get/{id}',

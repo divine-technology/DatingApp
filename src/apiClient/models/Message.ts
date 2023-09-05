@@ -8,7 +8,6 @@ import type { ObjectId } from './ObjectId';
 export type Message = {
     likeId: ObjectId;
     from: ObjectId;
-    to: ObjectId;
     message: string;
 };
 

@@ -1,6 +1,5 @@
 import React, {useContext} from 'react';
 import {AuthContext} from '../../providers/context/Auth';
-import {SafeAreaView} from 'react-navigation';
 import {styles} from './EditUser.styles';
 import {ScrollView} from 'react-native-gesture-handler';
 import {Text, View} from 'react-native';
@@ -17,7 +16,8 @@ import {
   ControlledDropdown,
   DropdownDefaultDataProps
 } from '../../components/Dropdown/Dropdown';
-import {ControlledInput} from '../../components/RenameLater/Input';
+import {ScreenView} from '../../components/ScreenWrapper/ScreenView';
+import {ControlledInput} from '../../components/Input/Input';
 
 const preferenceData = [
   {label: 'Male', value: 'male'},
@@ -120,7 +120,7 @@ export const EditUserScreen: React.FC<SettingsStackScreenProps<'EditUser'>> = ({
   };
 
   return (
-    <SafeAreaView style={{flex: 1, paddingVertical: 16}}>
+    <ScreenView>
       <ScrollView
         style={styles.container}
         contentContainerStyle={{
@@ -203,6 +203,6 @@ export const EditUserScreen: React.FC<SettingsStackScreenProps<'EditUser'>> = ({
           onPress={handleSubmit(onSubmit, error => console.log({error}))}
         />
       </View>
-    </SafeAreaView>
+    </ScreenView>
   );
 };
