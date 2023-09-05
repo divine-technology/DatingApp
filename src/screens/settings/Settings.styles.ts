@@ -4,14 +4,6 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1
   },
-  galleryContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    backgroundColor: 'white',
-    borderWidth: 1,
-    borderColor: 'white'
-  },
   text: {
     fontSize: 18,
     color: '#FFF'
@@ -79,6 +71,17 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     color: 'black',
     textTransform: 'capitalize'
+  },
+  galleryContainer: {
+    flex: 1,
+    margin: 12,
+    flexDirection: 'column',
+    flexWrap: 'wrap',
+    backgroundColor: '#ffffff90',
+    borderRadius: 12,
+    overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: '#63636330'
   },
   biocontainer: {
     width: '100%',

@@ -121,25 +121,28 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
           </Text>
         </View>
         <View style={styles.galleryContainer}>
-          {images.map((uri, index) => (
-            <TouchableHighlight
-              key={index}
-              onPress={() => {
-                setImageIndex(index);
-                setIsVisible(!visible);
-              }}>
-              <Image
-                source={uri}
-                resizeMode="stretch"
-                style={{
-                  borderColor: 'white',
-                  borderWidth: 1,
-                  width: (Dimensions.get('screen').width - 34) / 3,
-                  height: (Dimensions.get('screen').width - 34) / 3
-                }}
-              />
-            </TouchableHighlight>
-          ))}
+          <Text style={styles.bioTitle}>Images</Text>
+          <View style={{flexDirection: 'row', padding: 8}}>
+            {images.map((uri, index) => (
+              <TouchableHighlight
+                key={index}
+                onPress={() => {
+                  setImageIndex(index);
+                  setIsVisible(!visible);
+                }}>
+                <Image
+                  source={uri}
+                  resizeMode="stretch"
+                  style={{
+                    borderColor: '#b13ef770',
+                    borderWidth: 1,
+                    width: (Dimensions.get('screen').width - 52) / 3,
+                    height: (Dimensions.get('screen').width - 52) / 3
+                  }}
+                />
+              </TouchableHighlight>
+            ))}
+          </View>
         </View>
         <ImageView
           images={images}
