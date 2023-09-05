@@ -50,8 +50,8 @@ export const MessagesScreen: React.FC<MessagesStackScreenProps<'Messages'>> = ({
     <ScreenView>
       <View style={styles.container}>
         <View style={styles.upperContainer}>
-          <Text style={styles.h2TextStyle}>Messages</Text>
-          <View style={{}}>
+          <Text style={styles.h2TextStyle}>Messsages</Text>
+          <View>
             <Button
               text="Like Requests"
               variant={'text'}

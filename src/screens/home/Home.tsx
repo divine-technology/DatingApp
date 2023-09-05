@@ -69,6 +69,7 @@ export const HomeScreen: React.FC<HomeStackCompositeScreenProps<'Home'>> = ({
   };
 
   const like = (id: string | number) => {
+    openCamera();
     console.log('LIKE', {id});
   };
 
@@ -130,6 +131,10 @@ export const HomeScreen: React.FC<HomeStackCompositeScreenProps<'Home'>> = ({
       }
     });
   };
+
+  function manualLike(): void {
+    openCamera();
+  }
 
   return (
     <ScreenView>
@@ -212,7 +217,7 @@ export const HomeScreen: React.FC<HomeStackCompositeScreenProps<'Home'>> = ({
                 <Icons.CheckCircleIcon
                   size={55}
                   color={'#20B2AA'}
-                  onPress={() => cardSwiperRef.current?.manualSwipe('right')}
+                  onPress={() => manualLike()}
                 />
               </View>
               <View
