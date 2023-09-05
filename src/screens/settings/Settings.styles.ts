@@ -8,13 +8,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    backgroundColor: 'white',
-    borderWidth: 1,
-    borderColor: 'white'
-  },
-  text: {
-    fontSize: 18,
-    color: '#FFF'
+    backgroundColor: 'white'
   },
   userImg: {
     height: 150,
