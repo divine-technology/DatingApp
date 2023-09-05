@@ -2,39 +2,42 @@ import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
+    paddingHorizontal: 24,
     flex: 1,
-    backgroundColor: '#003f5c',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-around'
   },
   logo: {
     fontWeight: 'bold',
     fontSize: 50,
+    textShadowColor: 'black',
+    textShadowRadius: 1,
     color: '#fb5b5a',
-    marginBottom: 20,
+    marginBottom: 20
   },
   loginHeaderText: {
     fontWeight: 'bold',
     fontSize: 20,
     color: 'white',
-    marginBottom: 20,
+    textShadowColor: 'black',
+    textShadowRadius: 1,
+    marginBottom: 20
   },
   inputView: {
-    width: '80%',
+    width: '100%',
     backgroundColor: '#465881',
     borderRadius: 25,
     height: 50,
     marginBottom: 20,
     justifyContent: 'center',
-    padding: 20,
+    padding: 20
   },
   inputText: {
-    height: 50,
-    color: 'white',
+    height: 50
   },
   forgot: {
     color: 'white',
-    fontSize: 11,
+    fontSize: 11
   },
   loginBtn: {
     width: '80%',
@@ -43,10 +46,9 @@ export const styles = StyleSheet.create({
     height: 50,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 40,
-    marginBottom: 10,
+    marginBottom: 10
   },
   loginText: {
-    color: 'white',
-  },
+    color: 'white'
+  }
 });

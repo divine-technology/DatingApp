@@ -2,6 +2,11 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { Message } from '../models/Message';
+import type { MessageDto } from '../models/MessageDto';
+import type { MessageResponseDto } from '../models/MessageResponseDto';
+import type { ResponsePaginateDto } from '../models/ResponsePaginateDto';
+
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 
@@ -11,16 +16,16 @@ export class MessageService {
 
     /**
      * Send message
-     * @returns any 
+     * @returns Message
      * @throws ApiError
      */
     public messageControllerSendMessage({
-likeId,
-requestBody,
-}: {
-likeId: string,
-requestBody: any,
-}): CancelablePromise<any> {
+        likeId,
+        requestBody,
+    }: {
+        likeId: string,
+        requestBody: MessageDto,
+    }): CancelablePromise<Message> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/message/send-message/{likeId}',
@@ -34,22 +39,22 @@ requestBody: any,
 
     /**
      * Get messages between users
-     * @returns any 
+     * @returns ResponsePaginateDto
      * @throws ApiError
      */
     public messageControllerGetConversation({
-likeId,
-page,
-limit,
-sort,
-sortBy,
-}: {
-likeId: string,
-page?: number,
-limit?: number,
-sort?: number,
-sortBy?: string,
-}): CancelablePromise<any> {
+        likeId,
+        page,
+        limit,
+        sort,
+        sortBy,
+    }: {
+        likeId: string,
+        page?: number,
+        limit?: number,
+        sort?: number,
+        sortBy?: string,
+    }): CancelablePromise<ResponsePaginateDto> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/message/get-conversation/{likeId}',
@@ -62,6 +67,74 @@ sortBy?: string,
                 'sort': sort,
                 'sortBy': sortBy,
             },
+        });
+    }
+
+    /**
+     * Get all chats that a user has
+     * @returns ResponsePaginateDto
+     * @throws ApiError
+     */
+    public messageControllerGetChat({
+        page,
+        limit,
+        sort,
+        sortBy,
+    }: {
+        page?: number,
+        limit?: number,
+        sort?: number,
+        sortBy?: string,
+    }): CancelablePromise<ResponsePaginateDto> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/message/get-chats',
+            query: {
+                'page': page,
+                'limit': limit,
+                'sort': sort,
+                'sortBy': sortBy,
+            },
+        });
+    }
+
+    /**
+     * Get all like request chats that a user has
+     * @returns ResponsePaginateDto
+     * @throws ApiError
+     */
+    public messageControllerGetLikeRequestChats({
+        page,
+        limit,
+        sort,
+        sortBy,
+    }: {
+        page?: number,
+        limit?: number,
+        sort?: number,
+        sortBy?: string,
+    }): CancelablePromise<ResponsePaginateDto> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/message/get-request-chats',
+            query: {
+                'page': page,
+                'limit': limit,
+                'sort': sort,
+                'sortBy': sortBy,
+            },
+        });
+    }
+
+    /**
+     * Do not delete or use this! It was made just for getting the DTO for api client!
+     * @returns MessageResponseDto
+     * @throws ApiError
+     */
+    public messageControllerTestDontUse(): CancelablePromise<MessageResponseDto> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/message/test-dont-use',
         });
     }
 

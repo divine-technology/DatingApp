@@ -5,5 +5,6 @@
 
 export type Location = {
     type: string;
-    coordinates: Array<string>;
+    coordinates: Array<number>;
 };
+
