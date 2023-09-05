@@ -7,21 +7,22 @@ import {
 import {TopBar} from '../components/TopBar/TopBar';
 import {
   NavigationHelpers,
+  NavigatorScreenParams,
   ParamListBase,
   RouteProp,
   TabNavigationState
 } from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack'; // TODO: Tarik ispravi ovo
-import {SettingsRoutes} from './SettingsRoutes';
+import {SettingsNavigatorParams, SettingsRoutes} from './SettingsRoutes';
 import {SceneRendererProps} from 'react-native-tab-view';
 import {MaterialTopTabDescriptorMap} from '@react-navigation/material-top-tabs/lib/typescript/src/types';
-import {MessagesScreen} from '../screens/messages/Messages';
-import {MessagesRoutes} from './MessagesRoutes';
+import {MessagesNavigatorParams, MessagesRoutes} from './MessagesRoutes';
+import {HomeNavigatorParams, HomeRoutes} from './HomeRoutes';
 
 export type AppTopTabParamList = {
-  Home: HomeRouteParams;
-  SettingsStack: undefined;
-  MessagesStack: undefined;
+  HomeStack: HomeNavigatorParams;
+  SettingsStack: SettingsNavigatorParams;
+  MessagesStack: MessagesNavigatorParams;
 };
 
 type ScreenComponentType<
@@ -42,16 +43,22 @@ export type TopTabProps<T extends ParamListBase = ParamListBase> =
     descriptors: MaterialTopTabDescriptorMap;
   };
 
+export type AppNavigatorParams = NavigatorScreenParams<AppTopTabParamList>;
+
 const TopTab = createMaterialTopTabNavigator<AppTopTabParamList>();
 
 export const AppRoutes: React.FC = () => {
   return (
     <TopTab.Navigator
-      initialRouteName={'Home'}
-      tabBar={TopBar}
-      screenOptions={{swipeEnabled: false}}>
+      initialRouteName={'HomeStack'}
+      // tabBarPosition={'bottom'}
+      tabBar={TopBar}>
       <TopTab.Screen name={'MessagesStack'} component={MessagesRoutes} />
-      <TopTab.Screen name={'Home'} component={HomeScreen} />
+      <TopTab.Screen
+        name={'HomeStack'}
+        options={{swipeEnabled: false}}
+        component={HomeRoutes}
+      />
       <TopTab.Screen name={'SettingsStack'} component={SettingsRoutes} />
     </TopTab.Navigator>
   );

@@ -9,7 +9,7 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import {AuthStackScreenProps} from '../../navigation/AuthRoutes';
 import {ScreenView} from '../../components/ScreenWrapper/ScreenView';
-import {ControlledInput} from '../../components/RenameLater/Input';
+import {ControlledInput} from '../../components/Input/Input';
 
 export type SignupRouteParams = {};
 
@@ -37,7 +37,7 @@ const validationSchema = yup.object({
 export const SignupScreen: React.FC<AuthStackScreenProps<'Signup'>> = ({
   navigation
 }) => {
-  const {control, handleSubmit} = useForm<CreateUserDto>({
+  const {control, handleSubmit, setFocus} = useForm<CreateUserDto>({
     resolver: yupResolver(validationSchema)
   });
 
@@ -52,45 +52,47 @@ export const SignupScreen: React.FC<AuthStackScreenProps<'Signup'>> = ({
   };
 
   return (
-    <ScreenView>
-      <View style={styles.container}>
-        <Text style={styles.logo}>Dating App</Text>
-        <Text style={styles.registerHeaderText}>Sign Up</Text>
-        <View style={{width: '100%', gap: 8, marginBottom: 16}}>
-          <ControlledInput
-            control={control}
-            name={'firstName'}
-            placeholder={'First name...'}
-            returnKeyType={'next'}
-          />
-          <ControlledInput
-            control={control}
-            name={'lastName'}
-            placeholder={'Last name...'}
-            returnKeyType={'next'}
-          />
-          <ControlledInput
-            control={control}
-            name={'email'}
-            placeholder={'Email...'}
-            keyboardType={'email-address'}
-            autoCapitalize={'none'}
-            returnKeyType={'next'}
-          />
-          <ControlledInput
-            control={control}
-            name={'password'}
-            placeholder={'Password...'}
-            secureTextEntry
-            autoCapitalize={'none'}
-            returnKeyType={'next'}
-          />
-        </View>
-        <View style={{width: '100%', gap: 8}}>
-          <Button text="Sign up" onPress={handleSubmit(onSubmit)} />
-          <Button text="Login" onPress={navigateToLogin} variant={'outlined'} />
-          <View />
-        </View>
+    <ScreenView safeAreaTop>
+      <Text style={styles.logo}>Dating App</Text>
+      <Text style={styles.registerHeaderText}>Sign Up</Text>
+      <View style={{width: '100%', gap: 8, marginBottom: 16}}>
+        <ControlledInput
+          control={control}
+          name={'firstName'}
+          placeholder={'First name...'}
+          returnKeyType={'next'}
+          onSubmitEditing={() => setFocus('lastName')}
+        />
+        <ControlledInput
+          control={control}
+          name={'lastName'}
+          placeholder={'Last name...'}
+          returnKeyType={'next'}
+          onSubmitEditing={() => setFocus('email')}
+        />
+        <ControlledInput
+          control={control}
+          name={'email'}
+          placeholder={'Email...'}
+          keyboardType={'email-address'}
+          autoCapitalize={'none'}
+          returnKeyType={'next'}
+          onSubmitEditing={() => setFocus('password')}
+        />
+        <ControlledInput
+          control={control}
+          name={'password'}
+          placeholder={'Password...'}
+          secureTextEntry
+          autoCapitalize={'none'}
+          returnKeyType={'go'}
+          onSubmitEditing={handleSubmit(onSubmit)}
+        />
+      </View>
+      <View style={{width: '100%', gap: 8}}>
+        <Button text="Sign up" onPress={handleSubmit(onSubmit)} />
+        <Button text="Login" onPress={navigateToLogin} variant={'outlined'} />
+        <View />
       </View>
     </ScreenView>
   );

@@ -33,7 +33,7 @@ export const UserCard: React.FC<UserCardProps> = ({
           <Pressable onPress={like} style={styles.likeDislike} />
         </View>
         <LinearGradient
-          colors={['transparent', '#ffffff90']}
+          colors={['#ffffff00', '#ffffff90']}
           locations={[0, 1]}
           style={{height: 150}}>
           <Pressable onPress={profile} style={styles.infoWrapper}>

@@ -21,7 +21,7 @@ export const styles = StyleSheet.create({
   image: {
     borderColor: 'black',
     borderWidth: 1,
-    width: (Dimensions.get('screen').width - 34) / 3,
-    height: (Dimensions.get('screen').width - 34) / 3
+    width: (Dimensions.get('screen').width - 50) / 3,
+    height: (Dimensions.get('screen').width - 50) / 3
   }
 });

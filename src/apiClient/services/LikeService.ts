@@ -183,18 +183,13 @@ export class LikeService {
      * @throws ApiError
      */
     public likeControllerReactWithUser({
-        id,
         requestBody,
     }: {
-        id: string,
         requestBody: ReactWithUserDto,
     }): CancelablePromise<string> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/likes/react/{id}',
-            path: {
-                'id': id,
-            },
+            url: '/likes/react',
             body: requestBody,
             mediaType: 'application/json',
         });

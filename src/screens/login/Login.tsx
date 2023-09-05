@@ -10,7 +10,7 @@ import * as yup from 'yup';
 import * as Icons from 'react-native-heroicons/solid';
 import {AuthStackScreenProps} from '../../navigation/AuthRoutes';
 import {ScreenView} from '../../components/ScreenWrapper/ScreenView';
-import {ControlledInput} from '../../components/RenameLater/Input';
+import {ControlledInput} from '../../components/Input/Input';
 
 export type LoginRouteParams = {};
 const validationSchema = yup.object({
@@ -27,7 +27,7 @@ const validationSchema = yup.object({
 export const LoginScreen: React.FC<AuthStackScreenProps<'Login'>> = ({
   navigation
 }) => {
-  const {control, handleSubmit} = useForm<LoginUserDto>({
+  const {control, handleSubmit, setFocus} = useForm<LoginUserDto>({
     resolver: yupResolver(validationSchema)
   });
 
@@ -46,7 +46,7 @@ export const LoginScreen: React.FC<AuthStackScreenProps<'Login'>> = ({
   };
 
   return (
-    <ScreenView>
+    <ScreenView safeAreaTop>
       <View style={styles.container}>
         <View style={{alignItems: 'center'}}>
           <Image

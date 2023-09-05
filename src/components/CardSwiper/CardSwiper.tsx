@@ -13,7 +13,9 @@ import {
   Dimensions,
   Easing,
   EasingFunction,
+  GestureResponderEvent,
   PanResponder,
+  PanResponderGestureState,
   View
 } from 'react-native';
 import {styles} from './CardSwiper.styles';
@@ -115,14 +117,15 @@ export type SwipableViewProps<T extends ClickableSwipeCard> = {
   startOffset?: {x: number; y: number};
 };
 
-const SwipableView: React.FC<
-  SwipableViewProps<unknown & ClickableSwipeCard>
+const SwipableViewCore: React.FC<
+  SwipableViewPropsWithForwardRef<unknown & ClickableSwipeCard>
 > = ({
   children,
   index,
   swipeableDirection,
   startOffset = {x: 0, y: 0},
-  onSwipe
+  onSwipe,
+  forwardedRef
 }) => {
   const pan = useRef(new Animated.ValueXY()).current;
 
@@ -131,7 +134,9 @@ const SwipableView: React.FC<
 
   let lastOffset: {x: number; y: number} = {x: 0, y: 0};
 
-  // index === 0 && console.log('offset', {lastOffset, startOffset});
+  useImperativeHandle(forwardedRef, () => ({
+    manualSwipe: manualSwipe
+  }));
 
   useEffect(() => {
     // lastOffset = startOffset;
@@ -180,7 +185,10 @@ const SwipableView: React.FC<
 
   const panResponder = useRef(
     PanResponder.create({
-      onMoveShouldSetPanResponder: () => true,
+      onMoveShouldSetPanResponder: (
+        e: GestureResponderEvent,
+        state: PanResponderGestureState
+      ) => Math.abs(state.dx) > 0.5 || Math.abs(state.dy) > 0.5,
       onPanResponderMove: (_, gestureState) => {
         pan.setValue({
           x: lastOffset.x + gestureState.dx,
@@ -203,8 +211,6 @@ const SwipableView: React.FC<
             useNativeDriver: false
           }).start(() => {
             onSwipe(direction);
-            // Remove the card from your data array here
-            // Update your component's state to reflect the change
           });
         } else {
           // Not swiped beyond the threshold, return to the original position
@@ -243,6 +249,26 @@ const SwipableView: React.FC<
   );
 };
 
+export type SwipableViewRef = {
+  manualSwipe: (direction: SwipeDirection) => void;
+};
+
+type SwipableViewPropsWithForwardRef<T extends ClickableSwipeCard> =
+  SwipableViewProps<T> & {
+    forwardedRef: Ref<SwipableViewRef>;
+  };
+
+type SwipableViewPropsWithStandardRef<T extends ClickableSwipeCard> =
+  SwipableViewProps<T> & {
+    ref?: Ref<SwipableViewRef>;
+  };
+
+export const SwipableView: <T extends ClickableSwipeCard>(
+  props: SwipableViewPropsWithStandardRef<T>
+) => ReactNode | null = forwardRef<SwipableViewRef, SwipableViewProps<any>>(
+  ({...rest}, ref) => <SwipableViewCore forwardedRef={ref} {...rest} />
+);
+
 export type ObjectWithId = {
   _id: string | number;
 };
@@ -277,6 +303,8 @@ export type CardSwiperProps<T extends ObjectWithId> = {
 
 export type CardSwiperRef = {
   onBack: () => void;
+  getCurrentCardId: () => string | number;
+  manualSwipe: (direction: SwipeDirection) => void;
 };
 
 type CardSwiperPropsWithForwardRef<T extends ObjectWithId> =
@@ -315,6 +343,8 @@ const CardSwiperCore = <T extends ObjectWithId>({
     lastSwipedDirections: []
   });
 
+  const firstCardRef = useRef<SwipableViewRef>(null);
+
   useEffect(() => {
     setCards(oldVal => {
       return {...oldVal, cardsToShow: data};
@@ -332,7 +362,13 @@ const CardSwiperCore = <T extends ObjectWithId>({
         oldVal.lastSwipedDirections = [...oldVal.lastSwipedDirections];
         return {...oldVal};
       });
-    }
+    },
+    getCurrentCardId: () => {
+      return cards.cardsToShow[0]._id;
+    },
+    manualSwipe: firstCardRef.current
+      ? firstCardRef.current.manualSwipe
+      : () => {}
   }));
 
   const onCardSwipe = (direction: SwipeDirection, id: string | number) => {
@@ -387,6 +423,7 @@ const CardSwiperCore = <T extends ObjectWithId>({
     <View style={styles.wrapper}>
       {cards.cardsToShow.slice(0, stackDepth)?.map((props, index) => (
         <SwipableView
+          ref={index === 0 ? firstCardRef : undefined}
           key={props._id}
           index={index}
           onSwipe={direction => onCardSwipe(direction, props._id)}

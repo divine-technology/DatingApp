@@ -1,5 +1,8 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {MessagesStackScreenProps} from '../../navigation/MessagesRoutes';
+import {
+  MessagesStackCompositeScreenProps,
+  MessagesStackScreenProps
+} from '../../navigation/MessagesRoutes';
 import {
   GiftedChat,
   IMessage,
@@ -28,7 +31,8 @@ const ChatToolbar: React.FC<InputToolbarProps<IMessage>> = props => {
         paddingHorizontal: 8,
         justifyContent: 'space-between',
         backgroundColor: '#FFFFFF70',
-        borderRadius: 24
+        borderRadius: 24,
+        marginBottom: 8
       }}
       accessoryStyle={{justifyContent: 'center', height: '100%'}}
     />
@@ -59,9 +63,9 @@ const Accessories: React.FC<AccessoriesProps> = ({onCameraPress}) => {
   );
 };
 
-export const ChatScreen: React.FC<MessagesStackScreenProps<'Chat'>> = ({
-  route
-}) => {
+export const ChatScreen: React.FC<
+  MessagesStackCompositeScreenProps<'Chat'>
+> = ({route, navigation}) => {
   const {likeId} = route.params;
 
   const {user} = useContext(AuthContext);
@@ -77,14 +81,19 @@ export const ChatScreen: React.FC<MessagesStackScreenProps<'Chat'>> = ({
     }
   );
 
+  const navigateToProfile = (id: string | number) => {
+    navigation.navigate('App', {
+      screen: 'HomeStack',
+      params: {screen: 'UserProfile', params: {userId: id.toString()}}
+    });
+  };
+
   const {data: newMessage, mutate} = useMutation(
     ['last-message'],
     (message: string, image?: string) =>
       openApi.instance.message.messageControllerSendMessage({
         likeId,
         requestBody: {
-          from: user?._id ?? '',
-          to: '64e736f305620d762b65a2f5',
           message
         }
       }),
@@ -113,11 +122,13 @@ export const ChatScreen: React.FC<MessagesStackScreenProps<'Chat'>> = ({
           flex: 1,
           selectionColor: '#b13ef7',
           paddingTop: 8,
+          autoCorrect: false,
           marginRight: 8
         }}
         listViewProps={{
           showsVerticalScrollIndicator: false
         }}
+        onPressAvatar={messageUser => navigateToProfile(messageUser._id)}
         onSend={messages => mutate(messages[0].text)}
         renderAccessory={Accessories}
         renderSend={SendButton}

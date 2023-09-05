@@ -2,18 +2,16 @@ import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
-    flex: 1
+    padding: 24
   },
   upperContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
     marginBottom: 18
   },
   h2TextStyle: {
     fontSize: 20,
     color: 'black',
-    flex: 1,
-    fontWeight: '700'
+    fontWeight: '700',
+    marginBottom: 18
   },
   imageStyle: {
     height: 70,

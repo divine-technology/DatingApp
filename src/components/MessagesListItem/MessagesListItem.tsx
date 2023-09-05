@@ -3,10 +3,12 @@ import {View, Image, Text, Pressable} from 'react-native';
 import {styles} from '../../screens/messages/Message.styles';
 import {MessageResponseDto} from '../../apiClient';
 import dayjs from '../../dayjs/dayjs-extended';
+import * as Icons from 'react-native-heroicons/outline';
 
 export type MessagesListItemProps = {
   authUserId: string;
   onPress: (id: string) => void;
+  isBlocked?: boolean;
 } & MessageResponseDto;
 
 export const MessagesListItem: React.FC<MessagesListItemProps> = ({
@@ -17,10 +19,19 @@ export const MessagesListItem: React.FC<MessagesListItemProps> = ({
   toUser,
   createdAt,
   authUserId,
-  onPress
+  onPress,
+  isBlocked = false,
 }) => {
+
+  const checkStatus = () => {
+    if(isBlocked){
+      if(fromUser._id === authUserId) return toUser._id
+      else return fromUser._id
+    } else return likeId
+  }
+
   return (
-    <Pressable style={{flexDirection: 'row'}} onPress={() => onPress(likeId)}>
+    <Pressable style={{flexDirection: 'row', alignItems: 'center'}} onPress={() => onPress(checkStatus())}>
       <Image
         style={styles.imageStyle}
         source={{
@@ -43,6 +54,7 @@ export const MessagesListItem: React.FC<MessagesListItemProps> = ({
           <Text style={styles.dateText}>{dayjs(createdAt).fromNow()}</Text>
         </View>
       </View>
+      {isBlocked && <Icons.NoSymbolIcon size={30} color={'red'}/>}
     </Pressable>
   );
 };

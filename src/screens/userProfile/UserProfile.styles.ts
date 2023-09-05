@@ -2,8 +2,7 @@ import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    paddingHorizontal: 16
+    flex: 1
   },
   userImg: {
     height: 150,
@@ -12,9 +11,9 @@ export const styles = StyleSheet.create({
   },
   userName: {
     fontSize: 18,
-    textAlign: 'center',
     fontWeight: 'bold',
-    marginVertical: 8,
+    marginTop: 10,
+    marginBottom: 10,
     color: 'black'
   },
   aboutUser: {
@@ -41,39 +40,51 @@ export const styles = StyleSheet.create({
   },
   userInfoWrapper: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
     width: '100%',
-    marginVertical: 20
+    marginVertical: 10,
+    gap: 10
   },
   userInfoItem: {
-    justifyContent: 'center'
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: '#ffffff90',
+    padding: 16,
+    borderRadius: 12,
+    borderColor: '#63636330',
+    borderWidth: 1
   },
   userInfoTitle: {
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 5,
     textAlign: 'center',
-    color: 'black'
+    color: 'black',
+    textTransform: 'capitalize'
+  },
+  biocontainer: {
+    width: '100%',
+    backgroundColor: '#ffffff90',
+    borderRadius: 12,
+    borderColor: '#63636330',
+    borderWidth: 1
+  },
+  bioTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: 'black',
+    textTransform: 'capitalize'
+  },
+  bioSubTitle: {
+    fontSize: 12,
+    color: '#666',
+    textAlign: 'center',
+    paddingBottom: 8,
+    paddingHorizontal: 8
   },
   userInfoSubTitle: {
     fontSize: 12,
     color: '#666',
     textAlign: 'center'
-  },
-  selectWrapper: {
-    width: '100%',
-    height: 44,
-    backgroundColor: '#fb5b5a',
-    borderRadius: 24,
-    paddingHorizontal: 8,
-    marginBottom: 10,
-    flexDirection: 'row'
-  },
-  iconStyle: {
-    flex: 1,
-    width: 28,
-    height: 28,
-    alignSelf: 'flex-start',
-    marginVertical: 4
   }
 });

@@ -13,8 +13,6 @@ export const styles = ({
     textInputWrapper: {
       alignItems: 'center',
       paddingHorizontal: 12,
-      borderWidth: 1,
-      borderColor: 'white',
       flexDirection: 'row',
       width: '100%',
       height: multiline ? 140 : 44,

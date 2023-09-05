@@ -9,11 +9,11 @@ export const styles = (paddingTop?: number) =>
       paddingHorizontal: 24,
       paddingBottom: 8,
       backgroundColor: 'white',
-      // borderBottomWidth: 1,
-      // borderBottomColor: 'silver',
-      paddingTop
-      // elevation: 2,
-      // shadowOpacity: 0.58,
-      // marginBottom: 4
+      borderBottomWidth: 1,
+      borderBottomColor: 'silver',
+      paddingTop,
+      elevation: 2,
+      shadowOpacity: 0.58,
+      marginBottom: 4
     }
   });

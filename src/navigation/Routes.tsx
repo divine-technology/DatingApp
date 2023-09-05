@@ -1,13 +1,13 @@
 import React, {useContext} from 'react';
 import {AuthContext} from '../providers/context/Auth';
-import {AppRoutes} from './AppRoutes';
+import {AppNavigatorParams, AppRoutes} from './AppRoutes';
 import {AuthRoutes} from './AuthRoutes';
 import {SplashScreen} from '../screens/splash/Splash';
 import {StackScreenProps, createStackNavigator} from '@react-navigation/stack';
 
 export type RootStackParamList = {
   Auth: undefined;
-  App: undefined;
+  App: AppNavigatorParams;
   Splash: undefined;
 };
 
