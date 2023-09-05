@@ -4,7 +4,7 @@ import {FieldError} from 'react-hook-form';
 
 export const styles = ({
   error,
-  multiline,
+  multiline
 }: {
   error?: FieldError;
   multiline?: boolean;
@@ -13,6 +13,8 @@ export const styles = ({
     textInputWrapper: {
       alignItems: 'center',
       paddingHorizontal: 12,
+      borderWidth: 1,
+      borderColor: 'white',
       flexDirection: 'row',
       width: '100%',
       height: multiline ? 140 : 44,
@@ -22,7 +24,7 @@ export const styles = ({
       color: themeColors.primaryTextColor,
       ...(error?.message
         ? {borderWidth: 1, borderColor: themeColors.primaryTextColor}
-        : {}),
+        : {})
     },
     textInput: {
       flex: 1,
@@ -30,7 +32,7 @@ export const styles = ({
       margin: 0,
       paddingHorizontal: 8,
       height: 'auto',
-      alignSelf: multiline ? 'flex-start' : undefined,
+      alignSelf: multiline ? 'flex-start' : undefined
     },
     errorText: {
       fontSize: 10,
@@ -38,6 +40,6 @@ export const styles = ({
       height: 12,
       color: themeColors.primaryTextColor,
       width: '100%',
-      textAlign: 'left',
-    },
+      textAlign: 'left'
+    }
   });

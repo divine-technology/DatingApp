@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useRef, useState} from 'react';
-import {Text, View} from 'react-native';
+import {PermissionsAndroid, Platform, Text, View} from 'react-native';
 import {AuthContext} from '../../providers/context/Auth';
 import {Button} from '../../components/Button/Button';
 import {AuthUser, ResponsePaginateDto, UserRadiusDto} from '../../apiClient';
@@ -16,6 +16,7 @@ import {ScreenView} from '../../components/ScreenWrapper/ScreenView';
 import {HomeStackCompositeScreenProps} from '../../navigation/HomeRoutes';
 import * as Icons from 'react-native-heroicons/solid';
 import {styles} from './Home.styles';
+import ImagePicker, {openCamera} from 'react-native-image-crop-picker';
 
 export type HomeRouteParams = undefined;
 
@@ -93,9 +94,52 @@ export const HomeScreen: React.FC<HomeStackCompositeScreenProps<'Home'>> = ({
 
   const cardSwiperRef = useRef<CardSwiperRef>(null);
 
+  const requestCameraPermission = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.CAMERA,
+        {
+          title: 'Change Profile Picture',
+          message:
+            'The app needs permission to access your camera ' +
+            'Would you like to grant permission?',
+          buttonNeutral: 'Ask Me Later',
+          buttonNegative: 'Cancel',
+          buttonPositive: 'OK'
+        }
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log('Permission granted');
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  };
+
+  const openCamera = () => {
+    if (Platform.OS === 'android') {
+      requestCameraPermission();
+    }
+    ImagePicker.openCamera({
+      width: 300,
+      height: 400,
+      useFrontCamera: true
+    }).then(image => {
+      if (image) {
+        console.log('Swipe right', image);
+      }
+    });
+  };
+
   return (
     <ScreenView>
-      <View style={{flexDirection: 'column', flex: 1, padding: 24, gap: 12}}>
+      <View
+        style={{
+          flexDirection: 'column',
+          flex: 1,
+          padding: 24,
+          gap: 12
+        }}>
         {test() ? (
           <>
             <View style={{flex: 1}}>
