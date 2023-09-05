@@ -127,6 +127,34 @@ export class MessageService {
     }
 
     /**
+     * Get users that are blocked by the user
+     * @returns ResponsePaginateDto
+     * @throws ApiError
+     */
+    public messageControllerGetBlockedChats({
+        page,
+        limit,
+        sort,
+        sortBy,
+    }: {
+        page?: number,
+        limit?: number,
+        sort?: number,
+        sortBy?: string,
+    }): CancelablePromise<ResponsePaginateDto> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/message/get-blocked-chats',
+            query: {
+                'page': page,
+                'limit': limit,
+                'sort': sort,
+                'sortBy': sortBy,
+            },
+        });
+    }
+
+    /**
      * Do not delete or use this! It was made just for getting the DTO for api client!
      * @returns MessageResponseDto
      * @throws ApiError

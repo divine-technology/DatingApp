@@ -5,10 +5,12 @@ import {
   SettingsScreen,
 } from '../screens/settings/Settings';
 import {StackScreenProps, createStackNavigator} from '@react-navigation/stack';
+import { BlockedRouteParams, BlockedUsersScreen } from '../screens/blockedUsers/BlockedUsers';
 
 export type SettingsStackParamList = {
   EditUser: EditUserParams;
   Settings: SettingsRouteParams;
+  BlockedUsers: BlockedRouteParams;
 };
 
 export type SettingsStackNavigatorProps =
@@ -24,6 +26,7 @@ export const SettingsRoutes: React.FC = () => {
     <SettingsStack.Navigator screenOptions={{headerShown: false}}>
       <SettingsStack.Screen name="Settings" component={SettingsScreen} />
       <SettingsStack.Screen name="EditUser" component={EditUserScreen} />
+      <SettingsStack.Screen name="BlockedUsers" component={BlockedUsersScreen} />
     </SettingsStack.Navigator>
   );
 };

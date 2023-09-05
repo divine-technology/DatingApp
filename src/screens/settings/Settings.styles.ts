@@ -30,6 +30,13 @@ export const styles = StyleSheet.create({
     marginBottom: 10,
     gap: 8
   },
+  authBtnWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    width: '100%',
+    marginVertical: 10,
+    gap: 8
+  },
   userBtn: {
     paddingVertical: 8,
     paddingHorizontal: 12,
