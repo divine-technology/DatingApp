@@ -5,7 +5,7 @@ import {
   UseControllerProps
 } from 'react-hook-form';
 import {Text, TextInput, TextInputProps, View} from 'react-native';
-import React from 'react';
+import React, {LegacyRef, forwardRef} from 'react';
 import {styles} from './Input.styles';
 import {themeColors} from '../../themes/colors';
 
@@ -24,60 +24,60 @@ type InputProps = TextInputProps & {
   onChangeText?: (text: string | number | undefined | null) => void;
 };
 
-export const Input: React.FC<InputProps> = ({
-  error,
-  startAdornment,
-  type = 'text',
-  value,
-  onChangeText,
-  ...rest
-}) => {
-  const style = styles({error, multiline: rest.multiline});
+export const Input: React.FC<InputProps> = forwardRef(
+  (
+    {error, startAdornment, type = 'text', value, onChangeText, ...rest},
+    ref: LegacyRef<TextInput>
+  ) => {
+    const style = styles({error, multiline: rest.multiline});
 
-  const valueOnChangeMap: {
-    [key in keyof typeof InputType]: {
-      onChangeText?: (text: string) => void;
-      value?: string;
-    };
-  } = {
-    number: {
-      onChangeText: text => {
-        onChangeText && onChangeText(isNaN(Number(text)) ? null : Number(text));
+    const valueOnChangeMap: {
+      [key in keyof typeof InputType]: {
+        onChangeText?: (text: string) => void;
+        value?: string;
+      };
+    } = {
+      number: {
+        onChangeText: text => {
+          onChangeText &&
+            onChangeText(isNaN(Number(text)) ? null : Number(text));
+        },
+        value: value?.toString()
       },
-      value: value?.toString()
-    },
-    text: {
-      onChangeText: onChangeText,
-      value: value
-    }
-  };
+      text: {
+        onChangeText: onChangeText,
+        value: value
+      }
+    };
 
-  return (
-    <View>
-      <View style={style.textInputWrapper}>
-        {startAdornment && (
-          <View
-            style={{
-              height: 28,
-              width: 28,
-              marginVertical: 8,
-              alignSelf: 'flex-start'
-            }}>
-            {startAdornment}
-          </View>
-        )}
-        <TextInput
-          style={style.textInput}
-          placeholderTextColor={themeColors.primaryTextColor}
-          maxLength={rest.multiline ? 150 : undefined}
-          {...rest}
-          {...valueOnChangeMap[type]}
-        />
+    return (
+      <View>
+        <View style={style.textInputWrapper}>
+          {startAdornment && (
+            <View
+              style={{
+                height: 28,
+                width: 28,
+                marginVertical: 8,
+                alignSelf: 'flex-start'
+              }}>
+              {startAdornment}
+            </View>
+          )}
+          <TextInput
+            ref={ref}
+            style={style.textInput}
+            placeholderTextColor={themeColors.primaryTextColor}
+            maxLength={rest.multiline ? 150 : undefined}
+            {...rest}
+            {...valueOnChangeMap[type]}
+          />
+        </View>
+        <Text style={style.errorText}>{error?.message}</Text>
       </View>
-      <Text style={style.errorText}>{error?.message}</Text>
-    </View>
-  );
-};
+    );
+  }
+);
 
 export const ControlledInput = <T extends FieldValues>({
   control,
@@ -88,11 +88,7 @@ export const ControlledInput = <T extends FieldValues>({
     <Controller
       control={control}
       name={name}
-      rules={{}}
-      render={({
-        field: {ref: _ref, onChange, ...restField},
-        fieldState: {error}
-      }) => (
+      render={({field: {onChange, ...restField}, fieldState: {error}}) => (
         <Input onChangeText={onChange} {...restField} {...rest} error={error} />
       )}
     />

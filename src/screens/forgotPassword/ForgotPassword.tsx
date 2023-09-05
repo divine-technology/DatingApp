@@ -20,7 +20,7 @@ const validationSchema = yup.object({
 export const ForgotPasswordScreen: React.FC<
   AuthStackScreenProps<'ForgotPassword'>
 > = () => {
-  const {control, handleSubmit} = useForm({
+  const {control, handleSubmit, setFocus} = useForm({
     resolver: yupResolver(validationSchema)
   });
 
@@ -39,7 +39,8 @@ export const ForgotPasswordScreen: React.FC<
           placeholder={'Email...'}
           keyboardType={'email-address'}
           autoCapitalize={'none'}
-          returnKeyType={'next'}
+          returnKeyType={'go'}
+          onSubmitEditing={handleSubmit(onSubmit)}
         />
       </View>
       <View style={{width: '100%', gap: 8}}>

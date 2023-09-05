@@ -1,5 +1,5 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {View, Text, Image, FlatList, ScrollView} from 'react-native';
+import React, {useContext, useState} from 'react';
+import {View, Text, FlatList} from 'react-native';
 import {Button} from '../../components/Button/Button';
 import {MessagesStackScreenProps} from '../../navigation/MessagesRoutes';
 import {ScreenView} from '../../components/ScreenWrapper/ScreenView';
@@ -8,8 +8,8 @@ import {openApi} from '../../services/openApi';
 import {MessageResponseDto, ResponsePaginateDto} from '../../apiClient';
 import {styles} from './Message.styles';
 import {AuthContext} from '../../providers/context/Auth';
-import dayjs from '../../dayjs/dayjs-extended';
 import {MessagesListItem} from '../../components/MessagesListItem/MessagesListItem';
+import {useFocusEffect} from '@react-navigation/native';
 
 export const MessagesScreen: React.FC<MessagesStackScreenProps<'Messages'>> = ({
   navigation
@@ -20,7 +20,11 @@ export const MessagesScreen: React.FC<MessagesStackScreenProps<'Messages'>> = ({
     []
   );
 
-  const {data, mutate: getChats} = useMutation<unknown, unknown, unknown>(
+  const {data: _data, mutate: getChats} = useMutation<
+    unknown,
+    unknown,
+    unknown
+  >(
     'getChats',
     _data => {
       return openApi.instance.message.messageControllerGetChat({});
@@ -36,9 +40,7 @@ export const MessagesScreen: React.FC<MessagesStackScreenProps<'Messages'>> = ({
     }
   );
 
-  useEffect(() => {
-    getChats(undefined);
-  }, []);
+  useFocusEffect(React.useCallback(() => getChats(undefined), []));
 
   const openChat = (likeId: string) => {
     navigation.navigate('Chat', {likeId});
@@ -65,6 +67,7 @@ export const MessagesScreen: React.FC<MessagesStackScreenProps<'Messages'>> = ({
         <FlatList
           data={fetchedMessages}
           contentContainerStyle={{gap: 8}}
+          keyExtractor={message => message._id}
           renderItem={({item}) => (
             <MessagesListItem
               {...item}

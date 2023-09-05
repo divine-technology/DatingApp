@@ -13,7 +13,9 @@ import {
   Dimensions,
   Easing,
   EasingFunction,
+  GestureResponderEvent,
   PanResponder,
+  PanResponderGestureState,
   View
 } from 'react-native';
 import {styles} from './CardSwiper.styles';
@@ -116,7 +118,7 @@ export type SwipableViewProps<T extends ClickableSwipeCard> = {
 };
 
 const SwipableViewCore: React.FC<
-SwipableViewPropsWithForwardRef<unknown & ClickableSwipeCard>
+  SwipableViewPropsWithForwardRef<unknown & ClickableSwipeCard>
 > = ({
   children,
   index,
@@ -183,7 +185,10 @@ SwipableViewPropsWithForwardRef<unknown & ClickableSwipeCard>
 
   const panResponder = useRef(
     PanResponder.create({
-      onMoveShouldSetPanResponder: () => true,
+      onMoveShouldSetPanResponder: (
+        e: GestureResponderEvent,
+        state: PanResponderGestureState
+      ) => Math.abs(state.dx) > 0.5 || Math.abs(state.dy) > 0.5,
       onPanResponderMove: (_, gestureState) => {
         pan.setValue({
           x: lastOffset.x + gestureState.dx,
@@ -206,8 +211,6 @@ SwipableViewPropsWithForwardRef<unknown & ClickableSwipeCard>
             useNativeDriver: false
           }).start(() => {
             onSwipe(direction);
-            // Remove the card from your data array here
-            // Update your component's state to reflect the change
           });
         } else {
           // Not swiped beyond the threshold, return to the original position
@@ -255,9 +258,10 @@ type SwipableViewPropsWithForwardRef<T extends ClickableSwipeCard> =
     forwardedRef: Ref<SwipableViewRef>;
   };
 
-type SwipableViewPropsWithStandardRef<T extends ClickableSwipeCard> = SwipableViewProps<T> & {
-  ref?: Ref<SwipableViewRef>;
-};
+type SwipableViewPropsWithStandardRef<T extends ClickableSwipeCard> =
+  SwipableViewProps<T> & {
+    ref?: Ref<SwipableViewRef>;
+  };
 
 export const SwipableView: <T extends ClickableSwipeCard>(
   props: SwipableViewPropsWithStandardRef<T>
@@ -362,7 +366,9 @@ const CardSwiperCore = <T extends ObjectWithId>({
     getCurrentCardId: () => {
       return cards.cardsToShow[0]._id;
     },
-    manualSwipe: firstCardRef.current ? firstCardRef.current.manualSwipe : () => {}
+    manualSwipe: firstCardRef.current
+      ? firstCardRef.current.manualSwipe
+      : () => {}
   }));
 
   const onCardSwipe = (direction: SwipeDirection, id: string | number) => {

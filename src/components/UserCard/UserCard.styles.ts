@@ -5,7 +5,12 @@ export const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     borderRadius: 24,
-    overflow: 'hidden'
+    overflow: 'hidden',
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
+    elevation: 2
   },
   image: {
     width: '100%',

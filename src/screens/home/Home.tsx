@@ -2,7 +2,6 @@ import React, {useContext, useEffect, useRef, useState} from 'react';
 import {Text, View} from 'react-native';
 import {AuthContext} from '../../providers/context/Auth';
 import {Button} from '../../components/Button/Button';
-import {TopTabScreenProps} from '../../navigation/AppRoutes';
 import {AuthUser, ResponsePaginateDto, UserRadiusDto} from '../../apiClient';
 import {useMutation} from 'react-query';
 import {openApi} from '../../services/openApi';
@@ -14,13 +13,13 @@ import {
 } from '../../components/CardSwiper/CardSwiper';
 import {mockData} from './mockData';
 import {ScreenView} from '../../components/ScreenWrapper/ScreenView';
-import { HomeStackScreenProps } from '../../navigation/HomeRoutes';
+import {HomeStackCompositeScreenProps} from '../../navigation/HomeRoutes';
 import * as Icons from 'react-native-heroicons/solid';
-import { styles } from './Home.styles';
+import {styles} from './Home.styles';
 
 export type HomeRouteParams = undefined;
 
-export const HomeScreen: React.FC<HomeStackScreenProps<'Home'>> = ({
+export const HomeScreen: React.FC<HomeStackCompositeScreenProps<'Home'>> = ({
   navigation
 }) => {
   const {user} = useContext(AuthContext);
@@ -63,9 +62,9 @@ export const HomeScreen: React.FC<HomeStackScreenProps<'Home'>> = ({
   };
 
   const viewProfile = (id: string | number) => {
-    if(id === 'NoId') return;
+    if (id === 'NoId') return;
     console.log('VIEW PROFILE', {id});
-    navigation.navigate('UserProfile', {userId: id.toString()})
+    navigation.navigate('UserProfile', {userId: id.toString()});
   };
 
   const like = (id: string | number) => {
@@ -112,9 +111,76 @@ export const HomeScreen: React.FC<HomeStackScreenProps<'Home'>> = ({
               )}
             </View>
             <View style={styles.reactButtonWrapper}>
-                <Icons.XCircleIcon size={70} color={'red'} onPress={() => cardSwiperRef.current?.manualSwipe('left')}/>
-                <Icons.UserCircleIcon size={70} color={'#800080'} onPress={() => viewProfile(cardSwiperRef.current?.getCurrentCardId() ?? 'NoId')}/>
-                <Icons.CheckCircleIcon size={70} color={'#20B2AA'} onPress={() => cardSwiperRef.current?.manualSwipe('right')}/>
+              <View
+                style={{
+                  shadowColor: '#000',
+                  shadowOffset: {width: 0, height: 2},
+                  shadowOpacity: 0.5,
+                  shadowRadius: 2,
+                  elevation: 2
+                }}>
+                <Icons.ArrowLeftCircleIcon
+                  size={55}
+                  color={'gray'}
+                  onPress={cardSwiperRef.current?.onBack}
+                />
+              </View>
+              <View
+                style={{
+                  shadowColor: '#000',
+                  shadowOffset: {width: 0, height: 2},
+                  shadowOpacity: 0.5,
+                  shadowRadius: 2,
+                  elevation: 2
+                }}>
+                <Icons.XCircleIcon
+                  size={55}
+                  color={'red'}
+                  onPress={() => cardSwiperRef.current?.manualSwipe('left')}
+                />
+              </View>
+              <View
+                style={{
+                  shadowColor: '#000',
+                  shadowOffset: {width: 0, height: 2},
+                  shadowOpacity: 0.5,
+                  shadowRadius: 2,
+                  elevation: 2
+                }}>
+                <Icons.UserCircleIcon
+                  size={55}
+                  color={'#800080'}
+                  onPress={() =>
+                    viewProfile(
+                      cardSwiperRef.current?.getCurrentCardId() ?? 'NoId'
+                    )
+                  }
+                />
+              </View>
+              <View
+                style={{
+                  shadowColor: '#000',
+                  shadowOffset: {width: 0, height: 2},
+                  shadowOpacity: 0.5,
+                  shadowRadius: 2,
+                  elevation: 2
+                }}>
+                <Icons.CheckCircleIcon
+                  size={55}
+                  color={'#20B2AA'}
+                  onPress={() => cardSwiperRef.current?.manualSwipe('right')}
+                />
+              </View>
+              <View
+                style={{
+                  shadowColor: '#000',
+                  shadowOffset: {width: 0, height: 2},
+                  shadowOpacity: 0.5,
+                  shadowRadius: 2,
+                  elevation: 2
+                }}>
+                <Icons.CheckBadgeIcon size={55} color={'yellow'} />
+              </View>
             </View>
           </>
         ) : (
@@ -125,11 +191,17 @@ export const HomeScreen: React.FC<HomeStackScreenProps<'Home'>> = ({
             <Button
               text="Finish profile"
               variant={'text'}
-              onPress={() => navigation.navigate('Settings')}
+              onPress={() =>
+                navigation.navigate('App', {
+                  screen: 'SettingsStack',
+                  params: {
+                    screen: 'Settings'
+                  }
+                })
+              }
             />
           </>
         )}
-        <Button text="Back" onPress={cardSwiperRef.current?.onBack} />
       </View>
     </ScreenView>
   );

@@ -27,7 +27,7 @@ const validationSchema = yup.object({
 export const LoginScreen: React.FC<AuthStackScreenProps<'Login'>> = ({
   navigation
 }) => {
-  const {control, handleSubmit} = useForm<LoginUserDto>({
+  const {control, handleSubmit, setFocus} = useForm<LoginUserDto>({
     resolver: yupResolver(validationSchema)
   });
 
@@ -59,12 +59,13 @@ export const LoginScreen: React.FC<AuthStackScreenProps<'Login'>> = ({
             startAdornment={<Icons.EnvelopeIcon size={30} color="white" />}
             autoCapitalize={'none'}
             returnKeyType={'next'}
+            onSubmitEditing={() => setFocus('password')}
           />
           <ControlledInput
             control={control}
             name={'password'}
             placeholder={'Password...'}
-            returnKeyType={'done'}
+            returnKeyType={'go'}
             startAdornment={<Icons.LockClosedIcon size={30} color="white" />}
             secureTextEntry
             autoCapitalize={'none'}
