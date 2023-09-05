@@ -1,8 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {
-  MessagesStackCompositeScreenProps,
-  MessagesStackScreenProps
-} from '../../navigation/MessagesRoutes';
+import {MessagesStackCompositeScreenProps} from '../../navigation/MessagesRoutes';
 import {
   GiftedChat,
   IMessage,
@@ -13,10 +10,11 @@ import {
 } from 'react-native-gifted-chat';
 import {ScreenView} from '../../components/ScreenWrapper/ScreenView';
 import * as Icons from 'react-native-heroicons/solid';
-import {Pressable} from 'react-native';
+import {PermissionsAndroid, Platform, Pressable} from 'react-native';
 import {useMutation, useQuery} from 'react-query';
 import {openApi} from '../../services/openApi';
 import {AuthContext} from '../../providers/context/Auth';
+import ImagePicker from 'react-native-image-crop-picker';
 
 export type ChatScreenProps = {likeId: string};
 
@@ -44,7 +42,7 @@ const SendButton: React.FC<SendProps<IMessage>> = props => {
     <Send
       {...props}
       containerStyle={{justifyContent: 'center', height: '100%'}}>
-      <Icons.PaperAirplaneIcon size={25} color={'#b13ef7'} />
+      <Icons.PaperAirplaneIcon size={25} color={'#fb5b5a'} />
     </Send>
   );
 };
@@ -58,7 +56,7 @@ const Accessories: React.FC<AccessoriesProps> = ({onCameraPress}) => {
     <Pressable
       onPress={onCameraPress}
       style={({pressed}) => ({opacity: pressed ? 0.5 : 1})}>
-      <Icons.CameraIcon size={25} color={'#b13ef7'} />
+      <Icons.CameraIcon size={25} color={'#fb5b5a'} />
     </Pressable>
   );
 };
@@ -108,6 +106,43 @@ export const ChatScreen: React.FC<
     }
   }, [data, newMessage]);
 
+  const requestCameraPermission = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.CAMERA,
+        {
+          title: 'Change Profile Picture',
+          message:
+            'The app needs permission to access your camera ' +
+            'Would you like to grant permission?',
+          buttonNeutral: 'Ask Me Later',
+          buttonNegative: 'Cancel',
+          buttonPositive: 'OK'
+        }
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log('Permission granted');
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  };
+
+  const openCamera = () => {
+    if (Platform.OS === 'android') {
+      requestCameraPermission();
+    }
+    ImagePicker.openCamera({
+      width: 300,
+      height: 400,
+      useFrontCamera: true
+    }).then(image => {
+      if (image) {
+        console.log('Swipe right', image);
+      }
+    });
+  };
+
   return (
     <ScreenView>
       <GiftedChat
@@ -120,7 +155,8 @@ export const ChatScreen: React.FC<
         messages={messages}
         textInputProps={{
           flex: 1,
-          selectionColor: '#b13ef7',
+          selectionColor: '#fb5b5a',
+          color: 'black',
           paddingTop: 8,
           autoCorrect: false,
           marginRight: 8
@@ -130,7 +166,9 @@ export const ChatScreen: React.FC<
         }}
         onPressAvatar={messageUser => navigateToProfile(messageUser._id)}
         onSend={messages => mutate(messages[0].text)}
-        renderAccessory={Accessories}
+        renderAccessory={props => (
+          <Accessories {...props} onCameraPress={openCamera} />
+        )}
         renderSend={SendButton}
         renderInputToolbar={ChatToolbar}
       />

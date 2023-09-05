@@ -70,7 +70,7 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 5,
     textAlign: 'center',
-    color: 'black',
+    color: '#b3426b',
     textTransform: 'capitalize'
   },
   galleryContainer: {

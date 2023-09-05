@@ -4,22 +4,19 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'space-around'
+    justifyContent: 'space-between',
+    paddingVertical: 24
   },
   logo: {
     fontWeight: 'bold',
     fontSize: 50,
-    textShadowColor: 'black',
-    textShadowRadius: 1,
     color: '#fb5b5a',
     marginBottom: 20
   },
   loginHeaderText: {
     fontWeight: 'bold',
-    fontSize: 20,
+    fontSize: 22,
     color: 'white',
-    // textShadowColor: 'black',
-    // textShadowRadius: 1,
     marginBottom: 20
   },
   inputView: {

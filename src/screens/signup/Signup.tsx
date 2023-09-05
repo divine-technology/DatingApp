@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import {Text, View} from 'react-native';
+import {Text, View, Image} from 'react-native';
 import {styles} from './Signup.styles';
 import {useForm} from 'react-hook-form';
 import {Button} from '../../components/Button/Button';
@@ -7,6 +7,7 @@ import {CreateUserDto} from '../../apiClient';
 import {AuthContext} from '../../providers/context/Auth';
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import * as Icons from 'react-native-heroicons/solid';
 import {AuthStackScreenProps} from '../../navigation/AuthRoutes';
 import {ScreenView} from '../../components/ScreenWrapper/ScreenView';
 import {ControlledInput} from '../../components/Input/Input';
@@ -53,46 +54,72 @@ export const SignupScreen: React.FC<AuthStackScreenProps<'Signup'>> = ({
 
   return (
     <ScreenView safeAreaTop>
-      <Text style={styles.logo}>Dating App</Text>
-      <Text style={styles.registerHeaderText}>Sign Up</Text>
-      <View style={{width: '100%', gap: 8, marginBottom: 16}}>
-        <ControlledInput
-          control={control}
-          name={'firstName'}
-          placeholder={'First name...'}
-          returnKeyType={'next'}
-          onSubmitEditing={() => setFocus('lastName')}
+      <View
+        style={{
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          paddingVertical: 24
+        }}>
+        <Text style={styles.logo}>Dating App</Text>
+        <Image
+          resizeMode="contain"
+          style={{width: 150, height: 150, tintColor: '#fb5b5a'}}
+          source={require('../../images/chat.png')}
         />
-        <ControlledInput
-          control={control}
-          name={'lastName'}
-          placeholder={'Last name...'}
-          returnKeyType={'next'}
-          onSubmitEditing={() => setFocus('email')}
-        />
-        <ControlledInput
-          control={control}
-          name={'email'}
-          placeholder={'Email...'}
-          keyboardType={'email-address'}
-          autoCapitalize={'none'}
-          returnKeyType={'next'}
-          onSubmitEditing={() => setFocus('password')}
-        />
-        <ControlledInput
-          control={control}
-          name={'password'}
-          placeholder={'Password...'}
-          secureTextEntry
-          autoCapitalize={'none'}
-          returnKeyType={'go'}
-          onSubmitEditing={handleSubmit(onSubmit)}
-        />
-      </View>
-      <View style={{width: '100%', gap: 8}}>
-        <Button text="Sign up" onPress={handleSubmit(onSubmit)} />
-        <Button text="Login" onPress={navigateToLogin} variant={'outlined'} />
-        <View />
+        <View
+          style={{
+            width: '100%',
+            alignItems: 'center'
+          }}>
+          <View style={{width: '100%', marginBottom: 16}}>
+            <ControlledInput
+              control={control}
+              name={'firstName'}
+              placeholder={'First name...'}
+              startAdornment={<Icons.UserCircleIcon size={30} color="white" />}
+              returnKeyType={'next'}
+              onSubmitEditing={() => setFocus('lastName')}
+            />
+            <ControlledInput
+              control={control}
+              name={'lastName'}
+              startAdornment={<Icons.UserCircleIcon size={30} color="white" />}
+              placeholder={'Last name...'}
+              returnKeyType={'next'}
+              onSubmitEditing={() => setFocus('email')}
+            />
+            <ControlledInput
+              control={control}
+              name={'email'}
+              placeholder={'Email...'}
+              startAdornment={<Icons.EnvelopeIcon size={30} color="white" />}
+              keyboardType={'email-address'}
+              autoCapitalize={'none'}
+              returnKeyType={'next'}
+              onSubmitEditing={() => setFocus('password')}
+            />
+            <ControlledInput
+              control={control}
+              name={'password'}
+              placeholder={'Password...'}
+              startAdornment={<Icons.LockClosedIcon size={30} color="white" />}
+              secureTextEntry
+              autoCapitalize={'none'}
+              returnKeyType={'go'}
+              onSubmitEditing={handleSubmit(onSubmit)}
+            />
+          </View>
+          <View style={{width: '100%', gap: 8}}>
+            <Button text="Sign up" onPress={handleSubmit(onSubmit)} />
+            <Button
+              text="Login"
+              onPress={navigateToLogin}
+              variant={'outlined'}
+              size={'small'}
+            />
+          </View>
+        </View>
       </View>
     </ScreenView>
   );

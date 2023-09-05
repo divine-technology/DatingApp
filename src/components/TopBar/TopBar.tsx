@@ -23,7 +23,7 @@ export const TopBar: React.FC<TopTabProps> = ({navigation}) => {
         }}>
         <Icons.ChatBubbleOvalLeftEllipsisIcon
           size={50}
-          color={activeIndex === 0 ? '#b13ef7' : 'gray'}
+          color={activeIndex === 0 ? '#fb5b5a' : 'gray'}
           onPress={() => navigation.navigate('Messages')}
         />
       </View>
@@ -37,7 +37,7 @@ export const TopBar: React.FC<TopTabProps> = ({navigation}) => {
         }}>
         <Icons.HomeIcon
           size={50}
-          color={activeIndex === 1 ? '#b13ef7' : 'gray'}
+          color={activeIndex === 1 ? '#fb5b5a' : 'gray'}
           onPress={() => navigation.navigate('Home')}
         />
       </View>
@@ -51,7 +51,7 @@ export const TopBar: React.FC<TopTabProps> = ({navigation}) => {
         }}>
         <Icons.UserCircleIcon
           size={50}
-          color={activeIndex === 2 ? '#b13ef7' : 'gray'}
+          color={activeIndex === 2 ? '#fb5b5a' : 'gray'}
           onPress={() =>
             navigation.navigate('SettingsStack', {screen: 'Settings'})
           }

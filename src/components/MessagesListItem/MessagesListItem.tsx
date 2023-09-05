@@ -20,22 +20,23 @@ export const MessagesListItem: React.FC<MessagesListItemProps> = ({
   createdAt,
   authUserId,
   onPress,
-  isBlocked = false,
+  isBlocked = false
 }) => {
-
   const checkStatus = () => {
-    if(isBlocked){
-      if(fromUser._id === authUserId) return toUser._id
-      else return fromUser._id
-    } else return likeId
-  }
+    if (isBlocked) {
+      if (fromUser._id === authUserId) return toUser._id;
+      else return fromUser._id;
+    } else return likeId;
+  };
 
   return (
-    <Pressable style={{flexDirection: 'row', alignItems: 'center'}} onPress={() => onPress(checkStatus())}>
+    <Pressable
+      style={{flexDirection: 'row', alignItems: 'center'}}
+      onPress={() => onPress(checkStatus())}>
       <Image
         style={styles.imageStyle}
         source={{
-          uri: 'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg'
+          uri: 'https://media.istockphoto.com/id/1329031407/photo/young-man-with-backpack-taking-selfie-portrait-on-a-mountain-smiling-happy-guy-enjoying.jpg?s=612x612&w=0&k=20&c=WvjAEx3QlWoAn49drp0N1vmxAgGObxWDpoXtaU2iB4Q='
         }}
       />
       <View style={styles.textMessageContainter}>
@@ -54,7 +55,7 @@ export const MessagesListItem: React.FC<MessagesListItemProps> = ({
           <Text style={styles.dateText}>{dayjs(createdAt).fromNow()}</Text>
         </View>
       </View>
-      {isBlocked && <Icons.NoSymbolIcon size={30} color={'red'}/>}
+      {isBlocked && <Icons.NoSymbolIcon size={30} color={'red'} />}
     </Pressable>
   );
 };
