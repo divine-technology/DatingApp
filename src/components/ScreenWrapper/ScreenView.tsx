@@ -1,9 +1,5 @@
-import React, {
-  PropsWithChildren
-  // , useEffect
-} from 'react';
+import React, {PropsWithChildren} from 'react';
 import {ScrollView} from 'react-native';
-// import {useNavigation} from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
@@ -23,8 +19,8 @@ export const ScreenView: React.FC<ScreenViewProps> = ({
 
   return (
     <LinearGradient
-      colors={['white', '#b13ef790']}
-      locations={[0.1, 1]}
+      colors={['white', '#fc9c9cC0']}
+      locations={[0, 1]}
       style={{
         flex: 1
       }}>

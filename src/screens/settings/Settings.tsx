@@ -1,13 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {
-  Image,
-  ScrollView,
-  Text,
-  View,
-  StatusBar,
-  TouchableOpacity,
-  Dimensions
-} from 'react-native';
+import {Image, Text, View, StatusBar, Dimensions} from 'react-native';
 import {AuthContext} from '../../providers/context/Auth';
 import {Button} from '../../components/Button/Button';
 import {useIsFocused} from '@react-navigation/native';
@@ -18,6 +10,8 @@ import {ScreenView} from '../../components/ScreenWrapper/ScreenView';
 import ImageView from 'react-native-image-viewing';
 import {TouchableHighlight} from 'react-native-gesture-handler';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {Section} from '../../components/Section/Section';
+import {InfoContainer} from '../../components/InfoContainer/InfoContainer';
 import {CustomModal} from '../../components/Modal/Modal';
 import {useMutation} from 'react-query';
 import {openApi} from '../../services/openApi';
@@ -62,12 +56,6 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
     },
     {
       uri: 'https://images.unsplash.com/photo-1569569970363-df7b6160d111'
-    },
-    {
-      uri: 'https://images.unsplash.com/photo-1571501679680-de32f1e7aad4'
-    },
-    {
-      uri: 'https://images.unsplash.com/photo-1573273787173-0eb81a833b34'
     }
   ];
 
@@ -86,7 +74,7 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
         <Image
           style={styles.userImg}
           source={{
-            uri: 'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg'
+            uri: 'https://media.istockphoto.com/id/1329031407/photo/young-man-with-backpack-taking-selfie-portrait-on-a-mountain-smiling-happy-guy-enjoying.jpg?s=612x612&w=0&k=20&c=WvjAEx3QlWoAn49drp0N1vmxAgGObxWDpoXtaU2iB4Q='
           }}
         />
         <Text style={styles.userName}>
@@ -111,48 +99,47 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
             />
           </View>
         </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            gap: 10
-          }}>
-          <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
-          <Icons.UserCircleIcon size={25} color={'#00000095'} />
-          <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
-        </View>
-        <View style={styles.userInfoWrapper}>
-          <View style={styles.userInfoItem}>
-            <Text style={styles.userInfoTitle}>
-              {user && user?.gender ? user.gender : 'Not set'}
-            </Text>
-            <Text style={styles.userInfoSubTitle}>Gender</Text>
-          </View>
-          <View style={styles.userInfoItem}>
-            <Text style={styles.userInfoTitle}>
-              {user && user?.age ? user.age : 'Not set'}
-            </Text>
-            <Text style={styles.userInfoSubTitle}>Age</Text>
-          </View>
-          <View style={styles.userInfoItem}>
-            <Text style={styles.userInfoTitle}>
-              {user && user?.preference ? user.preference : 'Not set'}
-            </Text>
-            <Text style={styles.userInfoSubTitle}>Preference</Text>
-          </View>
-        </View>
-        <View style={styles.biocontainer}>
-          <Text style={styles.bioTitle}>Bio</Text>
-          <Text style={styles.bioSubTitle}>
-            {user && user.bio ? user.bio : 'No user bio.'}
-          </Text>
-        </View>
-        <View style={styles.galleryContainer}>
-          <Text style={styles.bioTitle}>Images</Text>
-          <View style={{flexDirection: 'row', padding: 8}}>
+      </View>
+      <View style={{marginBottom: 4}}>
+        <Section color={'#24355f'}>
+          <Icons.UserCircleIcon size={25} color={'#24355f'} />
+        </Section>
+      </View>
+      <View style={{flex: 1, flexDirection: 'row', gap: 4, marginBottom: 4}}>
+        <InfoContainer
+          title={user && user?.gender ? user.gender : 'Not set'}
+          subTitle={'Gender'}
+        />
+        <InfoContainer
+          title={user && user?.age ? user.age.toString() : 'Not set'}
+          subTitle={'Age'}
+        />
+        <InfoContainer
+          title={user && user?.preference ? user.preference : 'Not set'}
+          subTitle={'Preference'}
+        />
+      </View>
+      <View style={{marginBottom: 4}}>
+        <InfoContainer
+          title={'Bio'}
+          subTitle={user && user.bio ? user.bio : 'No user bio.'}
+        />
+      </View>
+      <View style={{marginBottom: 4}}>
+        <InfoContainer title={'Images'}>
+          <View
+            style={{
+              flex: 1,
+              flexWrap: 'wrap',
+              flexDirection: 'row'
+            }}>
             {images.map((uri, index) => (
               <TouchableHighlight
                 key={index}
+                style={{
+                  borderColor: '#fb5b5a90',
+                  borderWidth: 1
+                }}
                 onPress={() => {
                   setImageIndex(index);
                   setIsVisible(!visible);
@@ -161,99 +148,69 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
                   source={uri}
                   resizeMode="stretch"
                   style={{
-                    borderColor: '#b13ef770',
-                    borderWidth: 1,
-                    width: (Dimensions.get('screen').width - 52) / 3,
-                    height: (Dimensions.get('screen').width - 52) / 3
+                    width: (Dimensions.get('screen').width - 56) / 3,
+                    height: (Dimensions.get('screen').width - 56) / 3
                   }}
                 />
               </TouchableHighlight>
             ))}
           </View>
-        </View>
-        <ImageView
-          images={images}
-          FooterComponent={() => (
-            <View
-              style={{
-                width: '100%',
-                height: 150,
-                alignItems: 'center',
-                justifyContent: 'space-around',
-                backgroundColor: 'rgba(0, 0, 0, 0.7)',
-                paddingBottom: 40
-              }}>
-              <Text style={styles.text}>{`${imageIndex + 1} / ${
-                images.length
-              }`}</Text>
-              <View
-                style={{
-                  width: '100%',
-                  flexDirection: 'row',
-                  justifyContent: 'space-around'
-                }}>
-                <TouchableOpacity onPress={() => setImageIndex(imageIndex - 1)}>
-                  <Text style={{color: 'white', fontSize: 18}}>Previous</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => setImageIndex(imageIndex + 1)}>
-                  <Text style={{color: 'white', fontSize: 18}}>Next</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          )}
-          presentationStyle="fullScreen"
-          imageIndex={imageIndex}
-          visible={visible}
-          onRequestClose={() => setIsVisible(false)}
-        />
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            gap: 10
-          }}>
-          <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
-          <Icons.ShieldExclamationIcon size={25} color={'#00000095'} />
-          <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
-        </View>
-        <View style={styles.authBtnWrapper}>
-          <View style={{flex: 1}}>
-            <Button
-              text="Update password"
-              variant={'outlined'}
-              onPress={() => {
-                navigation.navigate('UpdatePassword');
-              }}
-            />
+        </InfoContainer>
+      </View>
+      <ImageView
+        images={images}
+        presentationStyle="fullScreen"
+        imageIndex={imageIndex}
+        visible={visible}
+        onRequestClose={() => setIsVisible(false)}
+        FooterComponent={({imageIndex}) => (
+          <View
+            style={{
+              width: '100%',
+              alignItems: 'center',
+              justifyContent: 'space-around',
+              backgroundColor: 'rgba(0, 0, 0, 0.7)',
+              paddingBottom: insets.bottom + 4
+            }}>
+            <Text style={styles.text}>{`${imageIndex + 1} / ${
+              images.length
+            }`}</Text>
           </View>
-          <View style={{flex: 1}}>
-            <Button
-              text="Deactivate account"
-              variant={'outlined'}
-              onPress={() => setModalVisibility(true)}
-            />
-          </View>
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            gap: 10
-          }}>
-          <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
-          <Icons.NoSymbolIcon size={25} color={'#00000095'} />
-          <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
-        </View>
-        <View style={styles.authBtnWrapper}>
+        )}
+      />
+      <Section color={'#24355f'}>
+        <Icons.ShieldExclamationIcon size={25} color={'#24355f'} />
+      </Section>
+      <View style={styles.authBtnWrapper}>
+        <View style={{flex: 1}}>
           <Button
-            text="Blocked Users"
-            variant={'filled'}
-            width={'50%'}
+            text="Update password"
+            variant={'outlined'}
             onPress={() => {
-              navigation.navigate('BlockedUsers');
+              navigation.navigate('UpdatePassword');
             }}
           />
         </View>
+        <View style={{flex: 1}}>
+          <Button
+            text="Deactivate account"
+            variant={'outlined'}
+            onPress={() => setModalVisibility(true)}
+          />
+        </View>
+      </View>
+      <Section color={'#24355f'}>
+        <Icons.NoSymbolIcon size={25} color={'#24355f'} />
+      </Section>
+      <View style={styles.authBtnWrapper}>
+        <Button
+          text="Blocked users"
+          variant={'filled'}
+          width={'50%'}
+          onPress={() => {
+            navigation.navigate('BlockedUsers');
+          }}
+        />
       </View>
       <CustomModal
         headerIcon={<Icons.ExclamationTriangleIcon size={100} color={'red'} />}

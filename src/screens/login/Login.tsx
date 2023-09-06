@@ -48,20 +48,17 @@ export const LoginScreen: React.FC<AuthStackScreenProps<'Login'>> = ({
   return (
     <ScreenView safeAreaTop>
       <View style={styles.container}>
-        <View style={{alignItems: 'center'}}>
-          <Image
-            resizeMode="contain"
-            style={{width: 100, height: 100, tintColor: '#fb5b5a'}}
-            source={require('../../images/chat.png')}
-          />
-          <Text style={styles.logo}>Dating App</Text>
-        </View>
+        <Text style={styles.logo}>Dating App</Text>
+        <Image
+          resizeMode="contain"
+          style={{width: 150, height: 150, tintColor: '#fb5b5a'}}
+          source={require('../../images/chat.png')}
+        />
         <View
           style={{
             width: '100%',
             alignItems: 'center'
           }}>
-          <Text style={styles.loginHeaderText}>Login</Text>
           <View style={{width: '100%', marginBottom: 16}}>
             <ControlledInput
               control={control}

@@ -14,9 +14,9 @@ import {
 import {mockData} from './mockData';
 import {ScreenView} from '../../components/ScreenWrapper/ScreenView';
 import {HomeStackCompositeScreenProps} from '../../navigation/HomeRoutes';
-import * as Icons from 'react-native-heroicons/solid';
+import * as Icons from 'react-native-heroicons/outline';
 import {styles} from './Home.styles';
-import ImagePicker, {openCamera} from 'react-native-image-crop-picker';
+import ImagePicker from 'react-native-image-crop-picker';
 
 export type HomeRouteParams = undefined;
 
@@ -69,7 +69,7 @@ export const HomeScreen: React.FC<HomeStackCompositeScreenProps<'Home'>> = ({
   };
 
   const like = (id: string | number) => {
-    openCamera();
+    openCamera(id);
     console.log('LIKE', {id});
   };
 
@@ -117,7 +117,7 @@ export const HomeScreen: React.FC<HomeStackCompositeScreenProps<'Home'>> = ({
     }
   };
 
-  const openCamera = () => {
+  const openCamera = (id: string | number) => {
     if (Platform.OS === 'android') {
       requestCameraPermission();
     }
@@ -127,14 +127,10 @@ export const HomeScreen: React.FC<HomeStackCompositeScreenProps<'Home'>> = ({
       useFrontCamera: true
     }).then(image => {
       if (image) {
-        console.log('Swipe right', image);
+        console.log({image, id}, 'do request');
       }
-    });
+    }, cardSwiperRef.current?.onBack);
   };
-
-  function manualLike(): void {
-    openCamera();
-  }
 
   return (
     <ScreenView>
@@ -142,7 +138,8 @@ export const HomeScreen: React.FC<HomeStackCompositeScreenProps<'Home'>> = ({
         style={{
           flexDirection: 'column',
           flex: 1,
-          gap: 12
+          gap: 12,
+          paddingBottom: 16
         }}>
         {test() ? (
           <>
@@ -168,8 +165,9 @@ export const HomeScreen: React.FC<HomeStackCompositeScreenProps<'Home'>> = ({
                   elevation: 2
                 }}>
                 <Icons.ArrowLeftCircleIcon
-                  size={55}
+                  size={40}
                   color={'gray'}
+                  strokeWidth={1}
                   onPress={cardSwiperRef.current?.onBack}
                 />
               </View>
@@ -184,6 +182,7 @@ export const HomeScreen: React.FC<HomeStackCompositeScreenProps<'Home'>> = ({
                 <Icons.XCircleIcon
                   size={55}
                   color={'red'}
+                  strokeWidth={1}
                   onPress={() => cardSwiperRef.current?.manualSwipe('left')}
                 />
               </View>
@@ -196,8 +195,9 @@ export const HomeScreen: React.FC<HomeStackCompositeScreenProps<'Home'>> = ({
                   elevation: 2
                 }}>
                 <Icons.UserCircleIcon
-                  size={55}
-                  color={'#800080'}
+                  size={40}
+                  color={'#003f5c'}
+                  strokeWidth={1}
                   onPress={() =>
                     viewProfile(
                       cardSwiperRef.current?.getCurrentCardId() ?? 'NoId'
@@ -215,8 +215,9 @@ export const HomeScreen: React.FC<HomeStackCompositeScreenProps<'Home'>> = ({
                 }}>
                 <Icons.CheckCircleIcon
                   size={55}
-                  color={'#20B2AA'}
-                  onPress={() => manualLike()}
+                  strokeWidth={1}
+                  color={'green'}
+                  onPress={() => cardSwiperRef.current?.manualSwipe('right')}
                 />
               </View>
               <View
@@ -227,7 +228,11 @@ export const HomeScreen: React.FC<HomeStackCompositeScreenProps<'Home'>> = ({
                   shadowRadius: 2,
                   elevation: 2
                 }}>
-                <Icons.CheckBadgeIcon size={55} color={'yellow'} />
+                <Icons.CheckBadgeIcon
+                  size={40}
+                  color={'yellow'}
+                  strokeWidth={1}
+                />
               </View>
             </View>
           </>

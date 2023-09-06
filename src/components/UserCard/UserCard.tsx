@@ -24,7 +24,7 @@ export const UserCard: React.FC<UserCardProps> = ({
       <Image
         style={styles.image}
         source={{
-          uri: 'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg'
+          uri: 'https://media.istockphoto.com/id/1329031407/photo/young-man-with-backpack-taking-selfie-portrait-on-a-mountain-smiling-happy-guy-enjoying.jpg?s=612x612&w=0&k=20&c=WvjAEx3QlWoAn49drp0N1vmxAgGObxWDpoXtaU2iB4Q='
         }}
       />
       <View style={styles.absWrapper}>
@@ -34,7 +34,7 @@ export const UserCard: React.FC<UserCardProps> = ({
         </View>
         <LinearGradient
           colors={['#ffffff00', '#ffffff90']}
-          locations={[0, 1]}
+          locations={[0, 0.1]}
           style={{height: 150}}>
           <Pressable onPress={profile} style={styles.infoWrapper}>
             <Text style={styles.info}>
