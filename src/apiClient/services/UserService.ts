@@ -158,17 +158,10 @@ export class UserService {
      * @returns User
      * @throws ApiError
      */
-    public usersControllerDeleteUser({
-        id,
-    }: {
-        id: string,
-    }): CancelablePromise<User> {
+    public usersControllerDeleteUser(): CancelablePromise<User> {
         return this.httpRequest.request({
             method: 'DELETE',
             url: '/users/delete/{id}',
-            path: {
-                'id': id,
-            },
         });
     }
 

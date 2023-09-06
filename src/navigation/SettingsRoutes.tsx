@@ -14,11 +14,16 @@ import {
   NavigatorScreenParams
 } from '@react-navigation/native';
 import {RootStackScreenProps} from './Routes';
+import {
+  UpdatePasswordParams,
+  UpdatePasswordScreen
+} from '../screens/updatePassword/UpdatePassword';
 
 export type SettingsStackParamList = {
   EditUser: EditUserParams;
   Settings: SettingsRouteParams;
   BlockedUsers: BlockedRouteParams;
+  UpdatePassword: UpdatePasswordParams;
 };
 
 export type SettingsStackNavigatorProps =
@@ -47,6 +52,10 @@ export const SettingsRoutes: React.FC = () => {
       <SettingsStack.Screen
         name="BlockedUsers"
         component={BlockedUsersScreen}
+      />
+      <SettingsStack.Screen
+        name="UpdatePassword"
+        component={UpdatePasswordScreen}
       />
     </SettingsStack.Navigator>
   );
