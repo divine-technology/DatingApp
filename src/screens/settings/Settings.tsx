@@ -246,10 +246,11 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
         </View>
         <View style={styles.authBtnWrapper}>
           <Button
-            text="Edit"
-            variant={'outlined'}
+            text="Blocked Users"
+            variant={'filled'}
+            width={'50%'}
             onPress={() => {
-              navigation.navigate('EditUser');
+              navigation.navigate('BlockedUsers');
             }}
           />
         </View>
