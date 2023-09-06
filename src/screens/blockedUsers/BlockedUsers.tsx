@@ -47,8 +47,6 @@ export const BlockedUsersScreen: React.FC<
   }, []);
 
   const unBlockUser = (likeId: string) => {
-    // navigation.navigate('Chat', {likeId});
-    console.log('FUCK HAH: ', likeId);
     setModalVisibility(true);
   };
 

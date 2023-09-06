@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { Like } from '../models/Like';
 import type { ReactWithUserDto } from '../models/ReactWithUserDto';
 import type { ResponsePaginateDto } from '../models/ResponsePaginateDto';
 
@@ -47,6 +48,25 @@ export class LikeService {
 
     /**
      * Get all likes from user
+     * @returns Like
+     * @throws ApiError
+     */
+    public likeControllerGetAllLikes({
+        id,
+    }: {
+        id: string,
+    }): CancelablePromise<Array<Like>> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/likes/get-all-likes/{id}',
+            path: {
+                'id': id,
+            },
+        });
+    }
+
+    /**
+     * Get likes from user
      * @returns ResponsePaginateDto
      * @throws ApiError
      */
