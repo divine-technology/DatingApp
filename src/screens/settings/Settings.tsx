@@ -12,6 +12,9 @@ import {TouchableHighlight} from 'react-native-gesture-handler';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Section} from '../../components/Section/Section';
 import {InfoContainer} from '../../components/InfoContainer/InfoContainer';
+import {CustomModal} from '../../components/Modal/Modal';
+import {useMutation} from 'react-query';
+import {openApi} from '../../services/openApi';
 
 export type SettingsRouteParams = undefined;
 
@@ -22,6 +25,7 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
   const isFocused = useIsFocused();
   const [visible, setIsVisible] = useState<boolean>(false);
   const [imageIndex, setImageIndex] = useState<number>(0);
+  const [modalVisibility, setModalVisibility] = useState<boolean>(false);
 
   const insets = useSafeAreaInsets();
 
@@ -31,6 +35,17 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
       StatusBar.setHidden(false, 'fade');
     }
   }, [isFocused]);
+
+  const {mutate: deleteAccount} = useMutation<unknown, unknown, unknown>(
+    'deleteAccount',
+    _data => openApi.instance.user.usersControllerDeleteUser(),
+    {
+      onSuccess: _data => {
+        signOut();
+      },
+      onError: () => {}
+    }
+  );
 
   const images = [
     {
@@ -172,7 +187,7 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
             text="Update password"
             variant={'outlined'}
             onPress={() => {
-              navigation.navigate('EditUser');
+              navigation.navigate('UpdatePassword');
             }}
           />
         </View>
@@ -180,7 +195,7 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
           <Button
             text="Deactivate account"
             variant={'outlined'}
-            onPress={() => signOut()}
+            onPress={() => setModalVisibility(true)}
           />
         </View>
       </View>
@@ -197,6 +212,19 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
           }}
         />
       </View>
+      <CustomModal
+        headerIcon={<Icons.ExclamationTriangleIcon size={100} color={'red'} />}
+        headerText={
+          'Are you sure you want to delete your account? This action cannot be undone.'
+        }
+        isVisible={modalVisibility}
+        onBackButtonPress={() => setModalVisibility(false)}
+        onBackdropPress={() => setModalVisibility(false)}
+        backdropOpacity={0.4}
+        useNativeDriver={true}
+        primaryButtonOnPress={() => deleteAccount({})}
+        secondaryButtonOnPress={() => setModalVisibility(false)}
+      />
     </ScreenView>
   );
 };
