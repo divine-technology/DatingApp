@@ -77,27 +77,27 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
             uri: 'https://media.istockphoto.com/id/1329031407/photo/young-man-with-backpack-taking-selfie-portrait-on-a-mountain-smiling-happy-guy-enjoying.jpg?s=612x612&w=0&k=20&c=WvjAEx3QlWoAn49drp0N1vmxAgGObxWDpoXtaU2iB4Q='
           }}
         />
-      </View>
-      <Text style={styles.userName}>
-        {user ? `${user.firstName} ${user.lastName}` : 'Test User'}
-      </Text>
-      <Text style={styles.aboutUser}>Location incoming.</Text>
-      <View style={styles.userBtnWrapper}>
-        <View style={{flex: 1}}>
-          <Button
-            text="Edit"
-            variant={'outlined'}
-            onPress={() => {
-              navigation.navigate('EditUser');
-            }}
-          />
-        </View>
-        <View style={{flex: 1}}>
-          <Button
-            text="Logout"
-            variant={'outlined'}
-            onPress={() => signOut()}
-          />
+        <Text style={styles.userName}>
+          {user ? `${user.firstName} ${user.lastName}` : 'Test User'}
+        </Text>
+        <Text style={styles.aboutUser}>Location incoming.</Text>
+        <View style={styles.userBtnWrapper}>
+          <View style={{flex: 1}}>
+            <Button
+              text="Edit"
+              variant={'outlined'}
+              onPress={() => {
+                navigation.navigate('EditUser');
+              }}
+            />
+          </View>
+          <View style={{flex: 1}}>
+            <Button
+              text="Logout"
+              variant={'outlined'}
+              onPress={() => signOut()}
+            />
+          </View>
         </View>
       </View>
       <View style={{marginBottom: 4}}>
