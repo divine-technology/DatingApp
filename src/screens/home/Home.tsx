@@ -16,10 +16,12 @@ import {ScreenView} from '../../components/ScreenWrapper/ScreenView';
 import {HomeStackCompositeScreenProps} from '../../navigation/HomeRoutes';
 import * as Icons from 'react-native-heroicons/outline';
 import {styles} from './Home.styles';
-import ImagePicker, {Image} from 'react-native-image-crop-picker';
+import ImagePicker, {Image, ImageOrVideo} from 'react-native-image-crop-picker';
 import Geolocation from '@react-native-community/geolocation';
 import RNFS from 'react-native-fs';
 import axios from 'axios';
+import {TOKEN} from '../../services/token';
+import {api} from '../../services/api';
 
 export type HomeRouteParams = undefined;
 
@@ -59,7 +61,7 @@ export const HomeScreen: React.FC<HomeStackCompositeScreenProps<'Home'>> = ({
           getUsersInRadius({
             location: {
               type: 'Point',
-              coordinates: [position.coords.longitude, position.coords.latitude]
+              coordinates: [43.8328982, 18.349589]
             },
             radius: 5000000
           });
@@ -132,78 +134,38 @@ export const HomeScreen: React.FC<HomeStackCompositeScreenProps<'Home'>> = ({
     }
   };
 
-  // const {data2, mutate: uploadImage} = useMutation<unknown, unknown, any>(
-  //   'uploadImage',
-  //   data => {
-  //     console.log('IS IT CORRECT: ', data);
-  //     return openApi.instance.image.imageControllerUploadImage({
-  //       requestBody: data,
-  //       contentType: 'multipart/form-data'
-  //     });
-  //   },
-  //   {
-  //     onSuccess: data => {
-  //       console.log('DOES ANYTHING HAPPEN?');
-  //     },
-  //     onError: () => {
-  //       console.log('ERROR HAPPENED');
-  //     }
-  //   }
-  // );
-
-  const uplaodTheDamnImage = async (img: Image) => {
+  const imageUpload = async (image: ImageOrVideo) => {
     const formData = new FormData();
-    const fileObject = {
-      uri: img.path,
-      type: img.mime,
-      name: img.filename
-    } as unknown;
-    formData.append('image', {
-      uri: img.path,
-      type: img.mime,
-      name: img.filename
-    } as unknown as Blob);
+    const trimmedURI =
+      Platform.OS === 'android'
+        ? image.path
+        : image.path.replace('file://', '');
+    const fileName = trimmedURI.split('/').pop();
+    const media = {
+      name: fileName,
+      height: image.height,
+      width: image.width,
+      type: image.mime,
+      uri: trimmedURI
+    };
+
+    formData.append('image', media as unknown as Blob);
+
     try {
-      const response = await axios.post(
-        'http://localhost:3000/image/upload',
-        formData,
-        {
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'multipart/form-data'
-          }
-        }
-      );
-      console.log('Upload successful:', response.data);
-    } catch (e) {
-      console.error('Error uploading image:', e);
+      const res = await api.axiosFetch({
+        url: '/users/upload/profile-image',
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'multipart/form-data'
+        },
+        data: formData
+      });
+      console.log({res});
+    } catch (error) {
+      console.log({error});
     }
   };
-
-  // const uploadImage = async (img: string) => {
-  //   const imageData = await RNFS.readFile(img, 'base64');
-
-  //   const data = new FormData();
-  //   const raw = {
-  //     uri: img.path,
-  //     type: img.mime,
-  //     name: img.filename
-  //   } as unknown;
-  //   data.append('file', raw as Blob);
-
-  //   await api.axiosFetch({
-  //     method: 'PUT',
-  //     url: '/user/me/avatar',
-  //     headers: {
-  //       Accept: 'application/json',
-  //       'Content-Type': 'multipart/form-data'
-  //     },
-  //     data: data,
-  //     onUploadProgress: ev => setProgress(ev.loaded / ev.total)
-  //   });
-
-  //   setProgress(-1);
-  // };
 
   const openCamera = (id: string | number) => {
     if (Platform.OS === 'android') {
@@ -216,7 +178,7 @@ export const HomeScreen: React.FC<HomeStackCompositeScreenProps<'Home'>> = ({
     }).then(image => {
       if (image) {
         console.log({image, id}, 'do request');
-        uplaodTheDamnImage(image);
+        imageUpload(image);
       }
     }, cardSwiperRef.current?.onBack);
   };

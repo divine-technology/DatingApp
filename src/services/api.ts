@@ -9,7 +9,7 @@ class ApiFactory {
 
   constructor() {
     this.axios = Axios.create({
-      baseURL: Config.API_URL,
+      baseURL: Config.API_URL ?? 'http://localhost:3000/'
     });
   }
 
@@ -24,20 +24,20 @@ class ApiFactory {
   public setToken(token: string) {
     this.token = token;
     this.axios.defaults.headers.common = {
-      authorization: 'Bearer ' + token,
+      authorization: 'Bearer ' + token
     };
     TOKEN.set(token);
   }
 
   public axiosFetch<T, D>(
-    request: AxiosRequestConfig<D | null | undefined>,
+    request: AxiosRequestConfig<D | null | undefined>
   ): AxiosPromise<T> {
     const response = this.axios({
       ...request,
       headers: {
         ...this.axios.defaults.headers.common,
-        ...request.headers,
-      },
+        ...request.headers
+      }
     });
     return response;
   }

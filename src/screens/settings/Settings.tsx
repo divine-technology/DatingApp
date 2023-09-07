@@ -1,8 +1,8 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useCallback, useContext, useEffect, useState} from 'react';
 import {Image, Text, View, StatusBar, Dimensions} from 'react-native';
 import {AuthContext} from '../../providers/context/Auth';
 import {Button} from '../../components/Button/Button';
-import {useIsFocused} from '@react-navigation/native';
+import {useFocusEffect, useIsFocused} from '@react-navigation/native';
 import {styles} from './Settings.styles';
 import {SettingsStackScreenProps} from '../../navigation/SettingsRoutes';
 import * as Icons from 'react-native-heroicons/outline';
@@ -15,6 +15,7 @@ import {InfoContainer} from '../../components/InfoContainer/InfoContainer';
 import {CustomModal} from '../../components/Modal/Modal';
 import {useMutation} from 'react-query';
 import {openApi} from '../../services/openApi';
+import {api} from '../../services/api';
 
 export type SettingsRouteParams = undefined;
 
@@ -26,6 +27,8 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
   const [visible, setIsVisible] = useState<boolean>(false);
   const [imageIndex, setImageIndex] = useState<number>(0);
   const [modalVisibility, setModalVisibility] = useState<boolean>(false);
+
+  // useFocusEffect(React.useCallback(() => getMe(), []));
 
   const insets = useSafeAreaInsets();
 
@@ -59,6 +62,26 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
     }
   ];
 
+  const [profilePicture, setProfilePicture] = useState<string>();
+
+  const getProfilePicture = async () => {
+    try {
+      const res = await api.axiosFetch({
+        url: `/image/${user?.profilePicture}`,
+        method: 'GET',
+        headers: {
+          Accept: 'application/json'
+        }
+      });
+      console.log({res});
+      setProfilePicture(res.data.url);
+    } catch (error) {
+      console.log({error});
+    }
+  };
+
+  getProfilePicture();
+
   return (
     <ScreenView scrollEnabled>
       <View
@@ -74,7 +97,9 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
         <Image
           style={styles.userImg}
           source={{
-            uri: 'https://media.istockphoto.com/id/1329031407/photo/young-man-with-backpack-taking-selfie-portrait-on-a-mountain-smiling-happy-guy-enjoying.jpg?s=612x612&w=0&k=20&c=WvjAEx3QlWoAn49drp0N1vmxAgGObxWDpoXtaU2iB4Q='
+            uri:
+              profilePicture ??
+              'https://media.istockphoto.com/id/1329031407/photo/young-man-with-backpack-taking-selfie-portrait-on-a-mountain-smiling-happy-guy-enjoying.jpg?s=612x612&w=0&k=20&c=WvjAEx3QlWoAn49drp0N1vmxAgGObxWDpoXtaU2iB4Q='
           }}
         />
         <Text style={styles.userName}>
