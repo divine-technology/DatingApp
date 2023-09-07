@@ -20,5 +20,8 @@ export type User = {
     age: number;
     bio: string;
     hobbies: Array<string>;
+    profilePicture: string;
+    gallery: Array<string>;
+    lastPictureTaken: string;
 };
 

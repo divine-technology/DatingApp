@@ -13,5 +13,8 @@ export type UserResponse = {
     preference: string;
     age: number;
     hobbies: Array<string>;
+    profilePicture?: string;
+    gallery?: Array<string>;
+    lastPictureTaken?: string;
 };
 

@@ -4,6 +4,10 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1
   },
+  text: {
+    fontSize: 16,
+    color: '#FFF'
+  },
   userImg: {
     height: 150,
     width: 150,
@@ -14,7 +18,8 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginTop: 10,
     marginBottom: 10,
-    color: 'black'
+    color: 'black',
+    textAlign: 'center'
   },
   aboutUser: {
     fontSize: 12,
@@ -28,6 +33,13 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     width: '100%',
     marginBottom: 10,
+    gap: 8
+  },
+  authBtnWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    width: '100%',
+    marginVertical: 10,
     gap: 8
   },
   userBtn: {
@@ -58,8 +70,22 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 5,
     textAlign: 'center',
-    color: 'black',
+    color: '#b3426b',
     textTransform: 'capitalize'
+  },
+  galleryContainer: {
+    flex: 1,
+    width: '100%',
+    padding: 8,
+    marginVertical: 12,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    backgroundColor: '#ffffff90',
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#63636330'
   },
   biocontainer: {
     width: '100%',
@@ -70,6 +96,7 @@ export const styles = StyleSheet.create({
   },
   bioTitle: {
     fontSize: 20,
+    marginBottom: 8,
     fontWeight: 'bold',
     textAlign: 'center',
     color: 'black',

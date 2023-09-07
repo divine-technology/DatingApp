@@ -43,5 +43,17 @@ export const $UserResponse = {
             },
             isRequired: true,
         },
+        profilePicture: {
+            type: 'string',
+        },
+        gallery: {
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+        },
+        lastPictureTaken: {
+            type: 'string',
+        },
     },
 } as const;

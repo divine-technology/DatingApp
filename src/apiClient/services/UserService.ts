@@ -37,6 +37,9 @@ export class UserService {
         preference,
         age,
         hobbies,
+        profilePicture,
+        gallery,
+        lastPictureTaken,
     }: {
         page?: number,
         limit?: number,
@@ -54,6 +57,9 @@ export class UserService {
         preference?: string,
         age?: number,
         hobbies?: Array<string>,
+        profilePicture?: string,
+        gallery?: Array<string>,
+        lastPictureTaken?: string,
     }): CancelablePromise<ResponsePaginateDto> {
         return this.httpRequest.request({
             method: 'GET',
@@ -75,6 +81,9 @@ export class UserService {
                 'preference': preference,
                 'age': age,
                 'hobbies': hobbies,
+                'profilePicture': profilePicture,
+                'gallery': gallery,
+                'lastPictureTaken': lastPictureTaken,
             },
         });
     }

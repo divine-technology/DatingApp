@@ -63,5 +63,20 @@ export const $User = {
             },
             isRequired: true,
         },
+        profilePicture: {
+            type: 'string',
+            isRequired: true,
+        },
+        gallery: {
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+            isRequired: true,
+        },
+        lastPictureTaken: {
+            type: 'string',
+            isRequired: true,
+        },
     },
 } as const;
