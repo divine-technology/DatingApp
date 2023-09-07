@@ -28,7 +28,7 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
   const [imageIndex, setImageIndex] = useState<number>(0);
   const [modalVisibility, setModalVisibility] = useState<boolean>(false);
 
-  // useFocusEffect(React.useCallback(() => getMe(), []));
+  useFocusEffect(React.useCallback(() => getMe(), []));
 
   const insets = useSafeAreaInsets();
 
@@ -65,12 +65,16 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
   const [profilePicture, setProfilePicture] = useState<string>();
 
   const getProfilePicture = async () => {
+    console.log({pId: user?.profilePicture});
     try {
       const res = await api.axiosFetch({
         url: `/image/${user?.profilePicture}`,
         method: 'GET',
         headers: {
           Accept: 'application/json'
+        },
+        params: {
+          dimensions: '300x300'
         }
       });
       console.log({res});
