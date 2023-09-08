@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Image, Pressable, Text, View} from 'react-native';
 import {AuthUser} from '../../apiClient';
 import {styles} from './UserCard.styles';
 import {ClickableSwipeCard} from '../CardSwiper/CardSwiper';
 import LinearGradient from 'react-native-linear-gradient';
+import {api} from '../../services/api';
 
 export type UserCardProps = {
   user: AuthUser;
@@ -18,13 +19,34 @@ export const UserCard: React.FC<UserCardProps> = ({
   dislike,
   profile
 }) => {
-  // console.log('USER BIO: ', user.bio);
+  const [picture, setPicture] = useState();
+
+  const getProfilePicture = async () => {
+    try {
+      const res = await api.axiosFetch({
+        url: `/image/${user?.lastPictureTaken ?? user?.profilePicture}`,
+        method: 'GET',
+        headers: {
+          Accept: 'application/json'
+        },
+        params: {
+          dimensions: '300x300'
+        }
+      });
+      setPicture(res.data.url);
+    } catch (error) {
+      console.log({error});
+    }
+  };
+
+  getProfilePicture();
+
   return (
     <View style={styles.wrapper}>
       <Image
         style={styles.image}
         source={{
-          uri: 'https://media.istockphoto.com/id/1329031407/photo/young-man-with-backpack-taking-selfie-portrait-on-a-mountain-smiling-happy-guy-enjoying.jpg?s=612x612&w=0&k=20&c=WvjAEx3QlWoAn49drp0N1vmxAgGObxWDpoXtaU2iB4Q='
+          uri: picture
         }}
       />
       <View style={styles.absWrapper}>

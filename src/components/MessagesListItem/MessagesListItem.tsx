@@ -1,10 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Image, Text, Pressable} from 'react-native';
 import {styles} from '../../screens/messages/Message.styles';
 import {MessageResponseDto} from '../../apiClient';
 import dayjs from '../../dayjs/dayjs-extended';
 import * as Icons from 'react-native-heroicons/outline';
-import {TouchableHighlight} from 'react-native-gesture-handler';
+import {api} from '../../services/api';
 
 export type MessagesListItemProps = {
   authUserId: string;
@@ -37,6 +37,28 @@ export const MessagesListItem: React.FC<MessagesListItemProps> = ({
     else return fromUser._id;
   };
 
+  const [profilePicture, setProfilePicture] = useState();
+
+  const getProfilePicture = async () => {
+    try {
+      const res = await api.axiosFetch({
+        url: `/image/${fromUser?.profilePicture}`,
+        method: 'GET',
+        headers: {
+          Accept: 'application/json'
+        },
+        params: {
+          dimensions: '300x300'
+        }
+      });
+      setProfilePicture(res.data.url);
+    } catch (error) {
+      console.log({error});
+    }
+  };
+
+  getProfilePicture();
+
   return (
     <Pressable
       style={{flexDirection: 'row', alignItems: 'center'}}
@@ -45,7 +67,9 @@ export const MessagesListItem: React.FC<MessagesListItemProps> = ({
       <Image
         style={styles.imageStyle}
         source={{
-          uri: 'https://media.istockphoto.com/id/1329031407/photo/young-man-with-backpack-taking-selfie-portrait-on-a-mountain-smiling-happy-guy-enjoying.jpg?s=612x612&w=0&k=20&c=WvjAEx3QlWoAn49drp0N1vmxAgGObxWDpoXtaU2iB4Q='
+          uri:
+            profilePicture ??
+            'https://media.istockphoto.com/id/1329031407/photo/young-man-with-backpack-taking-selfie-portrait-on-a-mountain-smiling-happy-guy-enjoying.jpg?s=612x612&w=0&k=20&c=WvjAEx3QlWoAn49drp0N1vmxAgGObxWDpoXtaU2iB4Q='
         }}
       />
       <View style={styles.textMessageContainter}>

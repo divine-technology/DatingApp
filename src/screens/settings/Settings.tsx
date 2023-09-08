@@ -1,4 +1,4 @@
-import React, {useCallback, useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect, useMemo, useState} from 'react';
 import {
   Image,
   Text,
@@ -73,30 +73,6 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
     }
   ];
 
-  const [profilePicture, setProfilePicture] = useState<string>();
-
-  const getProfilePicture = async () => {
-    console.log({pId: user?.profilePicture});
-    try {
-      const res = await api.axiosFetch({
-        url: `/image/${user?.profilePicture}`,
-        method: 'GET',
-        headers: {
-          Accept: 'application/json'
-        },
-        params: {
-          dimensions: '300x300'
-        }
-      });
-      console.log({res});
-      setProfilePicture((res.data as any).url);
-    } catch (error) {
-      console.log({error});
-    }
-  };
-
-  getProfilePicture();
-
   const requestCameraPermission = async () => {
     try {
       const granted = await PermissionsAndroid.request(
@@ -146,7 +122,7 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
         },
         data: formData
       });
-      console.log({res});
+      getMe();
     } catch (error) {
       console.log({error});
     }
@@ -162,11 +138,32 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
       useFrontCamera: true
     }).then(image => {
       if (image) {
-        console.log({image}, 'do request');
         imageUpload(image);
       }
     });
   };
+
+  const [profilePicture, setProfilePicture] = useState();
+
+  const getProfilePicture = async () => {
+    try {
+      const res = await api.axiosFetch({
+        url: `/image/${user?.profilePicture}`,
+        method: 'GET',
+        headers: {
+          Accept: 'application/json'
+        },
+        params: {
+          dimensions: '300x300'
+        }
+      });
+      setProfilePicture(res.data.url);
+    } catch (error) {
+      console.log({error});
+    }
+  };
+
+  getProfilePicture();
 
   return (
     <ScreenView scrollEnabled>
@@ -186,9 +183,7 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
           <Image
             style={styles.userImg}
             source={{
-              uri:
-                // profilePicture ??
-                'https://media.istockphoto.com/id/1329031407/photo/young-man-with-backpack-taking-selfie-portrait-on-a-mountain-smiling-happy-guy-enjoying.jpg?s=612x612&w=0&k=20&c=WvjAEx3QlWoAn49drp0N1vmxAgGObxWDpoXtaU2iB4Q='
+              uri: profilePicture
             }}
           />
           <View style={styles.cameraIconContainer}>

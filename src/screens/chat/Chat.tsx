@@ -10,7 +10,7 @@ import {
 } from 'react-native-gifted-chat';
 import {ScreenView} from '../../components/ScreenWrapper/ScreenView';
 import * as Icons from 'react-native-heroicons/solid';
-import {PermissionsAndroid, Platform, Pressable} from 'react-native';
+import {PermissionsAndroid, Platform, Pressable, View} from 'react-native';
 import {useMutation, useQuery} from 'react-query';
 import {openApi} from '../../services/openApi';
 import {AuthContext} from '../../providers/context/Auth';
@@ -27,6 +27,7 @@ const ChatToolbar: React.FC<InputToolbarProps<IMessage>> = props => {
         flex: 1,
         flexDirection: 'row-reverse',
         paddingHorizontal: 8,
+        marginHorizontal: 8,
         justifyContent: 'space-between',
         backgroundColor: '#FFFFFF70',
         borderRadius: 24,
@@ -138,13 +139,17 @@ export const ChatScreen: React.FC<
       useFrontCamera: true
     }).then(image => {
       if (image) {
-        console.log('Swipe right', image);
+        mutate(messages[0].text);
       }
     });
   };
 
   return (
-    <ScreenView>
+    <>
+      <View
+        style={{position: 'absolute', left: 0, right: 0, top: 0, bottom: 0}}>
+        <ScreenView />
+      </View>
       <GiftedChat
         user={{
           _id: user?._id ?? '',
@@ -162,7 +167,8 @@ export const ChatScreen: React.FC<
           marginRight: 8
         }}
         listViewProps={{
-          showsVerticalScrollIndicator: false
+          showsVerticalScrollIndicator: false,
+          paddingHorizontal: 8
         }}
         onPressAvatar={messageUser => navigateToProfile(messageUser._id)}
         onSend={messages => mutate(messages[0].text)}
@@ -172,6 +178,6 @@ export const ChatScreen: React.FC<
         renderSend={SendButton}
         renderInputToolbar={ChatToolbar}
       />
-    </ScreenView>
+    </>
   );
 };

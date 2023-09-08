@@ -16,11 +16,8 @@ import {ScreenView} from '../../components/ScreenWrapper/ScreenView';
 import {HomeStackCompositeScreenProps} from '../../navigation/HomeRoutes';
 import * as Icons from 'react-native-heroicons/outline';
 import {styles} from './Home.styles';
-import ImagePicker, {Image, ImageOrVideo} from 'react-native-image-crop-picker';
+import ImagePicker, {ImageOrVideo} from 'react-native-image-crop-picker';
 import Geolocation from '@react-native-community/geolocation';
-import RNFS from 'react-native-fs';
-import axios from 'axios';
-import {TOKEN} from '../../services/token';
 import {api} from '../../services/api';
 
 export type HomeRouteParams = undefined;
@@ -56,12 +53,14 @@ export const HomeScreen: React.FC<HomeStackCompositeScreenProps<'Home'>> = ({
   useEffect(() => {
     Geolocation.getCurrentPosition(
       position => {
-        console.log({position});
         user?.location &&
           getUsersInRadius({
             location: {
               type: 'Point',
-              coordinates: [43.8328982, 18.349589]
+              coordinates: [
+                position?.coords?.latitude ?? 43.8328982,
+                position?.coords?.longitude ?? 18.349589
+              ]
             },
             radius: 5000000
           });
@@ -153,7 +152,7 @@ export const HomeScreen: React.FC<HomeStackCompositeScreenProps<'Home'>> = ({
 
     try {
       const res = await api.axiosFetch({
-        url: '/users/upload/profile-image',
+        url: '/users/upload/selfie-image',
         method: 'POST',
         headers: {
           Accept: 'application/json',

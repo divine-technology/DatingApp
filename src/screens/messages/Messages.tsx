@@ -60,7 +60,7 @@ export const MessagesScreen: React.FC<
       });
     },
     {
-      onSuccess: data => {
+      onSuccess: () => {
         getChats({});
       },
       onError: () => {}
