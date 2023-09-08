@@ -215,4 +215,23 @@ export class LikeService {
         });
     }
 
+    /**
+     * Block a user
+     * @returns string
+     * @throws ApiError
+     */
+    public likeControllerBlockByLikeId({
+        likeId,
+    }: {
+        likeId: string,
+    }): CancelablePromise<string> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/likes/block/{likeId}',
+            path: {
+                'likeId': likeId,
+            },
+        });
+    }
+
 }

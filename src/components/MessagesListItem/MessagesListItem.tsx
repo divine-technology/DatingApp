@@ -4,10 +4,12 @@ import {styles} from '../../screens/messages/Message.styles';
 import {MessageResponseDto} from '../../apiClient';
 import dayjs from '../../dayjs/dayjs-extended';
 import * as Icons from 'react-native-heroicons/outline';
+import {TouchableHighlight} from 'react-native-gesture-handler';
 
 export type MessagesListItemProps = {
   authUserId: string;
   onPress: (id: string) => void;
+  onLongPress: (likeId: string, userId: string) => void;
   isBlocked?: boolean;
 } & MessageResponseDto;
 
@@ -20,6 +22,7 @@ export const MessagesListItem: React.FC<MessagesListItemProps> = ({
   createdAt,
   authUserId,
   onPress,
+  onLongPress,
   isBlocked = false
 }) => {
   const checkStatus = () => {
@@ -29,10 +32,16 @@ export const MessagesListItem: React.FC<MessagesListItemProps> = ({
     } else return likeId;
   };
 
+  const getUserId = () => {
+    if (fromUser._id === authUserId) return toUser._id;
+    else return fromUser._id;
+  };
+
   return (
     <Pressable
       style={{flexDirection: 'row', alignItems: 'center'}}
-      onPress={() => onPress(checkStatus())}>
+      onPress={() => onPress(checkStatus())}
+      onLongPress={() => onLongPress(likeId, getUserId())}>
       <Image
         style={styles.imageStyle}
         source={{

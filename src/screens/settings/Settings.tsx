@@ -1,5 +1,14 @@
 import React, {useCallback, useContext, useEffect, useState} from 'react';
-import {Image, Text, View, StatusBar, Dimensions} from 'react-native';
+import {
+  Image,
+  Text,
+  View,
+  StatusBar,
+  Dimensions,
+  Platform,
+  PermissionsAndroid,
+  Pressable
+} from 'react-native';
 import {AuthContext} from '../../providers/context/Auth';
 import {Button} from '../../components/Button/Button';
 import {useFocusEffect, useIsFocused} from '@react-navigation/native';
@@ -16,6 +25,8 @@ import {CustomModal} from '../../components/Modal/Modal';
 import {useMutation} from 'react-query';
 import {openApi} from '../../services/openApi';
 import {api} from '../../services/api';
+import {CameraIcon} from 'react-native-heroicons/solid';
+import ImagePicker, {ImageOrVideo} from 'react-native-image-crop-picker';
 
 export type SettingsRouteParams = undefined;
 
@@ -78,13 +89,84 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
         }
       });
       console.log({res});
-      setProfilePicture(res.data.url);
+      setProfilePicture((res.data as any).url);
     } catch (error) {
       console.log({error});
     }
   };
 
   getProfilePicture();
+
+  const requestCameraPermission = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.CAMERA,
+        {
+          title: 'Change Profile Picture',
+          message:
+            'The app needs permission to access your camera ' +
+            'Would you like to grant permission?',
+          buttonNeutral: 'Ask Me Later',
+          buttonNegative: 'Cancel',
+          buttonPositive: 'OK'
+        }
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log('Permission granted');
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  };
+
+  const imageUpload = async (image: ImageOrVideo) => {
+    const formData = new FormData();
+    const trimmedURI =
+      Platform.OS === 'android'
+        ? image.path
+        : image.path.replace('file://', '');
+    const fileName = trimmedURI.split('/').pop();
+    const media = {
+      name: fileName,
+      height: image.height,
+      width: image.width,
+      type: image.mime,
+      uri: trimmedURI
+    };
+
+    formData.append('image', media as unknown as Blob);
+
+    try {
+      const res = await api.axiosFetch({
+        url: '/users/upload/profile-image',
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'multipart/form-data'
+        },
+        data: formData
+      });
+      console.log({res});
+    } catch (error) {
+      console.log({error});
+    }
+  };
+
+  const openCamera = () => {
+    if (Platform.OS === 'android') {
+      requestCameraPermission();
+    }
+    ImagePicker.openCamera({
+      width: 300,
+      height: 400,
+      useFrontCamera: true
+    }).then(image => {
+      if (image) {
+        console.log({image}, 'do request');
+        imageUpload(image);
+      }
+    });
+  };
 
   return (
     <ScreenView scrollEnabled>
@@ -98,14 +180,21 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
           shadowRadius: 2,
           elevation: 2
         }}>
-        <Image
-          style={styles.userImg}
-          source={{
-            uri:
-              profilePicture ??
-              'https://media.istockphoto.com/id/1329031407/photo/young-man-with-backpack-taking-selfie-portrait-on-a-mountain-smiling-happy-guy-enjoying.jpg?s=612x612&w=0&k=20&c=WvjAEx3QlWoAn49drp0N1vmxAgGObxWDpoXtaU2iB4Q='
-          }}
-        />
+        <Pressable
+          style={{flexDirection: 'row', position: 'relative'}}
+          onPress={() => openCamera()}>
+          <Image
+            style={styles.userImg}
+            source={{
+              uri:
+                // profilePicture ??
+                'https://media.istockphoto.com/id/1329031407/photo/young-man-with-backpack-taking-selfie-portrait-on-a-mountain-smiling-happy-guy-enjoying.jpg?s=612x612&w=0&k=20&c=WvjAEx3QlWoAn49drp0N1vmxAgGObxWDpoXtaU2iB4Q='
+            }}
+          />
+          <View style={styles.cameraIconContainer}>
+            <CameraIcon size={40} color={'#fb5b5a'} />
+          </View>
+        </Pressable>
         <Text style={styles.userName}>
           {user ? `${user.firstName} ${user.lastName}` : 'Test User'}
         </Text>

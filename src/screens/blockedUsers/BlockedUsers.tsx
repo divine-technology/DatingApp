@@ -63,6 +63,9 @@ export const BlockedUsersScreen: React.FC<
               authUserId={user?._id ?? ''}
               isBlocked={true}
               onPress={likeId => unBlockUser(likeId)}
+              onLongPress={() =>
+                console.log('Pressed but nothing should happen!')
+              }
             />
           )}
         />

@@ -18,18 +18,13 @@ export class ImageService {
      * @throws ApiError
      */
     public imageControllerUploadImage({
-        contentType,
         requestBody,
     }: {
-        contentType: string,
         requestBody: Object,
     }): CancelablePromise<Image> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/image/upload',
-            headers: {
-                'content-type': contentType,
-            },
             body: requestBody,
             mediaType: 'application/json',
         });
@@ -42,14 +37,19 @@ export class ImageService {
      */
     public imageControllerGetSignedUrl({
         imageId,
+        dimensions,
     }: {
         imageId: string,
+        dimensions: string,
     }): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/image/{imageId}',
             path: {
                 'imageId': imageId,
+            },
+            query: {
+                'dimensions': dimensions,
             },
         });
     }
