@@ -18,6 +18,7 @@ import {Section} from '../../components/Section/Section';
 import {InfoContainer} from '../../components/InfoContainer/InfoContainer';
 import ImageView from 'react-native-image-viewing';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {api} from '../../services/api';
 
 export type UserProfileScreenProps = {
   userId: string;
@@ -58,6 +59,28 @@ export const UserProfileScreen: React.FC<
     }
   ];
 
+  const [profilePicture, setProfilePicture] = useState();
+
+  const getProfilePicture = async () => {
+    try {
+      const res = await api.axiosFetch({
+        url: `/image/${user?.profilePicture}`,
+        method: 'GET',
+        headers: {
+          Accept: 'application/json'
+        },
+        params: {
+          dimensions: '300x300'
+        }
+      });
+      setProfilePicture(res.data.url);
+    } catch (error) {
+      console.log({error});
+    }
+  };
+
+  getProfilePicture();
+
   return (
     <ScreenView scrollEnabled>
       <View
@@ -73,7 +96,9 @@ export const UserProfileScreen: React.FC<
         <Image
           style={styles.userImg}
           source={{
-            uri: 'https://media.istockphoto.com/id/1329031407/photo/young-man-with-backpack-taking-selfie-portrait-on-a-mountain-smiling-happy-guy-enjoying.jpg?s=612x612&w=0&k=20&c=WvjAEx3QlWoAn49drp0N1vmxAgGObxWDpoXtaU2iB4Q='
+            uri:
+              profilePicture ??
+              'https://media.istockphoto.com/id/1329031407/photo/young-man-with-backpack-taking-selfie-portrait-on-a-mountain-smiling-happy-guy-enjoying.jpg?s=612x612&w=0&k=20&c=WvjAEx3QlWoAn49drp0N1vmxAgGObxWDpoXtaU2iB4Q='
           }}
         />
         <Text style={styles.userName}>
