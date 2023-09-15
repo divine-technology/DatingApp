@@ -20,9 +20,7 @@ export const styles = ({
       borderRadius: 24,
       backgroundColor: themeColors.primaryColor,
       color: themeColors.primaryTextColor,
-      ...(error?.message
-        ? {borderWidth: 1, borderColor: themeColors.primaryTextColor}
-        : {})
+      ...(error?.message ? {borderWidth: 1, borderColor: 'red'} : {})
     },
     textInput: {
       flex: 1,
@@ -35,9 +33,15 @@ export const styles = ({
     errorText: {
       fontSize: 10,
       paddingHorizontal: 20,
-      height: 12,
-      color: themeColors.primaryTextColor,
+      height: 14,
+      color: 'red',
       width: '100%',
       textAlign: 'left'
+    },
+    labelText: {
+      fontSize: 12,
+      color: '#00000060',
+      marginLeft: 18,
+      marginBottom: 2
     }
   });

@@ -61,5 +61,14 @@ export const $UpdateUserDto = {
         lastPictureTaken: {
             type: 'string',
         },
+        prefferedAgeTo: {
+            type: 'number',
+        },
+        prefferedAgeFrom: {
+            type: 'number',
+        },
+        prefferedRadius: {
+            type: 'number',
+        },
     },
 } as const;

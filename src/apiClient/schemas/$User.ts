@@ -78,5 +78,17 @@ export const $User = {
             type: 'string',
             isRequired: true,
         },
+        prefferedAgeFrom: {
+            type: 'number',
+            isRequired: true,
+        },
+        prefferedAgeTo: {
+            type: 'number',
+            isRequired: true,
+        },
+        prefferedRadius: {
+            type: 'number',
+            isRequired: true,
+        },
     },
 } as const;

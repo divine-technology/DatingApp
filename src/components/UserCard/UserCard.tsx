@@ -5,6 +5,7 @@ import {styles} from './UserCard.styles';
 import {ClickableSwipeCard} from '../CardSwiper/CardSwiper';
 import LinearGradient from 'react-native-linear-gradient';
 import {api} from '../../services/api';
+import dayjs from '../../dayjs/dayjs-extended';
 
 export type UserCardProps = {
   user: AuthUser;
@@ -20,11 +21,12 @@ export const UserCard: React.FC<UserCardProps> = ({
   profile
 }) => {
   const [picture, setPicture] = useState();
+  const [pictureDate, setPictureDate] = useState<string>();
 
   const getProfilePicture = async () => {
     try {
       const res = await api.axiosFetch({
-        url: `/image/${user?.lastPictureTaken ?? user?.profilePicture}`,
+        url: `/image/${user?.lastPictureTaken}`,
         method: 'GET',
         headers: {
           Accept: 'application/json'
@@ -34,6 +36,7 @@ export const UserCard: React.FC<UserCardProps> = ({
         }
       });
       setPicture(res.data.url);
+      setPictureDate(res.data.createdAt);
     } catch (error) {
       console.log({error});
     }
@@ -63,9 +66,9 @@ export const UserCard: React.FC<UserCardProps> = ({
               {`${user.firstName} ${user.lastName}, ${user.age}`}
             </Text>
             <Text style={styles.bio}>
-              {user.bio}
-              aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+              Last picture taken {dayjs(pictureDate).fromNow()}
             </Text>
+            <Text style={styles.bio}>{user.bio}</Text>
           </Pressable>
         </LinearGradient>
       </View>

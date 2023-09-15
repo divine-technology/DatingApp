@@ -4,12 +4,12 @@
 /* eslint-disable */
 
 export type MessageResponseDto = {
-    _id: string;
-    likeId: string;
-    message: string;
-    createdAt: string;
-    updatedAt: string;
-    fromUser: Record<string, any>;
-    toUser: Record<string, any>;
+  _id: string;
+  likeId: string;
+  message: string;
+  image: string;
+  createdAt: string;
+  updatedAt: string;
+  fromUser: Record<string, any>;
+  toUser: Record<string, any>;
 };
-

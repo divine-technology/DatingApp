@@ -2,7 +2,12 @@ import React, {useContext, useEffect, useRef, useState} from 'react';
 import {PermissionsAndroid, Platform, Text, View} from 'react-native';
 import {AuthContext} from '../../providers/context/Auth';
 import {Button} from '../../components/Button/Button';
-import {AuthUser, ResponsePaginateDto, UserRadiusDto} from '../../apiClient';
+import {
+  AuthUser,
+  ReactWithUserDto,
+  ResponsePaginateDto,
+  UserRadiusDto
+} from '../../apiClient';
 import {useMutation} from 'react-query';
 import {openApi} from '../../services/openApi';
 import {ClickableSwipableUserCard} from '../../components/UserCard/UserCard';
@@ -19,13 +24,14 @@ import {styles} from './Home.styles';
 import ImagePicker, {ImageOrVideo} from 'react-native-image-crop-picker';
 import Geolocation from '@react-native-community/geolocation';
 import {api} from '../../services/api';
+import {themeColors} from '../../themes/colors';
 
 export type HomeRouteParams = undefined;
 
 export const HomeScreen: React.FC<HomeStackCompositeScreenProps<'Home'>> = ({
   navigation
 }) => {
-  const {user} = useContext(AuthContext);
+  const {getMe, user} = useContext(AuthContext);
 
   const [cardsData, setCardsData] = useState<AuthUser[]>(mockData);
 
@@ -50,6 +56,21 @@ export const HomeScreen: React.FC<HomeStackCompositeScreenProps<'Home'>> = ({
     }
   );
 
+  const {mutate: dislikeUser} = useMutation<unknown, unknown, ReactWithUserDto>(
+    'dislikeUser',
+    data => {
+      return openApi.instance.like.likeControllerReactWithUser({
+        requestBody: data
+      });
+    },
+    {
+      onSuccess: data => {
+        console.log('User disliked');
+      },
+      onError: () => {}
+    }
+  );
+
   useEffect(() => {
     Geolocation.getCurrentPosition(
       position => {
@@ -62,7 +83,7 @@ export const HomeScreen: React.FC<HomeStackCompositeScreenProps<'Home'>> = ({
                 position?.coords?.longitude ?? 18.349589
               ]
             },
-            radius: 5000000
+            radius: user.prefferedRadius ? user.prefferedRadius * 1609 : 700000
           });
       },
       error => console.log({error})
@@ -70,8 +91,25 @@ export const HomeScreen: React.FC<HomeStackCompositeScreenProps<'Home'>> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const test = () => {
-    if (user?.gender && user.age && user.preference) {
+  const testProfileSetup = () => {
+    if (
+      user?.gender &&
+      user.age &&
+      user.preference &&
+      user.profilePicture &&
+      user.prefferedAgeFrom &&
+      user.prefferedAgeTo &&
+      user.prefferedRadius
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  const testLastPictureTaken = () => {
+    if (user?.lastPictureTaken) {
+      console.log('LAST PICTURE TAKEN: ', user.lastPictureTaken);
       return true;
     } else {
       return false;
@@ -85,11 +123,15 @@ export const HomeScreen: React.FC<HomeStackCompositeScreenProps<'Home'>> = ({
   };
 
   const like = (id: string | number) => {
-    openCamera(id);
+    openCamera(id, true);
     console.log('LIKE', {id});
   };
 
   const dislike = (id: string | number) => {
+    dislikeUser({
+      likedUserId: id.toString(),
+      status: 'disliked'
+    });
     console.log('DISLIKE', {id});
   };
 
@@ -133,7 +175,11 @@ export const HomeScreen: React.FC<HomeStackCompositeScreenProps<'Home'>> = ({
     }
   };
 
-  const imageUpload = async (image: ImageOrVideo) => {
+  const imageUpload = async (
+    image: ImageOrVideo,
+    id: string,
+    sendReaction: boolean = false
+  ) => {
     const formData = new FormData();
     const trimmedURI =
       Platform.OS === 'android'
@@ -160,13 +206,32 @@ export const HomeScreen: React.FC<HomeStackCompositeScreenProps<'Home'>> = ({
         },
         data: formData
       });
-      console.log({res});
+      console.log('Last picture taken uploaded!');
+      const lastPictureTakenId = (res.data as any).lastPictureTaken;
+      console.log('LAST PICTURE ID: ', lastPictureTakenId);
+      if (sendReaction) {
+        const res2 = await api.axiosFetch({
+          url: '/likes/react',
+          method: 'POST',
+          headers: {
+            Accept: 'application/json'
+          },
+          data: {
+            likedUserId: id,
+            status: 'liked',
+            likedPhotoUrl: lastPictureTakenId
+          }
+        });
+        console.log({res2});
+      } else {
+        getMe();
+      }
     } catch (error) {
       console.log({error});
     }
   };
 
-  const openCamera = (id: string | number) => {
+  const openCamera = (id: string | number, sendReaction: boolean = false) => {
     if (Platform.OS === 'android') {
       requestCameraPermission();
     }
@@ -177,123 +242,181 @@ export const HomeScreen: React.FC<HomeStackCompositeScreenProps<'Home'>> = ({
     }).then(image => {
       if (image) {
         console.log({image, id}, 'do request');
-        imageUpload(image);
+        imageUpload(image, id.toString(), sendReaction);
       }
     }, cardSwiperRef.current?.onBack);
   };
 
   return (
     <ScreenView>
-      <View
-        style={{
-          flexDirection: 'column',
-          flex: 1,
-          gap: 12,
-          paddingBottom: 16
-        }}>
-        {test() ? (
-          <>
-            <View style={{flex: 1}}>
-              {user && (
-                <CardSwiper
-                  ref={cardSwiperRef}
-                  data={cardsData}
-                  card={card}
-                  onSwipe={onSwipe}
-                  swipeableDirection={'horizontal'}
-                  infinite
+      {testProfileSetup() ? (
+        <>
+          {testLastPictureTaken() ? (
+            <>
+              <View
+                style={{
+                  flexDirection: 'column',
+                  flex: 1,
+                  gap: 12,
+                  paddingBottom: 16
+                }}>
+                <View style={{flex: 1}}>
+                  {user && (
+                    <CardSwiper
+                      ref={cardSwiperRef}
+                      data={cardsData}
+                      card={card}
+                      onSwipe={onSwipe}
+                      swipeableDirection={'horizontal'}
+                      infinite
+                    />
+                  )}
+                </View>
+                <View style={styles.reactButtonWrapper}>
+                  <View
+                    style={{
+                      shadowColor: '#000',
+                      shadowOffset: {width: 0, height: 2},
+                      shadowOpacity: 0.5,
+                      shadowRadius: 2,
+                      elevation: 2
+                    }}>
+                    <Icons.ArrowLeftCircleIcon
+                      size={40}
+                      color={'gray'}
+                      strokeWidth={1}
+                      onPress={cardSwiperRef.current?.onBack}
+                    />
+                  </View>
+                  <View
+                    style={{
+                      shadowColor: '#000',
+                      shadowOffset: {width: 0, height: 2},
+                      shadowOpacity: 0.5,
+                      shadowRadius: 2,
+                      elevation: 2
+                    }}>
+                    <Icons.XCircleIcon
+                      size={55}
+                      color={'red'}
+                      strokeWidth={1}
+                      onPress={() => cardSwiperRef.current?.manualSwipe('left')}
+                    />
+                  </View>
+                  <View
+                    style={{
+                      shadowColor: '#000',
+                      shadowOffset: {width: 0, height: 2},
+                      shadowOpacity: 0.5,
+                      shadowRadius: 2,
+                      elevation: 2
+                    }}>
+                    <Icons.UserCircleIcon
+                      size={40}
+                      color={'#003f5c'}
+                      strokeWidth={1}
+                      onPress={() =>
+                        viewProfile(
+                          cardSwiperRef.current?.getCurrentCardId() ?? 'NoId'
+                        )
+                      }
+                    />
+                  </View>
+                  <View
+                    style={{
+                      shadowColor: '#000',
+                      shadowOffset: {width: 0, height: 2},
+                      shadowOpacity: 0.5,
+                      shadowRadius: 2,
+                      elevation: 2
+                    }}>
+                    <Icons.CheckCircleIcon
+                      size={55}
+                      strokeWidth={1}
+                      color={'green'}
+                      onPress={() =>
+                        cardSwiperRef.current?.manualSwipe('right')
+                      }
+                    />
+                  </View>
+                  <View
+                    style={{
+                      shadowColor: '#000',
+                      shadowOffset: {width: 0, height: 2},
+                      shadowOpacity: 0.5,
+                      shadowRadius: 2,
+                      elevation: 2
+                    }}>
+                    <Icons.CheckBadgeIcon
+                      size={40}
+                      color={'yellow'}
+                      strokeWidth={1}
+                    />
+                  </View>
+                </View>
+              </View>
+            </>
+          ) : (
+            <View
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+                flex: 1
+              }}>
+              <Icons.CameraIcon size={200} color={themeColors.primaryColor} />
+              <Text
+                style={{color: '#00000099', fontSize: 36, fontWeight: '600'}}>
+                One more thing...
+              </Text>
+              <Text
+                style={{
+                  color: '#00000090',
+                  fontSize: 20,
+                  fontWeight: '400',
+                  fontStyle: 'italic',
+                  textAlign: 'center'
+                }}>
+                You just need to take a selfie that we will show to other
+                people.
+              </Text>
+              <View style={{marginTop: 24, width: '100%'}}>
+                <Button
+                  text="Take picture"
+                  variant={'filled'}
+                  shape={'round'}
+                  onPress={() => openCamera(user!!._id, false)}
                 />
-              )}
+              </View>
             </View>
-            <View style={styles.reactButtonWrapper}>
-              <View
-                style={{
-                  shadowColor: '#000',
-                  shadowOffset: {width: 0, height: 2},
-                  shadowOpacity: 0.5,
-                  shadowRadius: 2,
-                  elevation: 2
-                }}>
-                <Icons.ArrowLeftCircleIcon
-                  size={40}
-                  color={'gray'}
-                  strokeWidth={1}
-                  onPress={cardSwiperRef.current?.onBack}
-                />
-              </View>
-              <View
-                style={{
-                  shadowColor: '#000',
-                  shadowOffset: {width: 0, height: 2},
-                  shadowOpacity: 0.5,
-                  shadowRadius: 2,
-                  elevation: 2
-                }}>
-                <Icons.XCircleIcon
-                  size={55}
-                  color={'red'}
-                  strokeWidth={1}
-                  onPress={() => cardSwiperRef.current?.manualSwipe('left')}
-                />
-              </View>
-              <View
-                style={{
-                  shadowColor: '#000',
-                  shadowOffset: {width: 0, height: 2},
-                  shadowOpacity: 0.5,
-                  shadowRadius: 2,
-                  elevation: 2
-                }}>
-                <Icons.UserCircleIcon
-                  size={40}
-                  color={'#003f5c'}
-                  strokeWidth={1}
-                  onPress={() =>
-                    viewProfile(
-                      cardSwiperRef.current?.getCurrentCardId() ?? 'NoId'
-                    )
-                  }
-                />
-              </View>
-              <View
-                style={{
-                  shadowColor: '#000',
-                  shadowOffset: {width: 0, height: 2},
-                  shadowOpacity: 0.5,
-                  shadowRadius: 2,
-                  elevation: 2
-                }}>
-                <Icons.CheckCircleIcon
-                  size={55}
-                  strokeWidth={1}
-                  color={'green'}
-                  onPress={() => cardSwiperRef.current?.manualSwipe('right')}
-                />
-              </View>
-              <View
-                style={{
-                  shadowColor: '#000',
-                  shadowOffset: {width: 0, height: 2},
-                  shadowOpacity: 0.5,
-                  shadowRadius: 2,
-                  elevation: 2
-                }}>
-                <Icons.CheckBadgeIcon
-                  size={40}
-                  color={'yellow'}
-                  strokeWidth={1}
-                />
-              </View>
-            </View>
-          </>
-        ) : (
-          <>
-            <Text style={{color: 'black', fontSize: 30}}>
-              Profile not set up. You have to go to settings!
-            </Text>
+          )}
+        </>
+      ) : (
+        <View
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            flex: 1
+          }}>
+          <Icons.Cog8ToothIcon size={200} color={themeColors.primaryColor} />
+          <Text style={{color: '#00000099', fontSize: 36, fontWeight: '600'}}>
+            Alert
+          </Text>
+          <Text
+            style={{
+              color: '#00000090',
+              fontSize: 20,
+              fontWeight: '400',
+              fontStyle: 'italic',
+              textAlign: 'center'
+            }}>
+            Profile not yet set up. You have to go to settings and finish up
+            your profile!
+          </Text>
+          <View style={{marginTop: 24, width: '100%'}}>
             <Button
               text="Finish profile"
-              variant={'text'}
+              variant={'filled'}
+              shape={'round'}
               onPress={() =>
                 navigation.navigate('App', {
                   screen: 'SettingsStack',
@@ -303,9 +426,9 @@ export const HomeScreen: React.FC<HomeStackCompositeScreenProps<'Home'>> = ({
                 })
               }
             />
-          </>
-        )}
-      </View>
+          </View>
+        </View>
+      )}
     </ScreenView>
   );
 };

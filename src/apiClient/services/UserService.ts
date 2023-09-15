@@ -185,4 +185,15 @@ export class UserService {
         });
     }
 
+    /**
+     * @returns any
+     * @throws ApiError
+     */
+    public usersControllerUploadSelfieImage(): CancelablePromise<any> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/users/upload/selfie-image',
+        });
+    }
+
 }

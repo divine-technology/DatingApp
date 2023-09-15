@@ -17,6 +17,7 @@ export const MessagesListItem: React.FC<MessagesListItemProps> = ({
   _id,
   likeId,
   message,
+  image,
   fromUser,
   toUser,
   createdAt,
@@ -42,7 +43,11 @@ export const MessagesListItem: React.FC<MessagesListItemProps> = ({
   const getProfilePicture = async () => {
     try {
       const res = await api.axiosFetch({
-        url: `/image/${fromUser?.profilePicture}`,
+        url: `/image/${
+          fromUser._id === authUserId
+            ? toUser.profilePicture
+            : fromUser.profilePicture
+        }`,
         method: 'GET',
         headers: {
           Accept: 'application/json'
@@ -51,7 +56,7 @@ export const MessagesListItem: React.FC<MessagesListItemProps> = ({
           dimensions: '300x300'
         }
       });
-      setProfilePicture(res.data.url);
+      setProfilePicture((res.data as any).url);
     } catch (error) {
       console.log({error});
     }
@@ -83,7 +88,11 @@ export const MessagesListItem: React.FC<MessagesListItemProps> = ({
             style={styles.messageText}
             numberOfLines={1}
             ellipsizeMode={'tail'}>
-            {fromUser._id === authUserId ? `Me: ${message}` : message}
+            {fromUser._id === authUserId
+              ? `Me: ${message ? message : 'image'}`
+              : message
+              ? message
+              : 'image'}
           </Text>
           <Text style={styles.dateText}>{dayjs(createdAt).fromNow()}</Text>
         </View>

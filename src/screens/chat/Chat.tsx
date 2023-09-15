@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect, useMemo, useState} from 'react';
 import {MessagesStackCompositeScreenProps} from '../../navigation/MessagesRoutes';
 import {
   GiftedChat,
@@ -76,7 +76,7 @@ export const ChatScreen: React.FC<
         likeId
       }),
     {
-      refetchInterval: 1000
+      refetchInterval: 5000
     }
   );
 
@@ -101,11 +101,16 @@ export const ChatScreen: React.FC<
 
   const [messages, setMessages] = useState<IMessage[]>([]);
 
+  // const messages = useMemo<IMessage[]>(
+  //   () => data?.data as unknown as IMessage[],
+  //   [data?.data, newMessage]
+  // );
+
   useEffect(() => {
-    if (data || newMessage) {
+    if (data?.data || newMessage) {
       setMessages(data?.data as unknown as IMessage[]);
     }
-  }, [data, newMessage]);
+  }, [data?.data, newMessage]);
 
   const requestCameraPermission = async () => {
     try {
@@ -155,6 +160,7 @@ export const ChatScreen: React.FC<
           _id: user?._id ?? '',
           name: `${user?.firstName} ${user?.lastName}`,
           avatar:
+            user?.profilePicture ??
             'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg'
         }}
         messages={messages}

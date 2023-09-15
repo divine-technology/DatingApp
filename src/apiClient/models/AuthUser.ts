@@ -21,5 +21,8 @@ export type AuthUser = {
     profilePicture?: string;
     gallery?: Array<string>;
     lastPictureTaken?: string;
+    prefferedAgeFrom?: number;
+    prefferedAgeTo?: number;
+    prefferedRadius?: number;
 };
 

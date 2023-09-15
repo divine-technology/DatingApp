@@ -8,6 +8,12 @@ export const styles = StyleSheet.create({
     height: 14,
     color: themeColors.backgroundColor,
     width: '100%',
-    textAlign: 'left',
+    textAlign: 'left'
   },
+  labelText: {
+    fontSize: 12,
+    color: '#00000060',
+    marginLeft: 18,
+    marginBottom: 2
+  }
 });

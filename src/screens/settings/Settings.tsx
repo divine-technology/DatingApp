@@ -27,6 +27,7 @@ import {openApi} from '../../services/openApi';
 import {api} from '../../services/api';
 import {CameraIcon} from 'react-native-heroicons/solid';
 import ImagePicker, {ImageOrVideo} from 'react-native-image-crop-picker';
+import {themeColors} from '../../themes/colors';
 
 export type SettingsRouteParams = undefined;
 
@@ -95,7 +96,10 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
     }
   };
 
-  const imageUpload = async (image: ImageOrVideo) => {
+  const imageUpload = async (
+    image: ImageOrVideo,
+    uploadToGallery: boolean = false
+  ) => {
     const formData = new FormData();
     const trimmedURI =
       Platform.OS === 'android'
@@ -113,22 +117,34 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
     formData.append('image', media as unknown as Blob);
 
     try {
-      const res = await api.axiosFetch({
-        url: '/users/upload/profile-image',
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'multipart/form-data'
-        },
-        data: formData
-      });
+      if (!uploadToGallery) {
+        const res = await api.axiosFetch({
+          url: '/users/upload/profile-image',
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'multipart/form-data'
+          },
+          data: formData
+        });
+      } else {
+        const res2 = await api.axiosFetch({
+          url: '/users/upload/gallery-image',
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'multipart/form-data'
+          },
+          data: formData
+        });
+      }
       getMe();
     } catch (error) {
       console.log({error});
     }
   };
 
-  const openCamera = () => {
+  const openCamera = (uploadToGallery: boolean = false) => {
     if (Platform.OS === 'android') {
       requestCameraPermission();
     }
@@ -138,7 +154,7 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
       useFrontCamera: true
     }).then(image => {
       if (image) {
-        imageUpload(image);
+        imageUpload(image, uploadToGallery);
       }
     });
   };
@@ -157,7 +173,7 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
           dimensions: '300x300'
         }
       });
-      setProfilePicture(res.data.url);
+      setProfilePicture((res.data as any).url);
     } catch (error) {
       console.log({error});
     }
@@ -239,7 +255,12 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
         />
       </View>
       <View style={{marginBottom: 4}}>
-        <InfoContainer title={'Images'}>
+        <InfoContainer
+          title={'Images'}
+          endAdornment={
+            <Icons.PlusCircleIcon size={28} color={themeColors.primaryColor} />
+          }
+          onPress={() => openCamera(true)}>
           <View
             style={{
               flex: 1,
