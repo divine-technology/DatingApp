@@ -9,6 +9,6 @@ export type Message = {
     likeId: ObjectId;
     from: ObjectId;
     message: string;
-    image: ObjectId;
+    image: string;
 };
 

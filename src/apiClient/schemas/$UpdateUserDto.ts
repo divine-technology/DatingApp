@@ -61,10 +61,10 @@ export const $UpdateUserDto = {
         lastPictureTaken: {
             type: 'string',
         },
-        prefferedAgeTo: {
+        prefferedAgeFrom: {
             type: 'number',
         },
-        prefferedAgeFrom: {
+        prefferedAgeTo: {
             type: 'number',
         },
         prefferedRadius: {

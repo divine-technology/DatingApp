@@ -32,7 +32,6 @@ export const SimpleModal: React.FC<SimpleModalProps> = ({isModalVisible}) => {
         }
       );
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        console.log('eeee');
       }
     } catch (err) {
       console.warn(err);
@@ -44,7 +43,7 @@ export const SimpleModal: React.FC<SimpleModalProps> = ({isModalVisible}) => {
       height: 400,
       useFrontCamera: true
     }).then(image => {
-      console.log(image);
+      // console.log(image);
     });
   };
   return (

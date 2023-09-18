@@ -43,6 +43,7 @@ export const MessagesScreen: React.FC<
     },
     {
       onSuccess: data => {
+        console.log({data});
         setfetchedMessages(
           (data as unknown as ResponsePaginateDto)
             .data as unknown as MessageResponseDto[]

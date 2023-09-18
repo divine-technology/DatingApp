@@ -14,7 +14,8 @@ import {PermissionsAndroid, Platform, Pressable, View} from 'react-native';
 import {useMutation, useQuery} from 'react-query';
 import {openApi} from '../../services/openApi';
 import {AuthContext} from '../../providers/context/Auth';
-import ImagePicker from 'react-native-image-crop-picker';
+import ImagePicker, {ImageOrVideo} from 'react-native-image-crop-picker';
+import {api} from '../../services/api';
 
 export type ChatScreenProps = {likeId: string};
 
@@ -76,7 +77,7 @@ export const ChatScreen: React.FC<
         likeId
       }),
     {
-      refetchInterval: 5000
+      refetchInterval: 1000
     }
   );
 
@@ -89,28 +90,30 @@ export const ChatScreen: React.FC<
 
   const {data: newMessage, mutate} = useMutation(
     ['last-message'],
-    (message: string, image?: string) =>
+    (props: {message: string; imageUrl?: string}) =>
       openApi.instance.message.messageControllerSendMessage({
         likeId,
-        requestBody: {
-          message
-        }
+        requestBody: props
       }),
-    {onSuccess: data => console.log({data})}
+    {
+      onSuccess: data => console.log({data}),
+      onError: error => console.log({error})
+    }
   );
 
   const [messages, setMessages] = useState<IMessage[]>([]);
 
-  // const messages = useMemo<IMessage[]>(
-  //   () => data?.data as unknown as IMessage[],
-  //   [data?.data, newMessage]
-  // );
-
   useEffect(() => {
-    if (data?.data || newMessage) {
+    if (
+      (data?.data &&
+        messages &&
+        JSON.stringify(data.data)?.replaceAll(/\.jpeg[^}]*\}/g, '.jpeg}') !==
+          JSON.stringify(messages)?.replaceAll(/\.jpeg[^}]*\}/g, '.jpeg}')) ||
+      (data?.data && !messages)
+    ) {
       setMessages(data?.data as unknown as IMessage[]);
     }
-  }, [data?.data, newMessage]);
+  }, [data?.data]);
 
   const requestCameraPermission = async () => {
     try {
@@ -134,6 +137,45 @@ export const ChatScreen: React.FC<
     }
   };
 
+  const imageUpload = async (
+    image: ImageOrVideo,
+    id: string,
+    callback?: (imageId: string) => void
+  ) => {
+    const formData = new FormData();
+    const trimmedURI =
+      Platform.OS === 'android'
+        ? image.path
+        : image.path.replace('file://', '');
+    const fileName = trimmedURI.split('/').pop();
+    const media = {
+      name: fileName,
+      height: image.height,
+      width: image.width,
+      type: image.mime,
+      uri: trimmedURI
+    };
+
+    formData.append('image', media as unknown as Blob);
+
+    console.log({formData, media});
+
+    try {
+      const res = await api.axiosFetch({
+        url: `/message/upload-message-image/${id}`,
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'multipart/form-data'
+        },
+        data: formData
+      });
+      callback && callback(res.data as string);
+    } catch (error) {
+      console.log({error}, 'uploadImage');
+    }
+  };
+
   const openCamera = () => {
     if (Platform.OS === 'android') {
       requestCameraPermission();
@@ -144,7 +186,9 @@ export const ChatScreen: React.FC<
       useFrontCamera: true
     }).then(image => {
       if (image) {
-        mutate(messages[0].text);
+        imageUpload(image, likeId, imageUrl =>
+          mutate({message: messages[0].text, imageUrl})
+        );
       }
     });
   };
@@ -168,7 +212,6 @@ export const ChatScreen: React.FC<
           flex: 1,
           selectionColor: '#fb5b5a',
           color: 'black',
-          paddingTop: 8,
           autoCorrect: false,
           marginRight: 8
         }}
@@ -177,7 +220,7 @@ export const ChatScreen: React.FC<
           paddingHorizontal: 8
         }}
         onPressAvatar={messageUser => navigateToProfile(messageUser._id)}
-        onSend={messages => mutate(messages[0].text)}
+        onSend={messages => mutate({message: messages[0].text})}
         renderAccessory={props => (
           <Accessories {...props} onCameraPress={openCamera} />
         )}

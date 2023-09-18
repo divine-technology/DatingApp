@@ -17,12 +17,12 @@ const {resolve} = require('path');
     exportCore: true,
     exportSchemas: true,
     generateResponses: true,
-    useOptionsReturnType: true,
+    useOptionsReturnType: true
   });
 
   await fs.copyFileSync(
     './src/apiClient/scripts/client/templates/promise-templates.ts',
-    resolve('./src/apiClient/core', 'CancelablePromise.ts'),
+    resolve('./src/apiClient/core', 'CancelablePromise.ts')
   );
 
   console.log('DONE generating api client.');

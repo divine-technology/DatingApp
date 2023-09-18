@@ -32,6 +32,10 @@ export const $UserResponse = {
             type: 'string',
             isRequired: true,
         },
+        bio: {
+            type: 'string',
+            isRequired: true,
+        },
         age: {
             type: 'number',
             isRequired: true,

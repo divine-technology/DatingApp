@@ -23,8 +23,8 @@ export type UpdateUserDto = {
     profilePicture?: string;
     gallery?: Array<string>;
     lastPictureTaken?: string;
-    prefferedAgeTo?: number;
     prefferedAgeFrom?: number;
+    prefferedAgeTo?: number;
     prefferedRadius?: number;
 };
 

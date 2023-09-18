@@ -38,7 +38,7 @@ export const UserCard: React.FC<UserCardProps> = ({
       setPicture(res.data.url);
       setPictureDate(res.data.createdAt);
     } catch (error) {
-      console.log({error});
+      // console.log({error});
     }
   };
 

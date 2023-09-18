@@ -11,6 +11,7 @@ export type UserResponse = {
     role: string;
     gender: string;
     preference: string;
+    bio: string;
     age: number;
     hobbies: Array<string>;
     profilePicture?: string;

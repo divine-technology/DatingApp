@@ -5,5 +5,6 @@
 
 export type MessageBodyDto = {
     message: string;
+    imageUrl?: string;
 };
 

@@ -196,4 +196,15 @@ export class UserService {
         });
     }
 
+    /**
+     * @returns any
+     * @throws ApiError
+     */
+    public usersControllerUploadGalleryImage(): CancelablePromise<any> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/users/upload/gallery-image',
+        });
+    }
+
 }

@@ -62,7 +62,7 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
     }
   );
 
-  const images = [
+  const [images, setImages] = useState([
     {
       uri: 'https://images.unsplash.com/photo-1571501679680-de32f1e7aad4'
     },
@@ -72,7 +72,7 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
     {
       uri: 'https://images.unsplash.com/photo-1569569970363-df7b6160d111'
     }
-  ];
+  ]);
 
   const requestCameraPermission = async () => {
     try {
@@ -179,7 +179,26 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
     }
   };
 
-  getProfilePicture();
+  const getGallery = async () => {
+    try {
+      const res = await api.axiosFetch({
+        url: `/users/gallery`,
+        method: 'GET',
+        headers: {
+          Accept: 'application/json'
+        }
+      });
+      console.log({res});
+      setImages(res.data.map(item => ({uri: item.url})));
+    } catch (e) {
+      console.log({e});
+    }
+  };
+
+  useEffect(() => {
+    getGallery();
+    getProfilePicture();
+  }, []);
 
   return (
     <ScreenView scrollEnabled>

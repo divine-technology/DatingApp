@@ -58,7 +58,7 @@ export const MessagesListItem: React.FC<MessagesListItemProps> = ({
       });
       setProfilePicture((res.data as any).url);
     } catch (error) {
-      console.log({error});
+      // console.log({error});
     }
   };
 

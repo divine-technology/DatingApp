@@ -51,8 +51,6 @@ export const Input: React.FC<InputProps> = forwardRef(
       }
     };
 
-    console.log('ERROR: ', error);
-
     return (
       <View>
         {label && <Text style={style.labelText}>{label}</Text>}

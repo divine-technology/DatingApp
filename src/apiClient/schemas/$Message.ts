@@ -17,7 +17,7 @@ export const $Message = {
             isRequired: true,
         },
         image: {
-            type: 'ObjectId',
+            type: 'string',
             isRequired: true,
         },
     },

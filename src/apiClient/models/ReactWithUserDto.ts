@@ -4,7 +4,8 @@
 /* eslint-disable */
 
 export type ReactWithUserDto = {
-  likedUserId: string;
-  status: string;
-  likedPhotoUrl?: string;
+    likedUserId: string;
+    status: string;
+    likedPhotoUrl: string;
 };
+

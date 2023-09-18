@@ -8,5 +8,8 @@ export const $MessageBodyDto = {
             type: 'string',
             isRequired: true,
         },
+        imageUrl: {
+            type: 'string',
+        },
     },
 } as const;
