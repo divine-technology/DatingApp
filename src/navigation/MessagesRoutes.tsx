@@ -8,11 +8,16 @@ import {
   NavigatorScreenParams
 } from '@react-navigation/native';
 import {RootStackScreenProps} from './Routes';
+import {
+  ChatRequestScreen,
+  ChatRequestScreenProps
+} from '../screens/chat/ChatRequest';
 
 export type MessagesStackParamList = {
   LikeRequests: undefined;
   Messages: undefined;
   Chat: ChatScreenProps;
+  ChatRequests: ChatRequestScreenProps;
 };
 
 export type MessagesStackNavigatorProps =
@@ -42,6 +47,7 @@ export const MessagesRoutes: React.FC = () => {
         component={LikeRequestsScreen}
       />
       <MessagesStack.Screen name="Chat" component={ChatScreen} />
+      <MessagesStack.Screen name="ChatRequests" component={ChatRequestScreen} />
     </MessagesStack.Navigator>
   );
 };

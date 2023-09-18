@@ -9,15 +9,13 @@ import {api} from '../../services/api';
 export type MessagesListItemProps = {
   authUserId: string;
   onPress: (id: string) => void;
-  onLongPress: (likeId: string, userId: string) => void;
+  onLongPress?: (likeId: string, userId: string) => void;
   isBlocked?: boolean;
 } & MessageResponseDto;
 
 export const MessagesListItem: React.FC<MessagesListItemProps> = ({
-  _id,
   likeId,
   message,
-  image,
   fromUser,
   toUser,
   createdAt,
@@ -68,7 +66,7 @@ export const MessagesListItem: React.FC<MessagesListItemProps> = ({
     <Pressable
       style={{flexDirection: 'row', alignItems: 'center'}}
       onPress={() => onPress(checkStatus())}
-      onLongPress={() => onLongPress(likeId, getUserId())}>
+      onLongPress={() => onLongPress && onLongPress(likeId, getUserId())}>
       <Image
         style={styles.imageStyle}
         source={{

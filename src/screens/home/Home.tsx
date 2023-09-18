@@ -33,7 +33,7 @@ export const HomeScreen: React.FC<HomeStackCompositeScreenProps<'Home'>> = ({
 }) => {
   const {getMe, user} = useContext(AuthContext);
 
-  const [cardsData, setCardsData] = useState<AuthUser[]>(mockData);
+  const [cardsData, setCardsData] = useState<AuthUser[]>([]);
 
   const {data, mutate: getUsersInRadius} = useMutation<
     unknown,
@@ -253,108 +253,143 @@ export const HomeScreen: React.FC<HomeStackCompositeScreenProps<'Home'>> = ({
         <>
           {testLastPictureTaken() ? (
             <>
-              <View
-                style={{
-                  flexDirection: 'column',
-                  flex: 1,
-                  gap: 12,
-                  paddingBottom: 16
-                }}>
-                <View style={{flex: 1}}>
-                  {user && (
-                    <CardSwiper
-                      ref={cardSwiperRef}
-                      data={cardsData}
-                      card={card}
-                      onSwipe={onSwipe}
-                      swipeableDirection={'horizontal'}
-                      infinite
-                    />
-                  )}
+              {cardsData.length !== 0 ? (
+                <View
+                  style={{
+                    flexDirection: 'column',
+                    flex: 1,
+                    gap: 12,
+                    paddingBottom: 16
+                  }}>
+                  <View style={{flex: 1}}>
+                    {user && (
+                      <CardSwiper
+                        ref={cardSwiperRef}
+                        data={cardsData}
+                        card={card}
+                        onSwipe={onSwipe}
+                        swipeableDirection={'horizontal'}
+                        infinite
+                      />
+                    )}
+                  </View>
+                  <View style={styles.reactButtonWrapper}>
+                    <View
+                      style={{
+                        shadowColor: '#000',
+                        shadowOffset: {width: 0, height: 2},
+                        shadowOpacity: 0.5,
+                        shadowRadius: 2,
+                        elevation: 2
+                      }}>
+                      <Icons.ArrowLeftCircleIcon
+                        size={40}
+                        color={'gray'}
+                        strokeWidth={1}
+                        onPress={cardSwiperRef.current?.onBack}
+                      />
+                    </View>
+                    <View
+                      style={{
+                        shadowColor: '#000',
+                        shadowOffset: {width: 0, height: 2},
+                        shadowOpacity: 0.5,
+                        shadowRadius: 2,
+                        elevation: 2
+                      }}>
+                      <Icons.XCircleIcon
+                        size={55}
+                        color={'red'}
+                        strokeWidth={1}
+                        onPress={() =>
+                          cardSwiperRef.current?.manualSwipe('left')
+                        }
+                      />
+                    </View>
+                    <View
+                      style={{
+                        shadowColor: '#000',
+                        shadowOffset: {width: 0, height: 2},
+                        shadowOpacity: 0.5,
+                        shadowRadius: 2,
+                        elevation: 2
+                      }}>
+                      <Icons.UserCircleIcon
+                        size={40}
+                        color={'#003f5c'}
+                        strokeWidth={1}
+                        onPress={() =>
+                          viewProfile(
+                            cardSwiperRef.current?.getCurrentCardId() ?? 'NoId'
+                          )
+                        }
+                      />
+                    </View>
+                    <View
+                      style={{
+                        shadowColor: '#000',
+                        shadowOffset: {width: 0, height: 2},
+                        shadowOpacity: 0.5,
+                        shadowRadius: 2,
+                        elevation: 2
+                      }}>
+                      <Icons.CheckCircleIcon
+                        size={55}
+                        strokeWidth={1}
+                        color={'green'}
+                        onPress={() =>
+                          cardSwiperRef.current?.manualSwipe('right')
+                        }
+                      />
+                    </View>
+                    <View
+                      style={{
+                        shadowColor: '#000',
+                        shadowOffset: {width: 0, height: 2},
+                        shadowOpacity: 0.5,
+                        shadowRadius: 2,
+                        elevation: 2
+                      }}>
+                      <Icons.CheckBadgeIcon
+                        size={40}
+                        color={'yellow'}
+                        strokeWidth={1}
+                      />
+                    </View>
+                  </View>
                 </View>
-                <View style={styles.reactButtonWrapper}>
-                  <View
+              ) : (
+                <View
+                  style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    flex: 1
+                  }}>
+                  <Icons.FaceFrownIcon
+                    size={200}
+                    color={themeColors.primaryColor}
+                  />
+                  <Text
                     style={{
-                      shadowColor: '#000',
-                      shadowOffset: {width: 0, height: 2},
-                      shadowOpacity: 0.5,
-                      shadowRadius: 2,
-                      elevation: 2
+                      color: '#00000099',
+                      fontSize: 36,
+                      fontWeight: '600'
                     }}>
-                    <Icons.ArrowLeftCircleIcon
-                      size={40}
-                      color={'gray'}
-                      strokeWidth={1}
-                      onPress={cardSwiperRef.current?.onBack}
-                    />
-                  </View>
-                  <View
+                    No more people...
+                  </Text>
+                  <Text
                     style={{
-                      shadowColor: '#000',
-                      shadowOffset: {width: 0, height: 2},
-                      shadowOpacity: 0.5,
-                      shadowRadius: 2,
-                      elevation: 2
+                      color: '#00000090',
+                      fontSize: 20,
+                      fontWeight: '400',
+                      fontStyle: 'italic',
+                      textAlign: 'center'
                     }}>
-                    <Icons.XCircleIcon
-                      size={55}
-                      color={'red'}
-                      strokeWidth={1}
-                      onPress={() => cardSwiperRef.current?.manualSwipe('left')}
-                    />
-                  </View>
-                  <View
-                    style={{
-                      shadowColor: '#000',
-                      shadowOffset: {width: 0, height: 2},
-                      shadowOpacity: 0.5,
-                      shadowRadius: 2,
-                      elevation: 2
-                    }}>
-                    <Icons.UserCircleIcon
-                      size={40}
-                      color={'#003f5c'}
-                      strokeWidth={1}
-                      onPress={() =>
-                        viewProfile(
-                          cardSwiperRef.current?.getCurrentCardId() ?? 'NoId'
-                        )
-                      }
-                    />
-                  </View>
-                  <View
-                    style={{
-                      shadowColor: '#000',
-                      shadowOffset: {width: 0, height: 2},
-                      shadowOpacity: 0.5,
-                      shadowRadius: 2,
-                      elevation: 2
-                    }}>
-                    <Icons.CheckCircleIcon
-                      size={55}
-                      strokeWidth={1}
-                      color={'green'}
-                      onPress={() =>
-                        cardSwiperRef.current?.manualSwipe('right')
-                      }
-                    />
-                  </View>
-                  <View
-                    style={{
-                      shadowColor: '#000',
-                      shadowOffset: {width: 0, height: 2},
-                      shadowOpacity: 0.5,
-                      shadowRadius: 2,
-                      elevation: 2
-                    }}>
-                    <Icons.CheckBadgeIcon
-                      size={40}
-                      color={'yellow'}
-                      strokeWidth={1}
-                    />
-                  </View>
+                    There is no more people in your area. Maybe change the
+                    radius?
+                  </Text>
                 </View>
-              </View>
+              )}
             </>
           ) : (
             <View
