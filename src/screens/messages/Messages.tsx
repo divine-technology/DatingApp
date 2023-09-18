@@ -1,10 +1,7 @@
 import React, {useContext, useRef, useState} from 'react';
 import {View, Text, FlatList} from 'react-native';
 import {Button} from '../../components/Button/Button';
-import {
-  MessagesStackCompositeScreenProps,
-  MessagesStackScreenProps
-} from '../../navigation/MessagesRoutes';
+import {MessagesStackCompositeScreenProps} from '../../navigation/MessagesRoutes';
 import {ScreenView} from '../../components/ScreenWrapper/ScreenView';
 import {useMutation} from 'react-query';
 import {openApi} from '../../services/openApi';
@@ -23,7 +20,7 @@ export const MessagesScreen: React.FC<
 > = ({navigation}) => {
   const {user} = useContext(AuthContext);
 
-  const [fetchedMessages, setfetchedMessages] = useState<MessageResponseDto[]>(
+  const [fetchedMessages, setFetchedMessages] = useState<MessageResponseDto[]>(
     []
   );
   const [currentLikeId, setCurrentLikeId] = useState<string>();
@@ -43,8 +40,7 @@ export const MessagesScreen: React.FC<
     },
     {
       onSuccess: data => {
-        console.log({data});
-        setfetchedMessages(
+        setFetchedMessages(
           (data as unknown as ResponsePaginateDto)
             .data as unknown as MessageResponseDto[]
         );
@@ -53,9 +49,9 @@ export const MessagesScreen: React.FC<
     }
   );
 
-  const {data, mutate: blockUser} = useMutation<unknown, unknown, unknown>(
+  const {mutate: blockUser} = useMutation<unknown, unknown, unknown>(
     'blockUser',
-    _data => {
+    () => {
       return openApi.instance.like.likeControllerBlockByLikeId({
         likeId: currentLikeId!!.toString()
       });
@@ -68,7 +64,7 @@ export const MessagesScreen: React.FC<
     }
   );
 
-  useFocusEffect(React.useCallback(() => getChats(undefined), []));
+  useFocusEffect(React.useCallback(() => getChats({}), []));
 
   const openChat = (likeId: string) => {
     navigation.navigate('Chat', {likeId});

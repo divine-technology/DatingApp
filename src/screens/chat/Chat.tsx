@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useMemo, useState} from 'react';
+import React, {useContext, useEffect, useMemo, useRef, useState} from 'react';
 import {MessagesStackCompositeScreenProps} from '../../navigation/MessagesRoutes';
 import {
   GiftedChat,
@@ -10,7 +10,13 @@ import {
 } from 'react-native-gifted-chat';
 import {ScreenView} from '../../components/ScreenWrapper/ScreenView';
 import * as Icons from 'react-native-heroicons/solid';
-import {PermissionsAndroid, Platform, Pressable, View} from 'react-native';
+import {
+  PermissionsAndroid,
+  Platform,
+  Pressable,
+  TextInput,
+  View
+} from 'react-native';
 import {useMutation, useQuery} from 'react-query';
 import {openApi} from '../../services/openApi';
 import {AuthContext} from '../../providers/context/Auth';
@@ -68,6 +74,8 @@ export const ChatScreen: React.FC<
 > = ({route, navigation}) => {
   const {likeId} = route.params;
 
+  const [message, setMessage] = useState<string>();
+
   const {user} = useContext(AuthContext);
 
   const {data} = useQuery(
@@ -88,15 +96,15 @@ export const ChatScreen: React.FC<
     });
   };
 
-  const {data: newMessage, mutate} = useMutation(
+  const {mutate} = useMutation(
     ['last-message'],
-    (props: {message: string; imageUrl?: string}) =>
+    (props: {message?: string; imageUrl?: string}) =>
       openApi.instance.message.messageControllerSendMessage({
         likeId,
         requestBody: props
       }),
     {
-      onSuccess: data => console.log({data}),
+      onSuccess: data => setMessage(undefined),
       onError: error => console.log({error})
     }
   );
@@ -107,8 +115,8 @@ export const ChatScreen: React.FC<
     if (
       (data?.data &&
         messages &&
-        JSON.stringify(data.data)?.replaceAll(/\.jpeg[^}]*\}/g, '.jpeg}') !==
-          JSON.stringify(messages)?.replaceAll(/\.jpeg[^}]*\}/g, '.jpeg}')) ||
+        JSON.stringify(data.data)?.replace(/\.jpeg[^}]*\}/g, '.jpeg}') !==
+          JSON.stringify(messages)?.replace(/\.jpeg[^}]*\}/g, '.jpeg}')) ||
       (data?.data && !messages)
     ) {
       setMessages(data?.data as unknown as IMessage[]);
@@ -158,8 +166,6 @@ export const ChatScreen: React.FC<
 
     formData.append('image', media as unknown as Blob);
 
-    console.log({formData, media});
-
     try {
       const res = await api.axiosFetch({
         url: `/message/upload-message-image/${id}`,
@@ -187,7 +193,7 @@ export const ChatScreen: React.FC<
     }).then(image => {
       if (image) {
         imageUpload(image, likeId, imageUrl =>
-          mutate({message: messages[0].text, imageUrl})
+          mutate({message: message, imageUrl})
         );
       }
     });
@@ -200,6 +206,7 @@ export const ChatScreen: React.FC<
         <ScreenView />
       </View>
       <GiftedChat
+        onInputTextChanged={setMessage}
         user={{
           _id: user?._id ?? '',
           name: `${user?.firstName} ${user?.lastName}`,
@@ -209,18 +216,25 @@ export const ChatScreen: React.FC<
         }}
         messages={messages}
         textInputProps={{
-          flex: 1,
-          selectionColor: '#fb5b5a',
-          color: 'black',
-          autoCorrect: false,
-          marginRight: 8
+          value: message,
+          style: {
+            flex: 1,
+            selectionColor: '#fb5b5a',
+            color: 'black',
+            autoCorrect: false,
+            marginRight: 8
+          }
         }}
         listViewProps={{
-          showsVerticalScrollIndicator: false,
-          paddingHorizontal: 8
+          style: {
+            showsVerticalScrollIndicator: false,
+            paddingHorizontal: 8
+          }
         }}
         onPressAvatar={messageUser => navigateToProfile(messageUser._id)}
-        onSend={messages => mutate({message: messages[0].text})}
+        onSend={messages => {
+          mutate({message: messages[0].text});
+        }}
         renderAccessory={props => (
           <Accessories {...props} onCameraPress={openCamera} />
         )}

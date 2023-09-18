@@ -28,6 +28,7 @@ import {api} from '../../services/api';
 import {CameraIcon} from 'react-native-heroicons/solid';
 import ImagePicker, {ImageOrVideo} from 'react-native-image-crop-picker';
 import {themeColors} from '../../themes/colors';
+import {ImageSource} from 'react-native-image-viewing/dist/@types';
 
 export type SettingsRouteParams = undefined;
 
@@ -40,7 +41,8 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
   const [imageIndex, setImageIndex] = useState<number>(0);
   const [modalVisibility, setModalVisibility] = useState<boolean>(false);
 
-  useFocusEffect(React.useCallback(() => getMe(), []));
+  const [profilePicture, setProfilePicture] = useState<string>();
+  const [images, setImages] = useState<ImageSource>();
 
   const insets = useSafeAreaInsets();
 
@@ -61,18 +63,6 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
       onError: () => {}
     }
   );
-
-  const [images, setImages] = useState([
-    {
-      uri: 'https://images.unsplash.com/photo-1571501679680-de32f1e7aad4'
-    },
-    {
-      uri: 'https://images.unsplash.com/photo-1573273787173-0eb81a833b34'
-    },
-    {
-      uri: 'https://images.unsplash.com/photo-1569569970363-df7b6160d111'
-    }
-  ]);
 
   const requestCameraPermission = async () => {
     try {
@@ -159,8 +149,6 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
     });
   };
 
-  const [profilePicture, setProfilePicture] = useState();
-
   const getProfilePicture = async () => {
     try {
       const res = await api.axiosFetch({
@@ -188,8 +176,7 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
           Accept: 'application/json'
         }
       });
-      console.log({res});
-      setImages(res.data.map(item => ({uri: item.url})));
+      setImages(res?.data.map(item => ({uri: item.url})));
     } catch (e) {
       console.log({e});
     }
@@ -198,7 +185,9 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
   useEffect(() => {
     getGallery();
     getProfilePicture();
-  }, []);
+  }, [user]);
+
+  console.log({images, profilePicture});
 
   return (
     <ScreenView scrollEnabled>
@@ -286,7 +275,7 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
               flexWrap: 'wrap',
               flexDirection: 'row'
             }}>
-            {images.map((uri, index) => (
+            {images?.map((uri, index) => (
               <TouchableHighlight
                 key={index}
                 style={{

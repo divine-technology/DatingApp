@@ -4,7 +4,7 @@
 /* eslint-disable */
 
 export type MessageBodyDto = {
-    message: string;
+    message?: string;
     imageUrl?: string;
 };
 

@@ -207,4 +207,15 @@ export class UserService {
         });
     }
 
+    /**
+     * @returns any
+     * @throws ApiError
+     */
+    public usersControllerGetUserGallery(): CancelablePromise<any> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/users/gallery',
+        });
+    }
+
 }

@@ -38,6 +38,43 @@ export class MessageService {
     }
 
     /**
+     * @returns any
+     * @throws ApiError
+     */
+    public messageControllerUploadMessageImage({
+        likeId,
+    }: {
+        likeId: string,
+    }): CancelablePromise<any> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/message/upload-message-image/{likeId}',
+            path: {
+                'likeId': likeId,
+            },
+        });
+    }
+
+    /**
+     * Send image message
+     * @returns any
+     * @throws ApiError
+     */
+    public messageControllerSendImageMessage({
+        likeId,
+    }: {
+        likeId: string,
+    }): CancelablePromise<any> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/message/send-image-message/{likeId}',
+            path: {
+                'likeId': likeId,
+            },
+        });
+    }
+
+    /**
      * Get messages between users
      * @returns ResponsePaginateDto
      * @throws ApiError
