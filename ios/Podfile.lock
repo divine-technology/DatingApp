@@ -1,6 +1,6 @@
 PODS:
   - boost (1.76.0)
-  - BVLinearGradient (2.8.2):
+  - BVLinearGradient (2.8.3):
     - React-Core
   - CocoaAsyncSocket (7.6.5)
   - DoubleConversion (1.1.6)
@@ -460,6 +460,8 @@ PODS:
     - React-perflogger (= 0.72.3)
   - RNCAsyncStorage (1.19.1):
     - React-Core
+  - RNCMaskedView (0.2.9):
+    - React-Core
   - RNCPicker (2.5.0):
     - React-Core
   - RNGestureHandler (2.12.0):
@@ -577,6 +579,7 @@ DEPENDENCIES:
   - React-utils (from `../node_modules/react-native/ReactCommon/react/utils`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
+  - "RNCMaskedView (from `../node_modules/@react-native-masked-view/masked-view`)"
   - "RNCPicker (from `../node_modules/@react-native-picker/picker`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
@@ -688,6 +691,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-async-storage/async-storage"
+  RNCMaskedView:
+    :path: "../node_modules/@react-native-masked-view/masked-view"
   RNCPicker:
     :path: "../node_modules/@react-native-picker/picker"
   RNGestureHandler:
@@ -705,7 +710,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   boost: 57d2868c099736d80fcd648bf211b4431e51a558
-  BVLinearGradient: 916632041121a658c704df89d99f04acb038de0f
+  BVLinearGradient: 880f91a7854faff2df62518f0281afb1c60d49a3
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   DoubleConversion: 5189b271737e1565bdce30deb4a08d647e3f5f54
   FBLazyVector: 4cce221dd782d3ff7c4172167bba09d58af67ccb
@@ -758,6 +763,7 @@ SPEC CHECKSUMS:
   React-utils: bcb57da67eec2711f8b353f6e3d33bd8e4b2efa3
   ReactCommon: d7d63a5b3c3ff29304a58fc8eb3b4f1b077cd789
   RNCAsyncStorage: f47fe18526970a69c34b548883e1aeceb115e3e1
+  RNCMaskedView: 949696f25ec596bfc697fc88e6f95cf0c79669b6
   RNCPicker: 32ca102146bc7d34a8b93a998d9938d9f9ec7898
   RNGestureHandler: dec4645026e7401a0899f2846d864403478ff6a5
   RNImageCropPicker: 486e2f7e2b0461ce24321f751410dce1b3b49e6d
@@ -771,4 +777,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 82327711dde3bff7e4928aabe958db8eda11991d
 
-COCOAPODS: 1.12.1
+COCOAPODS: 1.13.0
