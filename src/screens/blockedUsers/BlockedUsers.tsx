@@ -33,6 +33,7 @@ export const BlockedUsersScreen: React.FC<
     },
     {
       onSuccess: data => {
+        console.log('OMG: ', {data});
         setfetchedMessages(
           (data as unknown as ResponsePaginateDto)
             .data as unknown as MessageResponseDto[]

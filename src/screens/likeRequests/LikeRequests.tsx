@@ -16,22 +16,18 @@ export const LikeRequestsScreen: React.FC<
 > = ({navigation}) => {
   const {user} = useContext(AuthContext);
 
-  const [fetchedMessages, setfetchedMessages] = useState<MessageResponseDto[]>(
-    []
-  );
-
   const {data, mutate: getChats} = useMutation<unknown, unknown, unknown>(
     'getLikeRequestChats',
     _data => {
       return openApi.instance.message.messageControllerGetLikeRequestChats({});
     },
     {
-      onSuccess: data => {
-        setfetchedMessages(
-          (data as unknown as ResponsePaginateDto)
-            .data as unknown as MessageResponseDto[]
-        );
-      },
+      // onSuccess: data => {
+      //   setfetchedMessages(
+      //     (data as unknown as ResponsePaginateDto)
+      //       .data as unknown as MessageResponseDto[]
+      //   );
+      // },
       onError: () => {}
     }
   );
@@ -63,7 +59,10 @@ export const LikeRequestsScreen: React.FC<
           </View>
         </View>
         <FlatList
-          data={fetchedMessages}
+          data={
+            ((data as unknown as ResponsePaginateDto)
+              ?.data as unknown as MessageResponseDto[]) ?? []
+          }
           contentContainerStyle={{gap: 8}}
           renderItem={({item}) => (
             <MessagesListItem
