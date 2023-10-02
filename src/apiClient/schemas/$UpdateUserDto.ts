@@ -49,5 +49,26 @@ export const $UpdateUserDto = {
                 type: 'string',
             },
         },
+        profilePicture: {
+            type: 'string',
+        },
+        gallery: {
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+        },
+        lastPictureTaken: {
+            type: 'string',
+        },
+        prefferedAgeFrom: {
+            type: 'number',
+        },
+        prefferedAgeTo: {
+            type: 'number',
+        },
+        prefferedRadius: {
+            type: 'number',
+        },
     },
 } as const;

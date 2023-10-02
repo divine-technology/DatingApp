@@ -1,8 +1,17 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {Image, Text, View, StatusBar, Dimensions} from 'react-native';
+import React, {useContext, useEffect, useMemo, useState} from 'react';
+import {
+  Image,
+  Text,
+  View,
+  StatusBar,
+  Dimensions,
+  Platform,
+  PermissionsAndroid,
+  Pressable
+} from 'react-native';
 import {AuthContext} from '../../providers/context/Auth';
 import {Button} from '../../components/Button/Button';
-import {useIsFocused} from '@react-navigation/native';
+import {useFocusEffect, useIsFocused} from '@react-navigation/native';
 import {styles} from './Settings.styles';
 import {SettingsStackScreenProps} from '../../navigation/SettingsRoutes';
 import * as Icons from 'react-native-heroicons/outline';
@@ -15,6 +24,11 @@ import {InfoContainer} from '../../components/InfoContainer/InfoContainer';
 import {CustomModal} from '../../components/Modal/Modal';
 import {useMutation} from 'react-query';
 import {openApi} from '../../services/openApi';
+import {api} from '../../services/api';
+import {CameraIcon} from 'react-native-heroicons/solid';
+import ImagePicker, {ImageOrVideo} from 'react-native-image-crop-picker';
+import {themeColors} from '../../themes/colors';
+import {ImageSource} from 'react-native-image-viewing/dist/@types';
 
 export type SettingsRouteParams = undefined;
 
@@ -26,6 +40,9 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
   const [visible, setIsVisible] = useState<boolean>(false);
   const [imageIndex, setImageIndex] = useState<number>(0);
   const [modalVisibility, setModalVisibility] = useState<boolean>(false);
+
+  const [profilePicture, setProfilePicture] = useState<string>();
+  const [images, setImages] = useState<ImageSource>();
 
   const insets = useSafeAreaInsets();
 
@@ -47,17 +64,130 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
     }
   );
 
-  const images = [
-    {
-      uri: 'https://images.unsplash.com/photo-1571501679680-de32f1e7aad4'
-    },
-    {
-      uri: 'https://images.unsplash.com/photo-1573273787173-0eb81a833b34'
-    },
-    {
-      uri: 'https://images.unsplash.com/photo-1569569970363-df7b6160d111'
+  const requestCameraPermission = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.CAMERA,
+        {
+          title: 'Change Profile Picture',
+          message:
+            'The app needs permission to access your camera ' +
+            'Would you like to grant permission?',
+          buttonNeutral: 'Ask Me Later',
+          buttonNegative: 'Cancel',
+          buttonPositive: 'OK'
+        }
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log('Permission granted');
+      }
+    } catch (err) {
+      console.warn(err);
     }
-  ];
+  };
+
+  const imageUpload = async (
+    image: ImageOrVideo,
+    uploadToGallery: boolean = false
+  ) => {
+    const formData = new FormData();
+    const trimmedURI =
+      Platform.OS === 'android'
+        ? image.path
+        : image.path.replace('file://', '');
+    const fileName = trimmedURI.split('/').pop();
+    const media = {
+      name: fileName,
+      height: image.height,
+      width: image.width,
+      type: image.mime,
+      uri: trimmedURI
+    };
+
+    formData.append('image', media as unknown as Blob);
+
+    try {
+      if (!uploadToGallery) {
+        const res = await api.axiosFetch({
+          url: '/users/upload/profile-image',
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'multipart/form-data'
+          },
+          data: formData
+        });
+      } else {
+        const res2 = await api.axiosFetch({
+          url: '/users/upload/gallery-image',
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'multipart/form-data'
+          },
+          data: formData
+        });
+      }
+      getMe();
+    } catch (error) {
+      console.log({error});
+    }
+  };
+
+  const openCamera = (uploadToGallery: boolean = false) => {
+    if (Platform.OS === 'android') {
+      requestCameraPermission();
+    }
+    ImagePicker.openCamera({
+      width: 300,
+      height: 400,
+      useFrontCamera: true
+    }).then(image => {
+      if (image) {
+        imageUpload(image, uploadToGallery);
+      }
+    });
+  };
+
+  const getProfilePicture = async () => {
+    try {
+      const res = await api.axiosFetch({
+        url: `/image/${user?.profilePicture}`,
+        method: 'GET',
+        headers: {
+          Accept: 'application/json'
+        },
+        params: {
+          dimensions: '300x300'
+        }
+      });
+      setProfilePicture((res.data as any).url);
+    } catch (error) {
+      console.log({error});
+    }
+  };
+
+  const getGallery = async () => {
+    try {
+      const res = await api.axiosFetch({
+        url: `/users/gallery`,
+        method: 'GET',
+        headers: {
+          Accept: 'application/json'
+        }
+      });
+      setImages(res?.data.map(item => ({uri: item.url})));
+    } catch (e) {
+      console.log({e});
+    }
+  };
+
+  useEffect(() => {
+    getGallery();
+    getProfilePicture();
+  }, [user]);
+
+  console.log({images, profilePicture});
 
   return (
     <ScreenView scrollEnabled>
@@ -71,12 +201,19 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
           shadowRadius: 2,
           elevation: 2
         }}>
-        <Image
-          style={styles.userImg}
-          source={{
-            uri: 'https://media.istockphoto.com/id/1329031407/photo/young-man-with-backpack-taking-selfie-portrait-on-a-mountain-smiling-happy-guy-enjoying.jpg?s=612x612&w=0&k=20&c=WvjAEx3QlWoAn49drp0N1vmxAgGObxWDpoXtaU2iB4Q='
-          }}
-        />
+        <Pressable
+          style={{flexDirection: 'row', position: 'relative'}}
+          onPress={() => openCamera()}>
+          <Image
+            style={styles.userImg}
+            source={{
+              uri: profilePicture
+            }}
+          />
+          <View style={styles.cameraIconContainer}>
+            <CameraIcon size={40} color={'#fb5b5a'} />
+          </View>
+        </Pressable>
         <Text style={styles.userName}>
           {user ? `${user.firstName} ${user.lastName}` : 'Test User'}
         </Text>
@@ -126,14 +263,19 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
         />
       </View>
       <View style={{marginBottom: 4}}>
-        <InfoContainer title={'Images'}>
+        <InfoContainer
+          title={'Images'}
+          endAdornment={
+            <Icons.PlusCircleIcon size={28} color={themeColors.primaryColor} />
+          }
+          onPress={() => openCamera(true)}>
           <View
             style={{
               flex: 1,
               flexWrap: 'wrap',
               flexDirection: 'row'
             }}>
-            {images.map((uri, index) => (
+            {images?.map((uri, index) => (
               <TouchableHighlight
                 key={index}
                 style={{

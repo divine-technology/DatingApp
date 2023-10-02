@@ -6,7 +6,9 @@ export const $MessageBodyDto = {
     properties: {
         message: {
             type: 'string',
-            isRequired: true,
+        },
+        imageUrl: {
+            type: 'string',
         },
     },
 } as const;

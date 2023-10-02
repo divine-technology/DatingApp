@@ -41,7 +41,8 @@ export const styles = StyleSheet.create({
   },
   infoWrapper: {
     padding: 12,
-    height: '100%'
+    height: '100%',
+    gap: 4
     // backgroundColor: '#FFFFFF80',
   },
   info: {

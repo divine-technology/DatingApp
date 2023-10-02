@@ -76,6 +76,7 @@ export const SignupScreen: React.FC<AuthStackScreenProps<'Signup'>> = ({
             <ControlledInput
               control={control}
               name={'firstName'}
+              label="First name"
               placeholder={'First name...'}
               startAdornment={<Icons.UserCircleIcon size={30} color="white" />}
               returnKeyType={'next'}
@@ -84,6 +85,7 @@ export const SignupScreen: React.FC<AuthStackScreenProps<'Signup'>> = ({
             <ControlledInput
               control={control}
               name={'lastName'}
+              label="Last name"
               startAdornment={<Icons.UserCircleIcon size={30} color="white" />}
               placeholder={'Last name...'}
               returnKeyType={'next'}
@@ -92,6 +94,7 @@ export const SignupScreen: React.FC<AuthStackScreenProps<'Signup'>> = ({
             <ControlledInput
               control={control}
               name={'email'}
+              label="Email"
               placeholder={'Email...'}
               startAdornment={<Icons.EnvelopeIcon size={30} color="white" />}
               keyboardType={'email-address'}
@@ -102,6 +105,7 @@ export const SignupScreen: React.FC<AuthStackScreenProps<'Signup'>> = ({
             <ControlledInput
               control={control}
               name={'password'}
+              label="Password"
               placeholder={'Password...'}
               startAdornment={<Icons.LockClosedIcon size={30} color="white" />}
               secureTextEntry

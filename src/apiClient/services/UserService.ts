@@ -37,6 +37,9 @@ export class UserService {
         preference,
         age,
         hobbies,
+        profilePicture,
+        gallery,
+        lastPictureTaken,
     }: {
         page?: number,
         limit?: number,
@@ -54,6 +57,9 @@ export class UserService {
         preference?: string,
         age?: number,
         hobbies?: Array<string>,
+        profilePicture?: string,
+        gallery?: Array<string>,
+        lastPictureTaken?: string,
     }): CancelablePromise<ResponsePaginateDto> {
         return this.httpRequest.request({
             method: 'GET',
@@ -75,6 +81,9 @@ export class UserService {
                 'preference': preference,
                 'age': age,
                 'hobbies': hobbies,
+                'profilePicture': profilePicture,
+                'gallery': gallery,
+                'lastPictureTaken': lastPictureTaken,
             },
         });
     }
@@ -162,6 +171,50 @@ export class UserService {
         return this.httpRequest.request({
             method: 'DELETE',
             url: '/users/delete/{id}',
+        });
+    }
+
+    /**
+     * @returns any
+     * @throws ApiError
+     */
+    public usersControllerUploadProfileImage(): CancelablePromise<any> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/users/upload/profile-image',
+        });
+    }
+
+    /**
+     * @returns any
+     * @throws ApiError
+     */
+    public usersControllerUploadSelfieImage(): CancelablePromise<any> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/users/upload/selfie-image',
+        });
+    }
+
+    /**
+     * @returns any
+     * @throws ApiError
+     */
+    public usersControllerUploadGalleryImage(): CancelablePromise<any> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/users/upload/gallery-image',
+        });
+    }
+
+    /**
+     * @returns any
+     * @throws ApiError
+     */
+    public usersControllerGetUserGallery(): CancelablePromise<any> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/users/gallery',
         });
     }
 

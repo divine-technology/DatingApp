@@ -18,5 +18,11 @@ export type AuthUser = {
     age: number;
     bio: string;
     hobbies: Array<string>;
+    profilePicture?: string;
+    gallery?: Array<string>;
+    lastPictureTaken?: string;
+    prefferedAgeFrom?: number;
+    prefferedAgeTo?: number;
+    prefferedRadius?: number;
 };
 

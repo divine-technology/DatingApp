@@ -8,6 +8,7 @@ import { AxiosHttpRequest } from './core/AxiosHttpRequest';
 
 import { AuthService } from './services/AuthService';
 import { DefaultService } from './services/DefaultService';
+import { ImageService } from './services/ImageService';
 import { LikeService } from './services/LikeService';
 import { MessageService } from './services/MessageService';
 import { UserService } from './services/UserService';
@@ -18,6 +19,7 @@ export class ApiClient {
 
     public readonly auth: AuthService;
     public readonly default: DefaultService;
+    public readonly image: ImageService;
     public readonly like: LikeService;
     public readonly message: MessageService;
     public readonly user: UserService;
@@ -39,6 +41,7 @@ export class ApiClient {
 
         this.auth = new AuthService(this.request);
         this.default = new DefaultService(this.request);
+        this.image = new ImageService(this.request);
         this.like = new LikeService(this.request);
         this.message = new MessageService(this.request);
         this.user = new UserService(this.request);

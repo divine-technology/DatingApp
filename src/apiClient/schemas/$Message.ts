@@ -16,5 +16,9 @@ export const $Message = {
             type: 'string',
             isRequired: true,
         },
+        image: {
+            type: 'string',
+            isRequired: true,
+        },
     },
 } as const;

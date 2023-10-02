@@ -32,6 +32,10 @@ export const $UserResponse = {
             type: 'string',
             isRequired: true,
         },
+        bio: {
+            type: 'string',
+            isRequired: true,
+        },
         age: {
             type: 'number',
             isRequired: true,
@@ -42,6 +46,18 @@ export const $UserResponse = {
                 type: 'string',
             },
             isRequired: true,
+        },
+        profilePicture: {
+            type: 'string',
+        },
+        gallery: {
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+        },
+        lastPictureTaken: {
+            type: 'string',
         },
     },
 } as const;

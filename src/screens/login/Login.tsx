@@ -63,6 +63,7 @@ export const LoginScreen: React.FC<AuthStackScreenProps<'Login'>> = ({
             <ControlledInput
               control={control}
               name={'email'}
+              label="Email"
               placeholder={'Email...'}
               keyboardType={'email-address'}
               startAdornment={<Icons.EnvelopeIcon size={30} color="white" />}
@@ -72,6 +73,7 @@ export const LoginScreen: React.FC<AuthStackScreenProps<'Login'>> = ({
             <ControlledInput
               control={control}
               name={'password'}
+              label="Password"
               placeholder={'Password...'}
               returnKeyType={'done'}
               startAdornment={<Icons.LockClosedIcon size={30} color="white" />}
