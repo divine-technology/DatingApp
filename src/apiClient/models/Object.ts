@@ -3,8 +3,6 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type MessageBodyDto = {
-    message?: string;
-    imageUrl?: string;
+export type Object = {
 };
 

@@ -6,7 +6,7 @@ import {
   Controller,
   FieldError,
   FieldValues,
-  UseControllerProps,
+  UseControllerProps
 } from 'react-hook-form';
 import {Text, View} from 'react-native';
 import {styles} from './Dropdown.styles';
@@ -16,25 +16,27 @@ export type DropdownDefaultDataProps = {value: string; label: string};
 export type DropdownProps<T = DropdownDefaultDataProps> =
   LibDropdownProps<T> & {
     error?: FieldError;
+    label?: string;
   };
 
-export const Dropdown: React.FC<DropdownProps> = ({error, ...rest}) => {
+export const Dropdown: React.FC<DropdownProps> = ({error, label, ...rest}) => {
   return (
     <View style={{width: '100%'}}>
+      {label && <Text style={styles.labelText}>{label}</Text>}
       <LibDropdown
         placeholderStyle={{
           color: themeColors.primaryTextColor,
           paddingHorizontal: 8,
-          margin: 0,
+          margin: 0
         }}
         iconStyle={{tintColor: themeColors.primaryTextColor}}
         containerStyle={{
           borderRadius: 24,
-          overflow: 'hidden',
+          overflow: 'hidden'
         }}
         selectedTextStyle={{
           color: themeColors.primaryTextColor,
-          paddingHorizontal: 8,
+          paddingHorizontal: 8
         }}
         itemTextStyle={{color: themeColors.backgroundColor}}
         activeColor={`${themeColors.primaryColor}50`}
@@ -43,18 +45,28 @@ export const Dropdown: React.FC<DropdownProps> = ({error, ...rest}) => {
           height: 44,
           borderRadius: 24,
           backgroundColor: themeColors.primaryColor,
-          paddingHorizontal: 12,
+          paddingHorizontal: 12
         }}
         {...rest}
       />
-      <Text style={styles.errorText}>{error?.message}</Text>
+      <Text
+        style={
+          error !== undefined
+            ? styles.errorText
+            : {
+                fontSize: 0,
+                height: 0
+              }
+        }>
+        {error?.message}
+      </Text>
     </View>
   );
 };
 
 export type ControlledDropdownProps<
   T extends FieldValues,
-  K = DropdownDefaultDataProps,
+  K = DropdownDefaultDataProps
 > = UseControllerProps<T> & Omit<DropdownProps<K>, 'onChange'>;
 
 export const ControlledDropdown = <T extends FieldValues>({

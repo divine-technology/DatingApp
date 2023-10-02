@@ -21,6 +21,12 @@ export const styles = StyleSheet.create({
     color: 'black',
     textAlign: 'center'
   },
+  cameraIconContainer: {
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+    backgroundColor: 'transparent'
+  },
   aboutUser: {
     fontSize: 12,
     fontWeight: '600',

@@ -9,11 +9,11 @@ import {MessageResponseDto, ResponsePaginateDto} from '../../apiClient';
 import {AuthContext} from '../../providers/context/Auth';
 import dayjs from '../../dayjs/dayjs-extended';
 import {MessagesListItem} from '../../components/MessagesListItem/MessagesListItem';
-import { styles } from './LikeRequests.styles';
+import {styles} from './LikeRequests.styles';
 
-export const LikeRequestsScreen: React.FC<MessagesStackScreenProps<'LikeRequests'>> = ({
-  navigation
-}) => {
+export const LikeRequestsScreen: React.FC<
+  MessagesStackScreenProps<'LikeRequests'>
+> = ({navigation}) => {
   const {user} = useContext(AuthContext);
 
   const [fetchedMessages, setfetchedMessages] = useState<MessageResponseDto[]>(
@@ -42,7 +42,7 @@ export const LikeRequestsScreen: React.FC<MessagesStackScreenProps<'LikeRequests
   }, []);
 
   const openChat = (likeId: string) => {
-    navigation.navigate('Chat', {likeId});
+    navigation.navigate('ChatRequests', {likeId});
   };
 
   return (

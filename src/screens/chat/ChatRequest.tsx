@@ -22,8 +22,9 @@ import {openApi} from '../../services/openApi';
 import {AuthContext} from '../../providers/context/Auth';
 import ImagePicker, {ImageOrVideo} from 'react-native-image-crop-picker';
 import {api} from '../../services/api';
+import {ReactWithUserDto} from '../../apiClient';
 
-export type ChatScreenProps = {likeId: string};
+export type ChatRequestScreenProps = {likeId: string};
 
 const ChatToolbar: React.FC<InputToolbarProps<IMessage>> = props => {
   return (
@@ -69,14 +70,37 @@ const Accessories: React.FC<AccessoriesProps> = ({onCameraPress}) => {
   );
 };
 
-export const ChatScreen: React.FC<
-  MessagesStackCompositeScreenProps<'Chat'>
+export const ChatRequestScreen: React.FC<
+  MessagesStackCompositeScreenProps<'ChatRequests'>
 > = ({route, navigation}) => {
   const {likeId} = route.params;
 
   const [message, setMessage] = useState<string>();
 
   const {user} = useContext(AuthContext);
+
+  const {mutate: dislikeUser} = useMutation<unknown, unknown, ReactWithUserDto>(
+    'dislikeUser',
+    data => {
+      return openApi.instance.like.likeControllerReactWithUser({
+        requestBody: data
+      });
+    },
+    {
+      onSuccess: data => {
+        console.log('User disliked');
+        navigation.navigate('Messages');
+      },
+      onError: () => {}
+    }
+  );
+
+  const dislike = (id: string | number) => {
+    dislikeUser({
+      likedUserId: id.toString(),
+      status: 'disliked'
+    });
+  };
 
   const {data} = useQuery(
     ['chat', likeId],
@@ -148,7 +172,7 @@ export const ChatScreen: React.FC<
   const imageUpload = async (
     image: ImageOrVideo,
     id: string,
-    callback?: (imageId: string) => void
+    sendReaction: boolean = false
   ) => {
     const formData = new FormData();
     const trimmedURI =
@@ -168,7 +192,7 @@ export const ChatScreen: React.FC<
 
     try {
       const res = await api.axiosFetch({
-        url: `/message/upload-message-image/${id}`,
+        url: '/users/upload/selfie-image',
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -176,9 +200,31 @@ export const ChatScreen: React.FC<
         },
         data: formData
       });
-      callback && callback(res.data as string);
+      console.log('Last picture taken uploaded!');
+      const lastPictureTakenId = (res.data as any).lastPictureTaken;
+      if (sendReaction) {
+        try {
+          const res2 = await api.axiosFetch({
+            url: '/likes/react',
+            method: 'POST',
+            headers: {
+              Accept: 'application/json'
+            },
+            data: {
+              likedUserId: id,
+              status: 'liked',
+              likedPhotoUrl: lastPictureTakenId
+            }
+          });
+          navigation.navigate('Messages');
+        } catch (error) {
+          console.log({error});
+        }
+      } else {
+        console.log('haha');
+      }
     } catch (error) {
-      console.log({error}, 'uploadImage');
+      console.log({error});
     }
   };
 
@@ -192,9 +238,7 @@ export const ChatScreen: React.FC<
       useFrontCamera: true
     }).then(image => {
       if (image) {
-        imageUpload(image, likeId, imageUrl =>
-          mutate({message: message, imageUrl})
-        );
+        imageUpload(image, messages[0].user._id.toString(), true);
       }
     });
   };
@@ -239,7 +283,39 @@ export const ChatScreen: React.FC<
           <Accessories {...props} onCameraPress={openCamera} />
         )}
         renderSend={SendButton}
-        renderInputToolbar={ChatToolbar}
+        renderInputToolbar={() => (
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-evenly',
+              alignItems: 'center',
+              borderRadius: 24,
+              margin: 12,
+              backgroundColor: '#FFFFFF70',
+              ...Platform.select({
+                ios: {
+                  zIndex: -10
+                }
+              })
+            }}>
+            <Icons.XCircleIcon
+              size={70}
+              strokeWidth={1}
+              color={'red'}
+              onPress={() => {
+                dislike(messages[0].user._id);
+              }}
+            />
+            <Icons.CheckCircleIcon
+              size={70}
+              strokeWidth={1}
+              color={'green'}
+              onPress={() => {
+                openCamera();
+              }}
+            />
+          </View>
+        )}
       />
     </>
   );

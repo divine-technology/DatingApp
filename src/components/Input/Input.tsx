@@ -19,6 +19,7 @@ const InputType = {
 
 type InputProps = TextInputProps & {
   error?: FieldError;
+  label?: string;
   type?: keyof typeof InputType;
   startAdornment?: React.ReactElement;
   onChangeText?: (text: string | number | undefined | null) => void;
@@ -26,7 +27,7 @@ type InputProps = TextInputProps & {
 
 export const Input: React.FC<InputProps> = forwardRef(
   (
-    {error, startAdornment, type = 'text', value, onChangeText, ...rest},
+    {error, startAdornment, label, type = 'text', value, onChangeText, ...rest},
     ref: LegacyRef<TextInput>
   ) => {
     const style = styles({error, multiline: rest.multiline});
@@ -52,6 +53,7 @@ export const Input: React.FC<InputProps> = forwardRef(
 
     return (
       <View>
+        {label && <Text style={style.labelText}>{label}</Text>}
         <View style={style.textInputWrapper}>
           {startAdornment && (
             <View>
@@ -74,7 +76,17 @@ export const Input: React.FC<InputProps> = forwardRef(
             {...valueOnChangeMap[type]}
           />
         </View>
-        <Text style={style.errorText}>{error?.message}</Text>
+        <Text
+          style={
+            error !== undefined
+              ? style.errorText
+              : {
+                  fontSize: 0,
+                  height: 0
+                }
+          }>
+          {error?.message}
+        </Text>
       </View>
     );
   }
