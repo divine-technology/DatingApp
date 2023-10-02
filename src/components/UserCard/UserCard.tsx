@@ -4,12 +4,9 @@ import {AuthUser} from '../../apiClient';
 import {styles} from './UserCard.styles';
 import {ClickableSwipeCard} from '../CardSwiper/CardSwiper';
 import LinearGradient from 'react-native-linear-gradient';
-<<<<<<< HEAD
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
-=======
 import {api} from '../../services/api';
 import dayjs from '../../dayjs/dayjs-extended';
->>>>>>> main
 
 export type UserCardProps = {
   user: AuthUser;
@@ -50,7 +47,6 @@ export const UserCard: React.FC<UserCardProps> = ({
 
   return (
     <View style={styles.wrapper}>
-<<<<<<< HEAD
       {!user ? (
         <View style={styles.image}>
           <SkeletonPlaceholder backgroundColor="#d3d3d3" borderRadius={6}>
@@ -67,18 +63,10 @@ export const UserCard: React.FC<UserCardProps> = ({
         <Image
           style={styles.image}
           source={{
-            uri: 'https://media.istockphoto.com/id/1329031407/photo/young-man-with-backpack-taking-selfie-portrait-on-a-mountain-smiling-happy-guy-enjoying.jpg?s=612x612&w=0&k=20&c=WvjAEx3QlWoAn49drp0N1vmxAgGObxWDpoXtaU2iB4Q='
+            uri: picture
           }}
         />
       )}
-=======
-      <Image
-        style={styles.image}
-        source={{
-          uri: picture
-        }}
-      />
->>>>>>> main
       <View style={styles.absWrapper}>
         <View style={styles.likeDislikeWrapper}>
           <Pressable onPress={dislike} style={styles.likeDislike} />
@@ -88,7 +76,6 @@ export const UserCard: React.FC<UserCardProps> = ({
           colors={['#ffffff00', '#ffffff90']}
           locations={[0, 0.1]}
           style={{height: 150}}>
-<<<<<<< HEAD
           {!user ? (
             <SkeletonPlaceholder backgroundColor="#d3d3d3" borderRadius={4}>
               <SkeletonPlaceholder.Item flexDirection="row" alignItems="center">
@@ -131,17 +118,6 @@ export const UserCard: React.FC<UserCardProps> = ({
               </Text>
             </Pressable>
           )}
-=======
-          <Pressable onPress={profile} style={styles.infoWrapper}>
-            <Text style={styles.info}>
-              {`${user.firstName} ${user.lastName}, ${user.age}`}
-            </Text>
-            <Text style={styles.bio}>
-              Last picture taken {dayjs(pictureDate).fromNow()}
-            </Text>
-            <Text style={styles.bio}>{user.bio}</Text>
-          </Pressable>
->>>>>>> main
         </LinearGradient>
       </View>
     </View>
