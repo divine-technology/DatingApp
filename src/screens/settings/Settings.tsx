@@ -29,6 +29,7 @@ import {CameraIcon} from 'react-native-heroicons/solid';
 import ImagePicker, {ImageOrVideo} from 'react-native-image-crop-picker';
 import {themeColors} from '../../themes/colors';
 import {ImageSource} from 'react-native-image-viewing/dist/@types';
+import {ImageWithLoader} from '../../components/Image/ImageWithLoader';
 
 export type SettingsRouteParams = undefined;
 
@@ -79,7 +80,6 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
         }
       );
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        console.log('Permission granted');
       }
     } catch (err) {
       console.warn(err);
@@ -129,9 +129,7 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
         });
       }
       getMe();
-    } catch (error) {
-      console.log({error});
-    }
+    } catch (error) {}
   };
 
   const openCamera = (uploadToGallery: boolean = false) => {
@@ -162,9 +160,7 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
         }
       });
       setProfilePicture((res.data as any).url);
-    } catch (error) {
-      console.log({error});
-    }
+    } catch (error) {}
   };
 
   const getGallery = async () => {
@@ -177,17 +173,13 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
         }
       });
       setImages(res?.data.map(item => ({uri: item.url})));
-    } catch (e) {
-      console.log({e});
-    }
+    } catch (e) {}
   };
 
   useEffect(() => {
     getGallery();
     getProfilePicture();
   }, [user]);
-
-  console.log({images, profilePicture});
 
   return (
     <ScreenView scrollEnabled>
@@ -204,7 +196,7 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
         <Pressable
           style={{flexDirection: 'row', position: 'relative'}}
           onPress={() => openCamera()}>
-          <Image
+          <ImageWithLoader
             style={styles.userImg}
             source={{
               uri: profilePicture
@@ -286,7 +278,7 @@ export const SettingsScreen: React.FC<SettingsStackScreenProps<'Settings'>> = ({
                   setImageIndex(index);
                   setIsVisible(!visible);
                 }}>
-                <Image
+                <ImageWithLoader
                   source={uri}
                   resizeMode="stretch"
                   style={{

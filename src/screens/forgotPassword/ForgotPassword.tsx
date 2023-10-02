@@ -25,7 +25,7 @@ export const ForgotPasswordScreen: React.FC<
   });
 
   const onSubmit = (data: any) => {
-    console.log('My data: ', data);
+    // console.log('My data: ', data);
   };
 
   return (

@@ -88,7 +88,7 @@ export const ChatRequestScreen: React.FC<
     },
     {
       onSuccess: data => {
-        console.log('User disliked');
+        // console.log('User disliked');
         navigation.navigate('Messages');
       },
       onError: () => {}
@@ -128,8 +128,8 @@ export const ChatRequestScreen: React.FC<
         requestBody: props
       }),
     {
-      onSuccess: data => setMessage(undefined),
-      onError: error => console.log({error})
+      onSuccess: data => setMessage(undefined)
+      // onError: error => console.log({error})
     }
   );
 
@@ -162,7 +162,7 @@ export const ChatRequestScreen: React.FC<
         }
       );
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        console.log('Permission granted');
+        // console.log('Permission granted');
       }
     } catch (err) {
       console.warn(err);
@@ -200,7 +200,7 @@ export const ChatRequestScreen: React.FC<
         },
         data: formData
       });
-      console.log('Last picture taken uploaded!');
+      // console.log('Last picture taken uploaded!');
       const lastPictureTakenId = (res.data as any).lastPictureTaken;
       if (sendReaction) {
         try {
@@ -218,13 +218,13 @@ export const ChatRequestScreen: React.FC<
           });
           navigation.navigate('Messages');
         } catch (error) {
-          console.log({error});
+          // console.log({error});
         }
       } else {
-        console.log('haha');
+        // console.log('haha');
       }
     } catch (error) {
-      console.log({error});
+      // console.log({error});
     }
   };
 

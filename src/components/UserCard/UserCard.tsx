@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {Image, Pressable, Text, View} from 'react-native';
 import {AuthUser} from '../../apiClient';
 import {styles} from './UserCard.styles';
@@ -7,6 +7,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import {api} from '../../services/api';
 import dayjs from '../../dayjs/dayjs-extended';
+import {ImageWithLoader} from '../Image/ImageWithLoader';
 
 export type UserCardProps = {
   user: AuthUser;
@@ -23,6 +24,8 @@ export const UserCard: React.FC<UserCardProps> = ({
 }) => {
   const [picture, setPicture] = useState();
   const [pictureDate, setPictureDate] = useState<string>();
+
+  const imageRef = useRef<Image>(null);
 
   const getProfilePicture = async () => {
     try {
@@ -47,26 +50,12 @@ export const UserCard: React.FC<UserCardProps> = ({
 
   return (
     <View style={styles.wrapper}>
-      {!user ? (
-        <View style={styles.image}>
-          <SkeletonPlaceholder backgroundColor="#d3d3d3" borderRadius={6}>
-            <SkeletonPlaceholder.Item alignItems="center">
-              <SkeletonPlaceholder.Item
-                width={'100%'}
-                height={'100%'}
-                borderRadius={24}
-              />
-            </SkeletonPlaceholder.Item>
-          </SkeletonPlaceholder>
-        </View>
-      ) : (
-        <Image
-          style={styles.image}
-          source={{
-            uri: picture
-          }}
-        />
-      )}
+      <ImageWithLoader
+        style={styles.image}
+        source={{
+          uri: picture
+        }}
+      />
       <View style={styles.absWrapper}>
         <View style={styles.likeDislikeWrapper}>
           <Pressable onPress={dislike} style={styles.likeDislike} />
@@ -112,10 +101,7 @@ export const UserCard: React.FC<UserCardProps> = ({
               <Text style={styles.info}>
                 {`${user.firstName} ${user.lastName}, ${user.age}`}
               </Text>
-              <Text style={styles.bio}>
-                {user.bio}
-                aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-              </Text>
+              <Text style={styles.bio}>{user.bio}</Text>
             </Pressable>
           )}
         </LinearGradient>

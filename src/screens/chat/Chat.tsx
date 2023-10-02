@@ -138,7 +138,7 @@ export const ChatScreen: React.FC<
         }
       );
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        console.log('Permission granted');
+        // console.log('Permission granted');
       }
     } catch (err) {
       console.warn(err);
@@ -178,7 +178,7 @@ export const ChatScreen: React.FC<
       });
       callback && callback(res.data as string);
     } catch (error) {
-      console.log({error}, 'uploadImage');
+      // console.log({error}, 'uploadImage');
     }
   };
 

@@ -1,10 +1,11 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Image, Text, Pressable} from 'react-native';
 import {styles} from '../../screens/messages/Message.styles';
 import {MessageResponseDto} from '../../apiClient';
 import dayjs from '../../dayjs/dayjs-extended';
 import * as Icons from 'react-native-heroicons/outline';
 import {api} from '../../services/api';
+import {ImageWithLoader} from '../Image/ImageWithLoader';
 
 export type MessagesListItemProps = {
   authUserId: string;
@@ -60,19 +61,19 @@ export const MessagesListItem: React.FC<MessagesListItemProps> = ({
     }
   };
 
-  getProfilePicture();
+  useEffect(() => {
+    getProfilePicture();
+  }, [fromUser, toUser]);
 
   return (
     <Pressable
       style={{flexDirection: 'row', alignItems: 'center'}}
       onPress={() => onPress(checkStatus())}
       onLongPress={() => onLongPress && onLongPress(likeId, getUserId())}>
-      <Image
+      <ImageWithLoader
         style={styles.imageStyle}
         source={{
-          uri:
-            profilePicture ??
-            'https://media.istockphoto.com/id/1329031407/photo/young-man-with-backpack-taking-selfie-portrait-on-a-mountain-smiling-happy-guy-enjoying.jpg?s=612x612&w=0&k=20&c=WvjAEx3QlWoAn49drp0N1vmxAgGObxWDpoXtaU2iB4Q='
+          uri: profilePicture
         }}
       />
       <View style={styles.textMessageContainter}>

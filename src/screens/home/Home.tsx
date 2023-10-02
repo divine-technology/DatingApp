@@ -65,7 +65,7 @@ export const HomeScreen: React.FC<HomeStackCompositeScreenProps<'Home'>> = ({
     },
     {
       onSuccess: data => {
-        console.log('User disliked');
+        // console.log('User disliked');
       },
       onError: () => {}
     }
@@ -85,8 +85,8 @@ export const HomeScreen: React.FC<HomeStackCompositeScreenProps<'Home'>> = ({
             },
             radius: user.prefferedRadius ? user.prefferedRadius * 1609 : 700000
           });
-      },
-      error => console.log({error})
+      }
+      // error => console.log({error})
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -109,7 +109,6 @@ export const HomeScreen: React.FC<HomeStackCompositeScreenProps<'Home'>> = ({
 
   const testLastPictureTaken = () => {
     if (user?.lastPictureTaken) {
-      console.log('LAST PICTURE TAKEN: ', user.lastPictureTaken);
       return true;
     } else {
       return false;
@@ -118,13 +117,11 @@ export const HomeScreen: React.FC<HomeStackCompositeScreenProps<'Home'>> = ({
 
   const viewProfile = (id: string | number) => {
     if (id === 'NoId') return;
-    console.log('VIEW PROFILE', {id});
     navigation.navigate('UserProfile', {userId: id.toString()});
   };
 
   const like = (id: string | number) => {
     openCamera(id, true);
-    console.log('LIKE', {id});
   };
 
   const dislike = (id: string | number) => {
@@ -132,7 +129,6 @@ export const HomeScreen: React.FC<HomeStackCompositeScreenProps<'Home'>> = ({
       likedUserId: id.toString(),
       status: 'disliked'
     });
-    console.log('DISLIKE', {id});
   };
 
   const onSwipe = (direction: SwipeDirection, id: string | number) => {
@@ -168,7 +164,6 @@ export const HomeScreen: React.FC<HomeStackCompositeScreenProps<'Home'>> = ({
         }
       );
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        console.log('Permission granted');
       }
     } catch (err) {
       console.warn(err);
@@ -206,9 +201,7 @@ export const HomeScreen: React.FC<HomeStackCompositeScreenProps<'Home'>> = ({
         },
         data: formData
       });
-      console.log('Last picture taken uploaded!');
       const lastPictureTakenId = (res.data as any).lastPictureTaken;
-      console.log('LAST PICTURE ID: ', lastPictureTakenId);
       if (sendReaction) {
         const res2 = await api.axiosFetch({
           url: '/likes/react',
@@ -222,13 +215,10 @@ export const HomeScreen: React.FC<HomeStackCompositeScreenProps<'Home'>> = ({
             likedPhotoUrl: lastPictureTakenId
           }
         });
-        console.log({res2});
       } else {
         getMe();
       }
-    } catch (error) {
-      console.log({error});
-    }
+    } catch (error) {}
   };
 
   const openCamera = (id: string | number, sendReaction: boolean = false) => {
@@ -241,7 +231,6 @@ export const HomeScreen: React.FC<HomeStackCompositeScreenProps<'Home'>> = ({
       useFrontCamera: true
     }).then(image => {
       if (image) {
-        console.log({image, id}, 'do request');
         imageUpload(image, id.toString(), sendReaction);
       }
     }, cardSwiperRef.current?.onBack);
